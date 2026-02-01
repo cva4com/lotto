@@ -12,10 +12,14 @@ const LANGS = {
 const I18N = {
   // ── UI ──
   ui_title: {
-    en:'World Lottery Generator', vi:'Máy Quay Xổ Số Thế Giới',
-    fr:'Générateur de Loterie Mondiale', es:'Generador de Lotería Mundial',
-    de:'Weltweiter Lotteriegenerator', ja:'世界くじ引きジェネレータ',
-    ko:'세계 복권 생성기', zh:'世界彩票生成器'
+    en:'World Lottery Generator',
+    vi:'Máy Quay Xổ Số Thế Giới',
+    fr:'Générateur de Loterie Mondiale',
+    es:'Generador de Lotería Mundial',
+    de:'Weltweiter Lotteriegenerator',
+    ja:'世界くじ引きジェネレータ',
+    ko:'세계 복권 생성기',
+    zh:'世界彩票生成器'
   },
   ui_sub: {
     en:'Generate winning numbers for lotteries across the globe',
@@ -28,10 +32,24 @@ const I18N = {
     zh:'生成全世界彩票的中奖号码'
   },
   ui_draw: {
-    en:'Draw Selected', vi:'Quay Chọn',
-    fr:'Tirer Sélectionné', es:'Sortear Seleccionado',
-    de:'Ausgewählt Ziehen', ja:'選択したくじを引く',
-    ko:'선택한 복권 추첨', zh:'抽取已选'
+    en:'Draw Selected',
+    vi:'Quay Chọn',
+    fr:'Tirer Sélectionné',
+    es:'Sortear Seleccionado',
+    de:'Ausgewählt Ziehen',
+    ja:'選択したくじを引く',
+    ko:'선택한 복권 추첨',
+    zh:'抽取已选'
+  },
+  ui_draw_region:{
+    en:'Draw Region',
+    vi:'Quay Vùng',
+    fr:'Tirer Région',
+    es:'Sortear Región',
+    de:'Region Ziehen',
+    ja:'地域を引く',
+    ko:'지역 추첨',
+    zh:'抽取地区'
   },
   ui_draw_all: {
     en:'Draw All Lotteries', vi:'Quay Tất Cả',
