@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta property="og:title" content="🌍 World Lottery Generator"/>
+<meta property="og:description" content="Generate winning numbers for lotteries across the globe. Entertainment purposes only."/>
+<meta property="og:image" content="images/banner.jpg"/>
+<meta property="og:url" content="https://cva4.com/lotto/world.html"/>
+<meta property="og:type" content="website"/>
+<meta name="description" content="Generate winning numbers for lotteries across the globe"/>
+<title>🌍 World Lottery Generator</title>
+<link rel="stylesheet" href="style/lotto.css"/>
+</head>
+<body data-theme="light">
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="hamburger" id="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></div>
+    <div class="lang-pills" id="lang-pills"></div>
+  </div>
+  <div class="theme-toggle">
+    <span class="icon" id="icon-dark">🌙</span>
+    <div class="toggle-track" onclick="toggleTheme()"><div class="toggle-knob"></div></div>
+    <span class="icon active" id="icon-light">☀️</span>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header" id="sb-header"></div>
+    <div id="sb-body"></div>
+  </aside>
+  <div class="sb-overlay" id="sb-overlay" onclick="toggleSidebar()"></div>
+  <div class="main">
+    <div class="content-header"><h1 id="h-title"></h1><p id="h-sub"></p></div>
+    <div class="action-bar"><button id="btn-all">🎰</button></div>
+    <div id="lottery-grid"></div>
+    <footer id="footer-text"></footer>
+  </div>
+</div>
+
+<script src="script/lotto.js"></script>
+</body>
+</html>

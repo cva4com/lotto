@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta property="og:title" content="🌍 World Lottery Generator"/>
-<meta property="og:description" content="Generate winning numbers for lotteries across the globe. Entertainment purposes only."/>
+<meta property="og:title" content="🇪🇺 European Lottery Generator"/>
+<meta property="og:description" content="Generate winning numbers for lotteries across Europe. Entertainment purposes only."/>
 <meta property="og:image" content="images/banner.jpg"/>
-<meta property="og:url" content="https://cva4.com/lotto/world_lotto.html"/>
+<meta property="og:url" content="https://cva4.com/lotto/europe.html"/>
 <meta property="og:type" content="website"/>
-<meta name="description" content="Generate winning numbers for lotteries across the globe"/>
-<title>🌍 World Lottery Generator</title>
+<meta name="description" content="Generate winning numbers for lotteries across Europe"/>
+<title>🇪🇺 European Lottery Generator</title>
 <link rel="stylesheet" href="style/lotto.css"/>
 </head>
 <body data-theme="light">
@@ -42,6 +42,27 @@
   </div>
 </div>
 
+<script>
+// Europe-only configuration
+const EUROPE_MODE = true;
+const EUROPE_IDS = ['euromillions','eurojackpot','uk_lotto','fr_loto','de_lotto','it_sena','es_gordo','nl_lotto','at_lotto','ch_lotto','pl_lotto','ie_lotto'];
+</script>
 <script src="script/lotto.js"></script>
+<script>
+// Override initialization for Europe-only view
+document.getElementById('h-title').textContent = '🇪🇺 European Lottery Generator';
+document.getElementById('h-sub').textContent = 'Generate winning numbers for lotteries across Europe';
+
+// Render only European lotteries
+if (EUROPE_MODE) {
+  document.getElementById('lottery-grid').innerHTML = LOTTERIES
+    .filter(l => EUROPE_IDS.includes(l.id))
+    .map(l => l.renderCard(null))
+    .join('');
+  document.querySelectorAll('.card').forEach((c, i) => {
+    c.style.animationDelay = (i * 0.03) + 's';
+  });
+}
+</script>
 </body>
 </html>

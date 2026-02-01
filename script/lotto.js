@@ -297,9 +297,9 @@ const LOTTERIES = [
   new BaseLottery({ id:'luckylife', nameKey:'l_luckylife', country:'🇺🇸', subKey:'l_powerball_sub',
     groups:[{ labelKey:'g_main', min:1,max:48,count:5,palette:PAL.navy },{ labelKey:'g_lucky',min:1,max:18,count:1,palette:PAL.gold }]}),
   // EUROPE
-  new BaseLottery({ id:'euromillions', nameKey:'l_euromillions', country:'🇪🇧', subKey:'l_euromillions_sub',
+  new BaseLottery({ id:'euromillions', nameKey:'l_euromillions', country:'🇪🇺', subKey:'l_euromillions_sub',
     groups:[{ labelKey:'g_main', min:1,max:50,count:5,palette:PAL.blue },{ labelKey:'g_stars',min:1,max:12,count:2,palette:PAL.gold }]}),
-  new BaseLottery({ id:'eurojackpot', nameKey:'l_eurojackpot', country:'🇪🇧', subKey:'l_eurojackpot_sub',
+  new BaseLottery({ id:'eurojackpot', nameKey:'l_eurojackpot', country:'🇪🇺', subKey:'l_eurojackpot_sub',
     groups:[{ labelKey:'g_main', min:1,max:50,count:5,palette:PAL.navy },{ labelKey:'g_euro',min:1,max:10,count:2,palette:PAL.orange }]}),
   new BaseLottery({ id:'uk_lotto', nameKey:'l_uk_lotto', country:'🇬🇧', subKey:'l_uk_sub',
     groups:[{ labelKey:'g_main', min:1,max:59,count:6,palette:PAL.blue },{ labelKey:'g_bonus_ball',min:1,max:59,count:1,palette:PAL.gold }]}),
@@ -401,8 +401,13 @@ function sidebarSelect(id){
 function drawRegion(rk){const r=REGIONS.find(x=>x.key===rk);if(r)r.ids.forEach(id=>drawOne(id))}
 
 /* ════ DRAW ════ */
-function drawOne(id){const l=getL(id);if(!l)return;const c=document.getElementById('card-'+id);if(c)c.outerHTML=l.renderCard(l.draw())}
-function drawAll(){L.forEach(l=>drawOne(l.id))}
+function drawOne(id) {
+  const lottery = LOTTERIES.find(l => l.id === id);
+  if (!lottery) return;
+  const card = document.getElementById('card-'+id);
+  if (card) card.outerHTML = lottery.renderCard(lottery.draw());
+}
+function drawAll(){LOTTERIES.forEach(l=>drawOne(l.id))}
 
 /* ════ RENDER ════ */
 function renderGrid(){
