@@ -91,6 +91,20 @@ body::before{
 [data-theme="dark"] .toggle-knob{left:2px}
 .toggle-track:hover .toggle-knob{box-shadow:0 0 7px rgba(0,229,204,.35)}
 
+/* Follow us (next to theme toggle) */
+.follow-us{display:flex;align-items:center;gap:8px;font-size:.9rem;color:var(--text-secondary)}
+.follow-us .follow-label{font-weight:600;color:var(--text-secondary)}
+.social-link{color:var(--accent-teal);text-decoration:none;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;border:1px solid transparent;transition:background .18s,color .18s}
+.social-link:hover{background:var(--sb-item-hover);border-color:var(--select-border)}
+.social-link svg{display:block;width:18px;height:18px}
+.social-link.fb{color:#1877f2}
+.social-link.yt{color:#ff0000}
+.sr-only{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+
+@media(max-width:720px){
+  .follow-us{display:none}
+}
+
 /* ════ LAYOUT ════ */
 .layout{display:flex;flex:1;margin-top:48px;position:relative;z-index:1}
 
