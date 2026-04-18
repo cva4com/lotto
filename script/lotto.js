@@ -77,6 +77,16 @@ const I18N = {
     ko: '복권',
     zh: '彩票'
   },
+  ui_toast: {
+    en: 'Random numbers generated at {time}<br>Good luck!',
+    vi: 'Bộ số ngẫu nhiên đã được tạo lúc {time}<br>Chúc bạn may mắn!',
+    fr: 'Numéros aléatoires générés à {time}<br>Bonne chance!',
+    es: 'Números aleatorios generados a las {time}<br>¡Buena suerte!',
+    de: 'Zufallszahlen generiert um {time}<br>Viel Glück!',
+    ja: '{time} にランダムな数字が生成されました。<br>幸運を！',
+    ko: '무작위 숫자가 {time} 에 생성되었습니다.<br>행운을 빕니다!',
+    zh: '随机数字已在 {time} 生成。<br>祝你好运！'
+  },
 
   // ── REGIONS ──
   r_usa: { en: 'USA', vi: 'Mỹ', fr: 'USA', es: 'USA', de: 'USA', ja: 'アメリカ', ko: '미국', zh: '美国' },
@@ -570,7 +580,11 @@ function sidebarSelect(id) {
   if (window.innerWidth <= 720) toggleSidebar();
 }
 
-function drawRegion(rk) { const r = REGIONS.find(x => x.key === rk); if (r) r.ids.forEach(id => drawOne(id)) }
+function drawRegion(rk) {
+  const r = REGIONS.find(x => x.key === rk);
+  if (r) r.ids.forEach(id => drawOne(id));
+  showToast();
+}
 
 /* ════ DRAW ════ */
 function drawOne(id) {
@@ -579,7 +593,58 @@ function drawOne(id) {
   const card = document.getElementById('card-' + id);
   if (card) card.outerHTML = lottery.renderCard(lottery.draw(lottery.drawCount));
 }
-function drawAll() { LOTTERIES.forEach(l => drawOne(l.id)) }
+function drawAll() {
+  LOTTERIES.forEach(l => drawOne(l.id));
+  showToast();
+}
+
+function showToast() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2, '0');
+  const m = String(now.getMinutes()).padStart(2, '0');
+  const s = String(now.getSeconds()).padStart(2, '0');
+  const timeStr = `${h}:${m}:${s}`;
+
+  const msgTemplate = t('ui_toast');
+  const msgHTML = msgTemplate.replace('{time}', timeStr);
+
+  let toast = document.getElementById('lotto-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'lotto-toast';
+    Object.assign(toast.style, {
+      position: 'fixed',
+      bottom: '30px',
+      left: '50%',
+      transform: 'translateX(-50%)',
+      backgroundColor: 'rgba(0,0,0,0.85)',
+      color: '#fff',
+      fontFamily: 'system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+      padding: '12px 24px',
+      borderRadius: '8px',
+      boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+      zIndex: 9999,
+      textAlign: 'center',
+      fontSize: '15px',
+      lineHeight: '1.5',
+      opacity: '0',
+      transition: 'opacity 0.3s ease, bottom 0.3s ease',
+      pointerEvents: 'none',
+      backdropFilter: 'blur(4px)'
+    });
+    document.body.appendChild(toast);
+  }
+
+  toast.innerHTML = msgHTML;
+  toast.style.bottom = '40px';
+  toast.style.opacity = '1';
+
+  if (toast.timeoutId) clearTimeout(toast.timeoutId);
+  toast.timeoutId = setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.bottom = '20px';
+  }, 6886);
+}
 
 /* ════ RENDER ════ */
 function renderGrid() {
