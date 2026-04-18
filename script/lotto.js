@@ -236,15 +236,37 @@ class BaseLottery {
   }
 
   draw(drawCount = 1) {
-    const allResults = [];
-    for (let i = 0; i < drawCount; i++) {
-      allResults.push(this.groups.map(g => ({
-        label: t(g.labelKey),
-        numbers: BaseLottery.randRange(g.min, g.max, g.count),
-        palette: g.palette
-      })));
-    }
-    return allResults;
+    // Per group: shuffle the full pool once, deal numbers draw-by-draw
+    // so numbers don't repeat across draws until the pool is exhausted.
+    // 1. Mỗi group shuffle toàn bộ pool số một lần duy nhất (ví dụ: pool 1–45 cho Mega 6/45)
+    // 2. Mỗi draw lấy (splice) lần lượt count số ra khỏi pool → số đã lấy không thể xuất hiện lại ở draw sau
+    // 3. Khi pool cạn (không đủ số cho draw tiếp), mới shuffle thêm pool mới nối vào
+    const groupDraws = this.groups.map(g => {
+      const shuffle = () => {
+        const p = [];
+        for (let n = g.min; n <= g.max; n++) p.push(n);
+        for (let i = p.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [p[i], p[j]] = [p[j], p[i]];
+        }
+        return p;
+      };
+      let pool = shuffle();
+      const draws = [];
+      for (let d = 0; d < drawCount; d++) {
+        if (pool.length < g.count) pool = pool.concat(shuffle());
+        draws.push({
+          label: t(g.labelKey),
+          numbers: pool.splice(0, g.count).sort((a, b) => a - b),
+          palette: g.palette
+        });
+      }
+      return draws;
+    });
+    // Transpose: groupDraws[groupIdx][drawIdx] → allResults[drawIdx][groupIdx]
+    return Array.from({ length: drawCount }, (_, i) =>
+      groupDraws.map(gd => gd[i])
+    );
   }
 
   static renderBall(num, palette, size = 40) {
