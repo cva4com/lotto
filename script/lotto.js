@@ -599,7 +599,7 @@ function buildLangPills() {
 function applyLang() {
   document.getElementById('h-title').textContent = t('ui_title');
   document.getElementById('h-sub').textContent = t('ui_sub');
-  document.getElementById('btn-all').textContent = '🎰 ' + t('ui_draw_all');
+  document.getElementById('btn-all').innerHTML = `🎰 ${t('ui_draw_all')} <span style="margin-left: 8px;">[Space / Enter]</span>`;
   document.getElementById('footer-text').textContent = t('ui_footer');
   buildLangPills();
   buildSidebar();
@@ -626,6 +626,14 @@ function toggleSidebar() { document.getElementById('sidebar').classList.toggle('
 
 // ── wire buttons ──
 document.getElementById('btn-all').onclick = drawAll;
+
+// ── keyboard shortcuts ──
+document.addEventListener('keydown', (e) => {
+  if ((e.code === 'Space' || e.code === 'Enter') && !e.target.matches('input, textarea, button')) {
+    e.preventDefault();
+    drawAll();
+  }
+});
 
 /* ════ INIT ════ */
 applyLang();
