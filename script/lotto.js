@@ -233,6 +233,7 @@ class BaseLottery {
     this.subKey = cfg.subKey;       // i18n key for subtitle
     this.groups = cfg.groups;       // { labelKey, min, max, count, palette }
     this.drawCount = cfg.drawCount || 5;  // default 5 draws
+    this.link = cfg.link || null;
   }
 
   static randRange(min, max, count) {
@@ -334,6 +335,9 @@ class BaseLottery {
           <div class="ball-row" style="opacity:.18">${Array.from({ length: g.count }, (_, i) => BaseLottery.renderBall(g.min + i, g.palette)).join('')}</div>
         </div>`).join('');
     }
+    const linkHtml = this.link
+      ? `<a href="${this.link}" class="card-link" target="_self" title="Xem chi tiết / Chạy giả lập">➕</a>`
+      : '';
     return `<div class="card" id="card-${this.id}">
       <div class="card-header">
         <span class="flag">${this.country}</span>
@@ -341,6 +345,7 @@ class BaseLottery {
           <div class="card-title">${t(this.nameKey)}</div>
           <div class="card-sub">${t(this.subKey)}</div>
         </div>
+        ${linkHtml}
       </div>${groupsHtml}</div>`;
   }
 }
@@ -471,7 +476,7 @@ const LOTTERIES = [
   }),
   // VIETNAM
   new BaseLottery({
-    id: 'vn_5_35', nameKey: 'l_vn_5_35', country: '🇻🇳', subKey: 'l_vn_sub', drawCount: 7,
+    id: 'vn_5_35', nameKey: 'l_vn_5_35', country: '🇻🇳', subKey: 'l_vn_sub', drawCount: 7, link: 'lotto5-35.html',
     groups: [{ labelKey: 'g_main', min: 1, max: 35, count: 5, palette: PAL.green }, { labelKey: 'g_powerball', min: 1, max: 12, count: 1, palette: PAL.orange }]
   }),
   new BaseLottery({
@@ -674,7 +679,7 @@ function applyLang() {
 function switchLang(code) {
   currentLang = code;
   applyLang();
-  renderAll(); // re-render cards with new labels
+  // renderAll(); // re-render cards with new labels
 }
 
 // ── theme toggle ──

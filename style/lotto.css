@@ -103,6 +103,10 @@ body::before {
   transition: background .5s;
 }
 
+a {
+  text-decoration: none;
+}
+
 /* ════ TOP BAR ════ */
 .top-bar {
   position: fixed;

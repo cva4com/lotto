@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta property="og:title" content="🎰 Lotto 5/35 Simulator & Analyzer"/>
+<meta property="og:description" content="Mô phỏng quay số Lotto 5/35 liên tục cho đến khi trúng giải. Trải nghiệm tỷ lệ trúng thưởng thực tế."/>
+<meta property="og:image" content="https://cva4.com/lotto/images/banner.jpg"/>
+<meta property="og:url" content="https://cva4.com/lotto/Lotto-5-35.html"/>
+<meta property="og:type" content="website"/>
+<meta name="description" content="Mô phỏng quay số Lotto 5/35 liên tục cho đến khi trúng giải"/>
+<title>🎰 Lotto 5/35 Simulator</title>
+<link rel="stylesheet" href="style/lotto.css"/>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0SM6SYKD3T"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-0SM6SYKD3T');
+</script>
+<style>
+/* CSS bổ sung cho tính năng mô phỏng */
+.sim-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 20px;
+  padding: 0 18px 56px;
+}
+@media (max-width: 900px) {
+  .sim-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.sim-card {
+  background: var(--bg-card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  transition: all 0.3s;
+}
+.sim-card:hover {
+  border-color: var(--card-border-hover);
+}
+.sim-title {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--accent-teal);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--card-border);
+  padding-bottom: 10px;
+}
+.input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.num-input {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 2px solid var(--select-border);
+  background: transparent;
+  color: var(--text-primary);
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  outline: none;
+  transition: all 0.25s;
+}
+.num-input:focus {
+  border-color: var(--accent-teal);
+  box-shadow: 0 0 10px rgba(0, 229, 204, 0.3);
+}
+.num-input.pb-input {
+  border-color: var(--accent-gold);
+}
+.num-input.pb-input:focus {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 10px rgba(240, 192, 64, 0.3);
+}
+.btn-rand-inputs {
+  background: transparent;
+  border: 1px solid var(--select-border);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  color: var(--text-primary);
+}
+.btn-rand-inputs:hover {
+  border-color: var(--accent-gold);
+  background: var(--btn-gold-bg);
+  transform: rotate(30deg);
+}
+.control-group {
+  margin-bottom: 20px;
+}
+.control-label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: block;
+}
+.sim-select {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--select-border);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  outline: none;
+  cursor: pointer;
+}
+.sim-select:focus {
+  border-color: var(--accent-teal);
+}
+.sim-btn-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.sim-btn {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  transition: all 0.22s;
+  flex: 1;
+  min-width: 120px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.sim-btn-start {
+  background: linear-gradient(135deg, #0a9e8e, #07796d);
+  color: white;
+  border: none;
+}
+.sim-btn-start:hover {
+  box-shadow: 0 0 15px rgba(10, 158, 142, 0.4);
+  filter: brightness(1.1);
+}
+.sim-btn-stop {
+  background: linear-gradient(135deg, #d32f2f, #b71c1c);
+  color: white;
+  border: none;
+}
+.sim-btn-stop:hover {
+  box-shadow: 0 0 15px rgba(211, 47, 47, 0.4);
+  filter: brightness(1.1);
+}
+.sim-btn-rand {
+  background: var(--btn-gold-bg);
+  color: var(--accent-gold);
+  border: 1px solid var(--accent-gold);
+}
+.sim-btn-rand:hover {
+  background: var(--btn-gold-hover);
+}
+.sim-btn-reset {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--select-border);
+}
+.sim-btn-reset:hover {
+  background: rgba(0,0,0,0.05);
+}
+[data-theme="dark"] .sim-btn-reset:hover {
+  background: rgba(255,255,255,0.05);
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.stat-box {
+  background: rgba(0,0,0,0.02);
+  border: 1px solid var(--select-border);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+[data-theme="dark"] .stat-box {
+  background: rgba(255,255,255,0.02);
+}
+.stat-val {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--text-primary);
+}
+.stat-lbl {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+.prize-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+.prize-table th, .prize-table td {
+  padding: 6px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--select-border);
+}
+.prize-table th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.prize-table td {
+  font-size: 0.82rem;
+}
+.prize-count {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  color: var(--accent-gold);
+}
+.ticket-container {
+  margin-top: 20px;
+  border: 2px dashed var(--accent-teal);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+.ticket-container.running::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -150%; width: 50%; height: 100%;
+  background: linear-gradient(to right, transparent, rgba(0, 229, 204, 0.15), transparent);
+  transform: skewX(-25deg);
+  animation: sweep 1.5s infinite;
+}
+@keyframes sweep {
+  0% { left: -150%; }
+  100% { left: 150%; }
+}
+.ball-match {
+  /* box-shadow: 0 0 15px var(--accent-teal); */
+  transform: scale(1.1);
+  animation: pulse 1s infinite alternate;
+}
+.ball-match-pb {
+  /* box-shadow: 0 0 15px var(--accent-gold); */
+  transform: scale(1.1);
+  animation: pulse 1s infinite alternate;
+}
+svg.ball-match > text,
+svg.ball-match-pb > text {
+  fill: yellow;
+}
+@keyframes pulse {
+  0% { transform: scale(1.05); }
+  100% { transform: scale(1.15); }
+}
+.validation-error {
+  color: #ff3333;
+  font-size: 0.8rem;
+  margin-top: -15px;
+  margin-bottom: 15px;
+  min-height: 1.2em;
+  font-weight: 600;
+}
+</style>
+</head>
+<body data-theme="light">
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="hamburger" id="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></div>
+    <div class="lang-pills" id="lang-pills"></div>
+  </div>
+  <div class="follow-us">
+    <div class="theme-toggle">
+      <span class="icon" id="icon-dark">🌙</span>
+      <div class="toggle-track" onclick="toggleTheme()"><div class="toggle-knob"></div></div>
+      <span class="icon active" id="icon-light">☀️</span>
+    </div>
+    <span class="follow-label sr-only">Follow us:</span>
+    <a class="social-link fb" href="https://www.facebook.com/LottoLuckyNumber/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M22 12.07C22 6.48 17.52 2 11.93 2 6.34 2 2 6.48 2 12.07 2 17.09 5.66 21.19 10.44 22v-7.01H8.08V12.1h2.36V9.79c0-2.33 1.39-3.61 3.52-3.61 1.02 0 2.09.18 2.09.18v2.3h-1.18c-1.16 0-1.52.72-1.52 1.46v1.75h2.59l-.41 2.89h-2.18V22C18.34 21.19 22 17.09 22 12.07z" fill="currentColor"/></svg>
+    </a>
+    <a class="social-link yt" href="https://www.youtube.com/@CV_A4" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+      <svg width="20" height="14" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M23.5 2.2s-.2-1.6-.8-2.3C21.8-.5 20.9-.5 20.4-.6 17.8-.9 12-.9 12-.9s-5.8 0-8.4.1C3.1-.4 2.2-.5 1.3-.1.7.3.5 1.5.5 1.5S0 4.1 0 6.8v2.5C0 11.9.5 14.5.5 14.5s.2 1.2.8 1.6c.9.4 2.1.3 2.6.4 1.9.1 8.1.1 8.1.1s5.8 0 8.4-.1c.5 0 1.4 0 1.9-.4.6-.4.8-1.6.8-1.6S24 11.9 24 9.2V6.8c0-2.7-.5-5-0.5-5.6zM9.8 11.1V4.8l6.2 3.1-6.2 3.2z" fill="currentColor"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+  <!-- Hidden elements required for lotto.js compatibility -->
+  <div style="display:none !important;">
+    <button id="btn-all"></button>
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header" id="sb-header"></div>
+      <div id="sb-body"></div>
+    </aside>
+    <div class="sb-overlay" id="sb-overlay" onclick="toggleSidebar()"></div>
+    <div id="lottery-grid"></div>
+  </div>
+  
+  <div class="main" style="width:100%;">
+    <div class="content-header">
+      <h1 id="h-title">🎰 Lotto 5/35 Simulator</h1>
+      <p id="h-sub">Nhập kết quả trúng thưởng và chạy giả lập bốc số liên tục</p>
+    </div>
+    
+    <!-- Simulation grid -->
+    <div class="sim-grid">
+      
+      <!-- Input Panel -->
+      <div class="sim-card">
+        <div class="sim-title" id="lbl-sim-title">
+          <span>🎯</span> Kết quả trúng thưởng thật
+        </div>
+        
+        <div class="control-label" id="lbl-sim-input">Nhập 5 số chính (1 - 35) & 1 Powerball (1 - 12)</div>
+        <div class="input-row">
+          <input type="number" min="1" max="35" class="num-input main-input" placeholder="-" id="in-m1">
+          <input type="number" min="1" max="35" class="num-input main-input" placeholder="-" id="in-m2">
+          <input type="number" min="1" max="35" class="num-input main-input" placeholder="-" id="in-m3">
+          <input type="number" min="1" max="35" class="num-input main-input" placeholder="-" id="in-m4">
+          <input type="number" min="1" max="35" class="num-input main-input" placeholder="-" id="in-m5">
+          <span style="font-weight: 700; color: var(--accent-gold); font-size: 1.5rem; margin: 0 2px;">+</span>
+          <input type="number" min="1" max="12" class="num-input pb-input" placeholder="-" id="in-pb">
+          <button class="btn-rand-inputs" id="btn-rand-inputs" title="Random kết quả trúng">🎲</button>
+        </div>
+        <div id="validation-msg" class="validation-error"></div>
+        
+        <div class="control-group">
+          <div class="control-label" id="lbl-sim-stop">Chọn điều kiện dừng quay</div>
+          <select class="sim-select" id="stop-condition">
+            <option value="match_2">Trùng ít nhất 2 số chính</option>
+            <option value="match_3" selected>Trùng ít nhất 3 số chính</option>
+            <option value="match_3_pb">Trùng 3 số chính + 1 Powerball</option>
+            <option value="match_4">Trùng ít nhất 4 số chính</option>
+            <option value="match_4_pb">Trùng 4 số chính + 1 Powerball</option>
+            <option value="match_5">Trùng cả 5 số chính (Jackpot 2)</option>
+            <option value="match_5_pb">Trùng 5 số chính + 1 Powerball (Jackpot 1)</option>
+          </select>
+        </div>
+        
+        <div class="control-group">
+          <div class="control-label" id="lbl-sim-speed">Tốc độ quay giả lập</div>
+          <select class="sim-select" id="sim-speed">
+            <option value="1">Bình thường (60 vé / giây)</option>
+            <option value="100">Nhanh (6,000 vé / giây)</option>
+            <option value="500" selected>Siêu tốc (30,000 vé / giây)</option>
+            <option value="1500">Thần tốc (90,000 vé / giây)</option>
+            <option value="5000">Tối đa (300,000 vé / giây)</option>
+          </select>
+        </div>
+        
+        <div class="sim-btn-row">
+          <button class="sim-btn sim-btn-start" id="btn-start">▶ Bắt đầu</button>
+          <button class="sim-btn sim-btn-stop" id="btn-stop" style="display:none;">⏸ Tạm dừng</button>
+          <button class="sim-btn sim-btn-rand" id="btn-rand">🎲 Quay 1 lần</button>
+          <button class="sim-btn sim-btn-reset" id="btn-reset">🔄 Đặt lại</button>
+        </div>
+
+        <div class="control-group" style="margin-top: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div class="control-label" id="lbl-sim-history" style="margin-bottom: 0;">Danh sách các bộ số đã sinh</div>
+            <select id="history-log-mode" class="sim-select" style="width: auto; padding: 4px 10px; font-size: 0.8rem;">
+              <option value="matched">Chỉ số có trùng lặp</option>
+              <option value="all" selected>Hiển thị tất cả số</option>
+            </select>
+          </div>
+          <textarea id="draw-history-log" readonly placeholder="Các bộ số sinh ra sẽ xuất hiện ở đây..." style="width: 100%; height: 160px; border-radius: 8px; border: 1px solid var(--select-border); background: var(--bg-card); color: var(--text-primary); font-family: 'Orbitron', monospace; font-size: 0.8rem; padding: 10px; resize: vertical; outline: none; line-height: 1.5;"></textarea>
+        </div>
+      </div>
+      
+      <!-- Stats & Results Panel -->
+      <div class="sim-card">
+        <div class="sim-title" id="lbl-sim-stats-title">
+          <span>📊</span> Thống kê giả lập
+        </div>
+        
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-val" id="stat-draws">0</div>
+            <div class="stat-lbl" id="lbl-stat-draws">Số vé đã thử</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" id="stat-cost">0đ</div>
+            <div class="stat-lbl" id="lbl-stat-cost">Ước tính chi phí</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" id="stat-speed">0/s</div>
+            <div class="stat-lbl" id="lbl-stat-speed">Tốc độ thực tế</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" id="stat-time">0.0s</div>
+            <div class="stat-lbl" id="lbl-stat-time">Thời gian chạy</div>
+          </div>
+        </div>
+        
+        <div class="control-label" id="lbl-sim-prize">Danh sách giải thưởng đã trúng</div>
+        <table class="prize-table">
+          <thead>
+            <tr>
+              <th>Giải thưởng</th>
+              <th>Yêu cầu</th>
+              <th>Số lượng trúng</th>
+              <th>Tỷ lệ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Giải Ba</td>
+              <td>Trùng 2 số chính</td>
+              <td class="prize-count" id="p-m2">0</td>
+              <td id="p-m2-pct">0%</td>
+            </tr>
+            <tr>
+              <td>Giải Nhì</td>
+              <td>Trùng 3 số chính</td>
+              <td class="prize-count" id="p-m3">0</td>
+              <td id="p-m3-pct">0%</td>
+            </tr>
+            <tr>
+              <td>Giải Nhì + PB</td>
+              <td>Trùng 3 chính + 1 PB</td>
+              <td class="prize-count" id="p-m3pb">0</td>
+              <td id="p-m3pb-pct">0%</td>
+            </tr>
+            <tr>
+              <td>Giải Nhất</td>
+              <td>Trùng 4 số chính</td>
+              <td class="prize-count" id="p-m4">0</td>
+              <td id="p-m4-pct">0%</td>
+            </tr>
+            <tr>
+              <td>Giải Nhất + PB</td>
+              <td>Trùng 4 chính + 1 PB</td>
+              <td class="prize-count" id="p-m4pb">0</td>
+              <td id="p-m4pb-pct">0%</td>
+            </tr>
+            <tr>
+              <td>Jackpot 2</td>
+              <td>Trùng 5 số chính</td>
+              <td class="prize-count" id="p-m5">0</td>
+              <td id="p-m5-pct">0%</td>
+            </tr>
+            <tr>
+              <td>Jackpot 1</td>
+              <td>Trùng 5 chính + 1 PB</td>
+              <td class="prize-count" id="p-m5pb">0</td>
+              <td id="p-m5pb-pct">0%</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div class="ticket-container" id="ticket-area">
+          <div style="color: var(--text-secondary); font-size: 0.9rem; font-style: italic;">
+            Vé trùng khớp sẽ xuất hiện tại đây...
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+    <footer id="footer-text"></footer>
+  </div>
+</div>
+
+<script>
+const VIETNAM_MODE = false;
+</script>
+<script src="script/lotto.js"></script>
+
+<script>
+// Multi-language dictionary for simulation page
+const SIM_I18N = {
+  en: {
+    sim_title: '<span>🎯</span> Real Winning Numbers',
+    sim_input_lbl: 'Enter 5 main numbers (1 - 35) & 1 Powerball (1 - 12)',
+    sim_stop_lbl: 'Select Stop Condition',
+    sim_stop_opt2: 'Match at least 2 main numbers',
+    sim_stop_opt3: 'Match at least 3 main numbers',
+    sim_stop_opt3pb: 'Match 3 main + 1 Powerball',
+    sim_stop_opt4: 'Match at least 4 main numbers',
+    sim_stop_opt4pb: 'Match 4 main + 1 Powerball',
+    sim_stop_opt5: 'Match all 5 main numbers (Jackpot 2)',
+    sim_stop_opt5pb: 'Match 5 main + 1 Powerball (Jackpot 1)',
+    sim_speed_lbl: 'Simulation Speed',
+    sim_speed_normal: 'Normal (60 tickets / sec)',
+    sim_speed_fast: 'Fast (6,000 tickets / sec)',
+    sim_speed_super: 'Super Speed (30,000 tickets / sec)',
+    sim_speed_god: 'God Mode (90,000 tickets / sec)',
+    sim_speed_max: 'Maximum (300,000 tickets / sec)',
+    sim_btn_start: '▶ Start',
+    sim_btn_stop: '⏸ Pause',
+    sim_btn_rand: '🎲 Draw 1 Ticket',
+    sim_btn_reset: '🔄 Reset',
+    sim_history_lbl: 'Generated Numbers Log',
+    sim_hist_mode_matched: 'Matched Only',
+    sim_hist_mode_all: 'Show All Numbers',
+    sim_history_placeholder: 'Generated numbers will appear here...',
+    sim_stats_title: '<span>📊</span> Simulation Stats',
+    sim_stat_draws: 'Tickets Checked',
+    sim_stat_cost: 'Estimated Cost',
+    sim_stat_speed: 'Actual Speed',
+    sim_stat_time: 'Elapsed Time',
+    sim_prize_lbl: 'Prizes Won During Simulation',
+    sim_tbl_prize: 'Prize',
+    sim_tbl_req: 'Condition',
+    sim_tbl_count: 'Count',
+    sim_tbl_rate: 'Rate',
+    sim_p_m2: 'Third Prize',
+    sim_p_m2_req: 'Match 2 main numbers',
+    sim_p_m3: 'Second Prize',
+    sim_p_m3_req: 'Match 3 main numbers',
+    sim_p_m3pb: 'Second Prize + PB',
+    sim_p_m3pb_req: 'Match 3 main + 1 PB',
+    sim_p_m4: 'First Prize',
+    sim_p_m4_req: 'Match 4 main numbers',
+    sim_p_m4pb: 'First Prize + PB',
+    sim_p_m4pb_req: 'Match 4 main + 1 PB',
+    sim_p_m5: 'Jackpot 2',
+    sim_p_m5_req: 'Match 5 main numbers',
+    sim_p_m5pb: 'Jackpot 1',
+    sim_p_m5pb_req: 'Match 5 main + 1 PB',
+    sim_placeholder: 'Matching ticket will appear here...',
+    sim_validate_range: 'Main numbers must be between 1 and 35.',
+    sim_validate_pb: 'Powerball must be between 1 and 12.',
+    sim_validate_empty: 'Please enter all main numbers and Powerball.',
+    sim_validate_dup: 'Main numbers cannot be duplicated.',
+    sim_ticket_main_lbl: 'Main Numbers (Matched {count}/5)',
+    sim_ticket_pb_lbl: 'Powerball ({status})',
+    sim_ticket_pb_match: 'Matched',
+    sim_ticket_pb_no: 'No match',
+    sim_ticket_cost_lbl: 'Ticket #{draws} | Total Cost: {cost}',
+    sim_h_title: '🎰 Lotto 5/35 Win Simulator',
+    sim_h_sub: 'Simulate drawing numbers continuously until winning condition is met'
+  },
+  fr: {
+    sim_title: '<span>🎯</span> Numéros gagnants réels',
+    sim_input_lbl: 'Saisissez 5 numéros principaux (1 - 35) et 1 Powerball (1 - 12)',
+    sim_stop_lbl: 'Sélectionnez la condition d\'arrêt',
+    sim_stop_opt2: 'Correspond à au moins 2 numéros principaux',
+    sim_stop_opt3: 'Correspond à au moins 3 numéros principaux',
+    sim_stop_opt3pb: 'Correspond à 3 numéros principaux + 1 Powerball',
+    sim_stop_opt4: 'Correspond à au moins 4 numéros principaux',
+    sim_stop_opt4pb: 'Correspond à 4 numéros principaux + 1 Powerball',
+    sim_stop_opt5: 'Correspond aux 5 numéros principaux (Jackpot 2)',
+    sim_stop_opt5pb: 'Correspond à 5 numéros principaux + 1 Powerball (Jackpot 1)',
+    sim_speed_lbl: 'Vitesse de simulation',
+    sim_speed_normal: 'Normale (60 billets / s)',
+    sim_speed_fast: 'Rapide (6 000 billets / s)',
+    sim_speed_super: 'Super rapide (30 000 billets / s)',
+    sim_speed_god: 'Mode Dieu (90 000 billets / s)',
+    sim_speed_max: 'Maximum (300 000 billets / s)',
+    sim_btn_start: '▶ Démarrer',
+    sim_btn_stop: '⏸ Pause',
+    sim_btn_rand: '🎲 Tirer 1 billet',
+    sim_btn_reset: '🔄 Réinitialiser',
+    sim_history_lbl: 'Historique des numéros générés',
+    sim_hist_mode_matched: 'Correspondances uniquement',
+    sim_hist_mode_all: 'Afficher tous les numéros',
+    sim_history_placeholder: 'Les numéros générés apparaîtront ici...',
+    sim_stats_title: '<span>📊</span> Statistiques de simulation',
+    sim_stat_draws: 'Billets vérifiés',
+    sim_stat_cost: 'Coût estimé',
+    sim_stat_speed: 'Vitesse réelle',
+    sim_stat_time: 'Temps écoulé',
+    sim_prize_lbl: 'Lots remportés pendant la simulation',
+    sim_tbl_prize: 'Lot',
+    sim_tbl_req: 'Condition',
+    sim_tbl_count: 'Nombre',
+    sim_tbl_rate: 'Taux',
+    sim_p_m2: 'Troisième prix',
+    sim_p_m2_req: 'Correspond à 2 numéros principaux',
+    sim_p_m3: 'Deuxième prix',
+    sim_p_m3_req: 'Correspond à 3 numéros principaux',
+    sim_p_m3pb: 'Deuxième prix + PB',
+    sim_p_m3pb_req: 'Correspond à 3 numéros principaux + 1 PB',
+    sim_p_m4: 'Premier prix',
+    sim_p_m4_req: 'Correspond à 4 numéros principaux',
+    sim_p_m4pb: 'Premier prix + PB',
+    sim_p_m4pb_req: 'Correspond à 4 numéros principaux + 1 PB',
+    sim_p_m5: 'Jackpot 2',
+    sim_p_m5_req: 'Correspond aux 5 numéros principaux',
+    sim_p_m5pb: 'Jackpot 1',
+    sim_p_m5pb_req: 'Correspond à 5 numéros principaux + 1 PB',
+    sim_placeholder: 'Le billet gagnant apparaîtra ici...',
+    sim_validate_range: 'Les numéros principaux doivent être compris entre 1 et 35.',
+    sim_validate_pb: 'Le Powerball doit être compris entre 1 et 12.',
+    sim_validate_empty: 'Veuillez saisir tous les numéros principaux et le Powerball.',
+    sim_validate_dup: 'Les numéros principaux ne peuvent pas être dupliqués.',
+    sim_ticket_main_lbl: 'Numéros principaux (Correspondance {count}/5)',
+    sim_ticket_pb_lbl: 'Powerball ({status})',
+    sim_ticket_pb_match: 'Correspond',
+    sim_ticket_pb_no: 'Aucune correspondance',
+    sim_ticket_cost_lbl: 'Billet n°{draws} | Coût total : {cost}',
+    sim_h_title: '🎰 Simulateur de gain Lotto 5/35',
+    sim_h_sub: 'Simule des tirages en continu jusqu\'à ce que la condition de victoire soit atteinte'
+  },
+  es: {
+    sim_title: '<span>🎯</span> Números ganadores reales',
+    sim_input_lbl: 'Introduce 5 números principales (1 - 35) y 1 Powerball (1 - 12)',
+    sim_stop_lbl: 'Selecciona la condición de parada',
+    sim_stop_opt2: 'Acierta al menos 2 números principales',
+    sim_stop_opt3: 'Acierta al menos 3 números principales',
+    sim_stop_opt3pb: 'Acierta 3 números principales + 1 Powerball',
+    sim_stop_opt4: 'Acierta al menos 4 números principales',
+    sim_stop_opt4pb: 'Acierta 4 números principales + 1 Powerball',
+    sim_stop_opt5: 'Acierta los 5 números principales (Jackpot 2)',
+    sim_stop_opt5pb: 'Acierta 5 números principales + 1 Powerball (Jackpot 1)',
+    sim_speed_lbl: 'Velocidad de simulación',
+    sim_speed_normal: 'Normal (60 boletos/s)',
+    sim_speed_fast: 'Rápida (6.000 boletos/s)',
+    sim_speed_super: 'Súper rápida (30.000 boletos/s)',
+    sim_speed_god: 'Modo Dios (90.000 boletos/s)',
+    sim_speed_max: 'Máxima (300.000 boletos/s)',
+    sim_btn_start: '▶ Iniciar',
+    sim_btn_stop: '⏸ Pausar',
+    sim_btn_rand: '🎲 Generar 1 boleto',
+    sim_btn_reset: '🔄 Restablecer',
+    sim_history_lbl: 'Registro de números generados',
+    sim_hist_mode_matched: 'Solo coincidencias',
+    sim_hist_mode_all: 'Mostrar todos los números',
+    sim_history_placeholder: 'Los números generados aparecerán aquí...',
+    sim_stats_title: '<span>📊</span> Estadísticas de la simulación',
+    sim_stat_draws: 'Boletos comprobados',
+    sim_stat_cost: 'Costo estimado',
+    sim_stat_speed: 'Velocidad real',
+    sim_stat_time: 'Tiempo transcurrido',
+    sim_prize_lbl: 'Premios obtenidos durante la simulación',
+    sim_tbl_prize: 'Premio',
+    sim_tbl_req: 'Condición',
+    sim_tbl_count: 'Cantidad',
+    sim_tbl_rate: 'Tasa',
+    sim_p_m2: 'Tercer premio',
+    sim_p_m2_req: 'Acierta 2 números principales',
+    sim_p_m3: 'Segundo premio',
+    sim_p_m3_req: 'Acierta 3 números principales',
+    sim_p_m3pb: 'Segundo premio + PB',
+    sim_p_m3pb_req: 'Acierta 3 números principales + 1 PB',
+    sim_p_m4: 'Primer premio',
+    sim_p_m4_req: 'Acierta 4 números principales',
+    sim_p_m4pb: 'Primer premio + PB',
+    sim_p_m4pb_req: 'Acierta 4 números principales + 1 PB',
+    sim_p_m5: 'Jackpot 2',
+    sim_p_m5_req: 'Acierta los 5 números principales',
+    sim_p_m5pb: 'Jackpot 1',
+    sim_p_m5pb_req: 'Acierta 5 números principales + 1 PB',
+    sim_placeholder: 'El boleto ganador aparecerá aquí...',
+    sim_validate_range: 'Los números principales deben estar entre 1 y 35.',
+    sim_validate_pb: 'El Powerball debe estar entre 1 y 12.',
+    sim_validate_empty: 'Introduce todos los números principales y el Powerball.',
+    sim_validate_dup: 'Los números principales no pueden repetirse.',
+    sim_ticket_main_lbl: 'Números principales (Aciertos {count}/5)',
+    sim_ticket_pb_lbl: 'Powerball ({status})',
+    sim_ticket_pb_match: 'Acertado',
+    sim_ticket_pb_no: 'Sin acierto',
+    sim_ticket_cost_lbl: 'Boleto n.º {draws} | Costo total: {cost}',
+    sim_h_title: '🎰 Simulador de premios Lotto 5/35',
+    sim_h_sub: 'Simula sorteos continuamente hasta cumplir la condición de victoria'
+  },
+  de: {
+    sim_title: '<span>🎯</span> Echte Gewinnzahlen',
+    sim_input_lbl: 'Geben Sie 5 Hauptzahlen (1 - 35) und 1 Powerball (1 - 12) ein',
+    sim_stop_lbl: 'Abbruchbedingung auswählen',
+    sim_stop_opt2: 'Mindestens 2 Hauptzahlen richtig',
+    sim_stop_opt3: 'Mindestens 3 Hauptzahlen richtig',
+    sim_stop_opt3pb: '3 Hauptzahlen + 1 Powerball richtig',
+    sim_stop_opt4: 'Mindestens 4 Hauptzahlen richtig',
+    sim_stop_opt4pb: '4 Hauptzahlen + 1 Powerball richtig',
+    sim_stop_opt5: 'Alle 5 Hauptzahlen richtig (Jackpot 2)',
+    sim_stop_opt5pb: '5 Hauptzahlen + 1 Powerball richtig (Jackpot 1)',
+    sim_speed_lbl: 'Simulationsgeschwindigkeit',
+    sim_speed_normal: 'Normal (60 Lose/Sek.)',
+    sim_speed_fast: 'Schnell (6.000 Lose/Sek.)',
+    sim_speed_super: 'Super schnell (30.000 Lose/Sek.)',
+    sim_speed_god: 'Gottmodus (90.000 Lose/Sek.)',
+    sim_speed_max: 'Maximum (300.000 Lose/Sek.)',
+    sim_btn_start: '▶ Start',
+    sim_btn_stop: '⏸ Pause',
+    sim_btn_rand: '🎲 1 Los ziehen',
+    sim_btn_reset: '🔄 Zurücksetzen',
+    sim_history_lbl: 'Protokoll der generierten Zahlen',
+    sim_hist_mode_matched: 'Nur Treffer',
+    sim_hist_mode_all: 'Alle Zahlen anzeigen',
+    sim_history_placeholder: 'Die generierten Zahlen werden hier angezeigt...',
+    sim_stats_title: '<span>📊</span> Simulationsstatistik',
+    sim_stat_draws: 'Geprüfte Lose',
+    sim_stat_cost: 'Geschätzte Kosten',
+    sim_stat_speed: 'Tatsächliche Geschwindigkeit',
+    sim_stat_time: 'Verstrichene Zeit',
+    sim_prize_lbl: 'Gewonnene Preise während der Simulation',
+    sim_tbl_prize: 'Preis',
+    sim_tbl_req: 'Bedingung',
+    sim_tbl_count: 'Anzahl',
+    sim_tbl_rate: 'Quote',
+    sim_p_m2: '3. Preis',
+    sim_p_m2_req: '2 Hauptzahlen richtig',
+    sim_p_m3: '2. Preis',
+    sim_p_m3_req: '3 Hauptzahlen richtig',
+    sim_p_m3pb: '2. Preis + PB',
+    sim_p_m3pb_req: '3 Hauptzahlen + 1 PB richtig',
+    sim_p_m4: '1. Preis',
+    sim_p_m4_req: '4 Hauptzahlen richtig',
+    sim_p_m4pb: '1. Preis + PB',
+    sim_p_m4pb_req: '4 Hauptzahlen + 1 PB richtig',
+    sim_p_m5: 'Jackpot 2',
+    sim_p_m5_req: '5 Hauptzahlen richtig',
+    sim_p_m5pb: 'Jackpot 1',
+    sim_p_m5pb_req: '5 Hauptzahlen + 1 PB richtig',
+    sim_placeholder: 'Das Gewinnlos wird hier angezeigt...',
+    sim_validate_range: 'Die Hauptzahlen müssen zwischen 1 und 35 liegen.',
+    sim_validate_pb: 'Der Powerball muss zwischen 1 und 12 liegen.',
+    sim_validate_empty: 'Bitte geben Sie alle Hauptzahlen und den Powerball ein.',
+    sim_validate_dup: 'Hauptzahlen dürfen nicht doppelt vorkommen.',
+    sim_ticket_main_lbl: 'Hauptzahlen ({count}/5 Treffer)',
+    sim_ticket_pb_lbl: 'Powerball ({status})',
+    sim_ticket_pb_match: 'Getroffen',
+    sim_ticket_pb_no: 'Kein Treffer',
+    sim_ticket_cost_lbl: 'Los Nr. {draws} | Gesamtkosten: {cost}',
+    sim_h_title: '🎰 Lotto 5/35 Gewinnsimulator',
+    sim_h_sub: 'Simuliert fortlaufende Ziehungen, bis die Gewinnbedingung erfüllt ist'
+  },
+  ja: {
+    sim_title: '<span>🎯</span> 実際の当選番号',
+    sim_input_lbl: '本数字5個（1～35）とPowerball 1個（1～12）を入力してください',
+    sim_stop_lbl: '停止条件を選択',
+    sim_stop_opt2: '本数字を2個以上一致',
+    sim_stop_opt3: '本数字を3個以上一致',
+    sim_stop_opt3pb: '本数字3個 + Powerball 1個一致',
+    sim_stop_opt4: '本数字を4個以上一致',
+    sim_stop_opt4pb: '本数字4個 + Powerball 1個一致',
+    sim_stop_opt5: '本数字5個すべて一致（ジャックポット2）',
+    sim_stop_opt5pb: '本数字5個 + Powerball 1個一致（ジャックポット1）',
+    sim_speed_lbl: 'シミュレーション速度',
+    sim_speed_normal: '通常（毎秒60枚）',
+    sim_speed_fast: '高速（毎秒6,000枚）',
+    sim_speed_super: '超高速（毎秒30,000枚）',
+    sim_speed_god: 'ゴッドモード（毎秒90,000枚）',
+    sim_speed_max: '最大（毎秒300,000枚）',
+    sim_btn_start: '▶ 開始',
+    sim_btn_stop: '⏸ 一時停止',
+    sim_btn_rand: '🎲 チケットを1枚生成',
+    sim_btn_reset: '🔄 リセット',
+    sim_history_lbl: '生成された番号の履歴',
+    sim_hist_mode_matched: '一致したもののみ',
+    sim_hist_mode_all: 'すべての番号を表示',
+    sim_history_placeholder: '生成された番号がここに表示されます...',
+    sim_stats_title: '<span>📊</span> シミュレーション統計',
+    sim_stat_draws: '確認済みチケット数',
+    sim_stat_cost: '推定コスト',
+    sim_stat_speed: '実際の速度',
+    sim_stat_time: '経過時間',
+    sim_prize_lbl: 'シミュレーション中に獲得した賞',
+    sim_tbl_prize: '賞',
+    sim_tbl_req: '条件',
+    sim_tbl_count: '回数',
+    sim_tbl_rate: '確率',
+    sim_p_m2: '3等',
+    sim_p_m2_req: '本数字2個一致',
+    sim_p_m3: '2等',
+    sim_p_m3_req: '本数字3個一致',
+    sim_p_m3pb: '2等 + PB',
+    sim_p_m3pb_req: '本数字3個 + PB 1個一致',
+    sim_p_m4: '1等',
+    sim_p_m4_req: '本数字4個一致',
+    sim_p_m4pb: '1等 + PB',
+    sim_p_m4pb_req: '本数字4個 + PB 1個一致',
+    sim_p_m5: 'ジャックポット2',
+    sim_p_m5_req: '本数字5個一致',
+    sim_p_m5pb: 'ジャックポット1',
+    sim_p_m5pb_req: '本数字5個 + PB 1個一致',
+    sim_placeholder: '一致したチケットがここに表示されます...',
+    sim_validate_range: '本数字は1～35の範囲で入力してください。',
+    sim_validate_pb: 'Powerballは1～12の範囲で入力してください。',
+    sim_validate_empty: '本数字5個とPowerballを入力してください。',
+    sim_validate_dup: '本数字は重複できません。',
+    sim_ticket_main_lbl: '本数字（一致 {count}/5）',
+    sim_ticket_pb_lbl: 'Powerball（{status}）',
+    sim_ticket_pb_match: '一致',
+    sim_ticket_pb_no: '不一致',
+    sim_ticket_cost_lbl: 'チケット #{draws} | 合計コスト: {cost}',
+    sim_h_title: '🎰 Lotto 5/35 当選シミュレーター',
+    sim_h_sub: '当選条件を満たすまで抽選を繰り返しシミュレーションします'
+  },
+  ko: {
+    sim_title: '<span>🎯</span> 실제 당첨 번호',
+    sim_input_lbl: '메인 번호 5개(1~35)와 Powerball 1개(1~12)를 입력하세요',
+    sim_stop_lbl: '중지 조건 선택',
+    sim_stop_opt2: '메인 번호 2개 이상 일치',
+    sim_stop_opt3: '메인 번호 3개 이상 일치',
+    sim_stop_opt3pb: '메인 번호 3개 + Powerball 1개 일치',
+    sim_stop_opt4: '메인 번호 4개 이상 일치',
+    sim_stop_opt4pb: '메인 번호 4개 + Powerball 1개 일치',
+    sim_stop_opt5: '메인 번호 5개 모두 일치 (잭팟 2)',
+    sim_stop_opt5pb: '메인 번호 5개 + Powerball 1개 일치 (잭팟 1)',
+    sim_speed_lbl: '시뮬레이션 속도',
+    sim_speed_normal: '보통 (초당 60장)',
+    sim_speed_fast: '빠름 (초당 6,000장)',
+    sim_speed_super: '매우 빠름 (초당 30,000장)',
+    sim_speed_god: '갓 모드 (초당 90,000장)',
+    sim_speed_max: '최대 (초당 300,000장)',
+    sim_btn_start: '▶ 시작',
+    sim_btn_stop: '⏸ 일시정지',
+    sim_btn_rand: '🎲 티켓 1장 생성',
+    sim_btn_reset: '🔄 초기화',
+    sim_history_lbl: '생성된 번호 기록',
+    sim_hist_mode_matched: '일치한 번호만',
+    sim_hist_mode_all: '모든 번호 표시',
+    sim_history_placeholder: '생성된 번호가 여기에 표시됩니다...',
+    sim_stats_title: '<span>📊</span> 시뮬레이션 통계',
+    sim_stat_draws: '확인한 티켓 수',
+    sim_stat_cost: '예상 비용',
+    sim_stat_speed: '실제 속도',
+    sim_stat_time: '경과 시간',
+    sim_prize_lbl: '시뮬레이션 중 획득한 당첨',
+    sim_tbl_prize: '등수',
+    sim_tbl_req: '조건',
+    sim_tbl_count: '횟수',
+    sim_tbl_rate: '확률',
+    sim_p_m2: '3등',
+    sim_p_m2_req: '메인 번호 2개 일치',
+    sim_p_m3: '2등',
+    sim_p_m3_req: '메인 번호 3개 일치',
+    sim_p_m3pb: '2등 + PB',
+    sim_p_m3pb_req: '메인 번호 3개 + PB 1개 일치',
+    sim_p_m4: '1등',
+    sim_p_m4_req: '메인 번호 4개 일치',
+    sim_p_m4pb: '1등 + PB',
+    sim_p_m4pb_req: '메인 번호 4개 + PB 1개 일치',
+    sim_p_m5: '잭팟 2',
+    sim_p_m5_req: '메인 번호 5개 일치',
+    sim_p_m5pb: '잭팟 1',
+    sim_p_m5pb_req: '메인 번호 5개 + PB 1개 일치',
+    sim_placeholder: '일치하는 티켓이 여기에 표시됩니다...',
+    sim_validate_range: '메인 번호는 1~35 사이여야 합니다.',
+    sim_validate_pb: 'Powerball은 1~12 사이여야 합니다.',
+    sim_validate_empty: '메인 번호와 Powerball을 모두 입력하세요.',
+    sim_validate_dup: '메인 번호는 중복될 수 없습니다.',
+    sim_ticket_main_lbl: '메인 번호 (일치 {count}/5)',
+    sim_ticket_pb_lbl: 'Powerball ({status})',
+    sim_ticket_pb_match: '일치',
+    sim_ticket_pb_no: '불일치',
+    sim_ticket_cost_lbl: '티켓 #{draws} | 총 비용: {cost}',
+    sim_h_title: '🎰 Lotto 5/35 당첨 시뮬레이터',
+    sim_h_sub: '당첨 조건을 만족할 때까지 계속 추첨을 시뮬레이션합니다'
+  },
+  zh: {
+    sim_title: '<span>🎯</span> 真实开奖号码',
+    sim_input_lbl: '请输入5个主号码（1 - 35）和1个Powerball号码（1 - 12）',
+    sim_stop_lbl: '选择停止条件',
+    sim_stop_opt2: '至少匹配2个主号码',
+    sim_stop_opt3: '至少匹配3个主号码',
+    sim_stop_opt3pb: '匹配3个主号码 + 1个Powerball',
+    sim_stop_opt4: '至少匹配4个主号码',
+    sim_stop_opt4pb: '匹配4个主号码 + 1个Powerball',
+    sim_stop_opt5: '匹配全部5个主号码（头奖2）',
+    sim_stop_opt5pb: '匹配5个主号码 + 1个Powerball（头奖1）',
+    sim_speed_lbl: '模拟速度',
+    sim_speed_normal: '普通（60张彩票/秒）',
+    sim_speed_fast: '快速（6,000张彩票/秒）',
+    sim_speed_super: '超快（30,000张彩票/秒）',
+    sim_speed_god: '上帝模式（90,000张彩票/秒）',
+    sim_speed_max: '最高（300,000张彩票/秒）',
+    sim_btn_start: '▶ 开始',
+    sim_btn_stop: '⏸ 暂停',
+    sim_btn_rand: '🎲 随机生成1张彩票',
+    sim_btn_reset: '🔄 重置',
+    sim_history_lbl: '生成号码记录',
+    sim_hist_mode_matched: '仅显示匹配号码',
+    sim_hist_mode_all: '显示所有号码',
+    sim_history_placeholder: '生成的号码将显示在这里...',
+    sim_stats_title: '<span>📊</span> 模拟统计',
+    sim_stat_draws: '已检查彩票数',
+    sim_stat_cost: '预计成本',
+    sim_stat_speed: '实际速度',
+    sim_stat_time: '已用时间',
+    sim_prize_lbl: '模拟过程中获得的奖项',
+    sim_tbl_prize: '奖项',
+    sim_tbl_req: '条件',
+    sim_tbl_count: '次数',
+    sim_tbl_rate: '概率',
+    sim_p_m2: '三等奖',
+    sim_p_m2_req: '匹配2个主号码',
+    sim_p_m3: '二等奖',
+    sim_p_m3_req: '匹配3个主号码',
+    sim_p_m3pb: '二等奖 + PB',
+    sim_p_m3pb_req: '匹配3个主号码 + 1个PB',
+    sim_p_m4: '一等奖',
+    sim_p_m4_req: '匹配4个主号码',
+    sim_p_m4pb: '一等奖 + PB',
+    sim_p_m4pb_req: '匹配4个主号码 + 1个PB',
+    sim_p_m5: '头奖2',
+    sim_p_m5_req: '匹配5个主号码',
+    sim_p_m5pb: '头奖1',
+    sim_p_m5pb_req: '匹配5个主号码 + 1个PB',
+    sim_placeholder: '匹配的彩票将显示在这里...',
+    sim_validate_range: '主号码必须介于1到35之间。',
+    sim_validate_pb: 'Powerball号码必须介于1到12之间。',
+    sim_validate_empty: '请输入所有主号码和Powerball号码。',
+    sim_validate_dup: '主号码不能重复。',
+    sim_ticket_main_lbl: '主号码（匹配 {count}/5）',
+    sim_ticket_pb_lbl: 'Powerball（{status}）',
+    sim_ticket_pb_match: '匹配',
+    sim_ticket_pb_no: '未匹配',
+    sim_ticket_cost_lbl: '彩票 #{draws} | 总成本：{cost}',
+    sim_h_title: '🎰 Lotto 5/35 中奖模拟器',
+    sim_h_sub: '持续模拟开奖，直到满足中奖条件'
+  },
+  vi: {
+    sim_title: '<span>🎯</span> Kết quả trúng thưởng thật',
+    sim_input_lbl: 'Nhập 5 số chính (1 - 35) & 1 Powerball (1 - 12)',
+    sim_stop_lbl: 'Chọn điều kiện dừng quay',
+    sim_stop_opt2: 'Trùng ít nhất 2 số chính',
+    sim_stop_opt3: 'Trùng ít nhất 3 số chính',
+    sim_stop_opt3pb: 'Trùng 3 số chính + 1 Powerball',
+    sim_stop_opt4: 'Trùng ít nhất 4 số chính',
+    sim_stop_opt4pb: 'Trùng 4 số chính + 1 Powerball',
+    sim_stop_opt5: 'Trùng cả 5 số chính (Jackpot 2)',
+    sim_stop_opt5pb: 'Trùng 5 số chính + 1 Powerball (Jackpot 1)',
+    sim_speed_lbl: 'Tốc độ quay giả lập',
+    sim_speed_normal: 'Bình thường (60 vé / giây)',
+    sim_speed_fast: 'Nhanh (6,000 vé / giây)',
+    sim_speed_super: 'Siêu tốc (30,000 vé / giây)',
+    sim_speed_god: 'Thần tốc (90,000 vé / giây)',
+    sim_speed_max: 'Tối đa (300,000 vé / giây)',
+    sim_btn_start: '▶ Bắt đầu',
+    sim_btn_stop: '⏸ Tạm dừng',
+    sim_btn_rand: '🎲 Quay 1 lần',
+    sim_btn_reset: '🔄 Đặt lại',
+    sim_history_lbl: 'Danh sách các bộ số đã sinh',
+    sim_hist_mode_matched: 'Chỉ số có trùng lặp',
+    sim_hist_mode_all: 'Hiển thị tất cả số',
+    sim_history_placeholder: 'Các bộ số sinh ra sẽ xuất hiện ở đây...',
+    sim_stats_title: '<span>📊</span> Thống kê giả lập',
+    sim_stat_draws: 'Số vé đã thử',
+    sim_stat_cost: 'Ước tính chi phí',
+    sim_stat_speed: 'Tốc độ thực tế',
+    sim_stat_time: 'Thời gian chạy',
+    sim_prize_lbl: 'Danh sách giải thưởng đã trúng',
+    sim_tbl_prize: 'Giải thưởng',
+    sim_tbl_req: 'Yêu cầu',
+    sim_tbl_count: 'Số lượng trúng',
+    sim_tbl_rate: 'Tỷ lệ',
+    sim_p_m2: 'Giải Ba',
+    sim_p_m2_req: 'Trùng 2 số chính',
+    sim_p_m3: 'Giải Nhì',
+    sim_p_m3_req: 'Trùng 3 số chính',
+    sim_p_m3pb: 'Giải Nhì + PB',
+    sim_p_m3pb_req: 'Trùng 3 chính + 1 PB',
+    sim_p_m4: 'Giải Nhất',
+    sim_p_m4_req: 'Trùng 4 số chính',
+    sim_p_m4pb: 'Giải Nhất + PB',
+    sim_p_m4pb_req: 'Trùng 4 chính + 1 PB',
+    sim_p_m5: 'Jackpot 2',
+    sim_p_m5_req: 'Trùng 5 số chính',
+    sim_p_m5pb: 'Jackpot 1',
+    sim_p_m5pb_req: 'Trùng 5 chính + 1 PB',
+    sim_placeholder: 'Vé trùng khớp sẽ xuất hiện tại đây...',
+    sim_validate_range: 'Các số chính phải nằm trong khoảng 1 đến 35.',
+    sim_validate_pb: 'Số Powerball phải nằm trong khoảng 1 đến 12.',
+    sim_validate_empty: 'Vui lòng nhập đầy đủ các số chính và số Powerball.',
+    sim_validate_dup: 'Các số chính không được trùng lặp nhau.',
+    sim_ticket_main_lbl: 'Số Chính (Trùng {count}/5)',
+    sim_ticket_pb_lbl: 'Powerball ({status})',
+    sim_ticket_pb_match: 'Trùng',
+    sim_ticket_pb_no: 'Không trùng',
+    sim_ticket_cost_lbl: 'Vé số #{draws} | Chi phí lũy kế: {cost}',
+    sim_h_title: '🎰 Lotto 5/35 Simulation',
+    sim_h_sub: 'Chạy giả lập quay số liên tục cho đến khi trúng giải theo cấu hình'
+  }
+};
+
+function simT(key) {
+  // const lang = (typeof currentLang !== 'undefined' && currentLang === 'vi') ? 'vi' : 'en';
+  return SIM_I18N[currentLang][key] || SIM_I18N['en'][key] || key;
+}
+
+// Inputs
+const inputs = [
+  document.getElementById('in-m1'),
+  document.getElementById('in-m2'),
+  document.getElementById('in-m3'),
+  document.getElementById('in-m4'),
+  document.getElementById('in-m5')
+];
+const inputPb = document.getElementById('in-pb');
+const valMsg = document.getElementById('validation-msg');
+
+// Buttons
+const btnStart = document.getElementById('btn-start');
+const btnStop = document.getElementById('btn-stop');
+const btnRand = document.getElementById('btn-rand');
+const btnReset = document.getElementById('btn-reset');
+const btnRandInputs = document.getElementById('btn-rand-inputs');
+const historyLogEl = document.getElementById('draw-history-log');
+const historyModeSelect = document.getElementById('history-log-mode');
+
+// Controls
+const selectStop = document.getElementById('stop-condition');
+const selectSpeed = document.getElementById('sim-speed');
+
+// Stats DOM
+const statDraws = document.getElementById('stat-draws');
+const statCost = document.getElementById('stat-cost');
+const statSpeed = document.getElementById('stat-speed');
+const statTime = document.getElementById('stat-time');
+
+// Prizes DOM
+const pM2 = document.getElementById('p-m2');
+const pM2Pct = document.getElementById('p-m2-pct');
+const pM3 = document.getElementById('p-m3');
+const pM3Pct = document.getElementById('p-m3-pct');
+const pM3pb = document.getElementById('p-m3pb');
+const pM3pbPct = document.getElementById('p-m3pb-pct');
+const pM4 = document.getElementById('p-m4');
+const pM4Pct = document.getElementById('p-m4-pct');
+const pM4pb = document.getElementById('p-m4pb');
+const pM4pbPct = document.getElementById('p-m4pb-pct');
+const pM5 = document.getElementById('p-m5');
+const pM5Pct = document.getElementById('p-m5-pct');
+const pM5pb = document.getElementById('p-m5pb');
+const pM5pbPct = document.getElementById('p-m5pb-pct');
+
+const ticketArea = document.getElementById('ticket-area');
+
+// Simulation State
+let isRunning = false;
+let drawsCount = 0;
+let startTime = 0;
+let elapsedSeconds = 0;
+let lastSpeedUpdate = 0;
+let lastDrawsCount = 0;
+let timerId = null;
+let historyBuffer = [];
+
+let countM2 = 0;
+let countM3 = 0;
+let countM3pb = 0;
+let countM4 = 0;
+let countM4pb = 0;
+let countM5 = 0;
+let countM5pb = 0;
+
+// Winning number array
+let winMain = [];
+let winPb = 0;
+let winLookup = new Uint8Array(36); // boolean lookup array for fast matching
+
+// Fast draw pool
+const drawPool = new Uint8Array(35);
+for (let i = 0; i < 35; i++) drawPool[i] = i + 1;
+
+// Auto focus next input helper
+inputs.forEach((input, index) => {
+  input.addEventListener('input', () => {
+    let val = parseInt(input.value);
+    if (val > 35) input.value = 35;
+    if (val < 1 && input.value !== '') input.value = 1;
+    
+    if (input.value.length >= 2 || (input.value.length === 1 && parseInt(input.value) >= 4)) {
+      if (index < inputs.length - 1) {
+        inputs[index + 1].focus();
+      } else {
+        inputPb.focus();
+      }
+    }
+    validateInputs();
+  });
+});
+
+inputPb.addEventListener('input', () => {
+  let val = parseInt(inputPb.value);
+  if (val > 12) inputPb.value = 12;
+  if (val < 1 && inputPb.value !== '') inputPb.value = 1;
+  validateInputs();
+});
+
+// Format numbers with commas
+function formatNum(num) {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function randomizeWinningNumbers() {
+  const pool = [];
+  for (let i = 1; i <= 35; i++) pool.push(i);
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  const pickedMain = pool.slice(0, 5).sort((a, b) => a - b);
+  
+  inputs.forEach((input, idx) => {
+    input.value = pickedMain[idx];
+  });
+  
+  inputPb.value = Math.floor(Math.random() * 12) + 1;
+  validateInputs();
+}
+
+function loadWinningNumbersFromUrl() {
+  const urlStr = decodeURIComponent(window.location.href);
+  const match = urlStr.match(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})\|(\d{2})/);
+  if (match) {
+    const m1 = parseInt(match[1], 10);
+    const m2 = parseInt(match[2], 10);
+    const m3 = parseInt(match[3], 10);
+    const m4 = parseInt(match[4], 10);
+    const m5 = parseInt(match[5], 10);
+    const pb = parseInt(match[6], 10);
+    
+    if ([m1, m2, m3, m4, m5].every(n => n >= 1 && n <= 35) && pb >= 1 && pb <= 12) {
+      const unique = new Set([m1, m2, m3, m4, m5]);
+      if (unique.size === 5) {
+        const sorted = [m1, m2, m3, m4, m5].sort((a, b) => a - b);
+        inputs[0].value = sorted[0];
+        inputs[1].value = sorted[1];
+        inputs[2].value = sorted[2];
+        inputs[3].value = sorted[3];
+        inputs[4].value = sorted[4];
+        inputPb.value = pb;
+        validateInputs();
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function validateInputs() {
+  valMsg.textContent = "";
+  
+  let vals = [];
+  let hasEmpty = false;
+  
+  for (let i = 0; i < 5; i++) {
+    const val = parseInt(inputs[i].value);
+    if (isNaN(val)) {
+      hasEmpty = true;
+    } else if (val < 1 || val > 35) {
+      valMsg.textContent = simT('sim_validate_range');
+      return false;
+    } else {
+      vals.push(val);
+    }
+  }
+  
+  const pbVal = parseInt(inputPb.value);
+  if (isNaN(pbVal)) {
+    hasEmpty = true;
+  } else if (pbVal < 1 || pbVal > 12) {
+    valMsg.textContent = simT('sim_validate_pb');
+    return false;
+  }
+  
+  if (hasEmpty) {
+    valMsg.textContent = simT('sim_validate_empty');
+    return false;
+  }
+  
+  const uniqueVals = new Set(vals);
+  if (uniqueVals.size !== 5) {
+    valMsg.textContent = simT('sim_validate_dup');
+    return false;
+  }
+  
+  winMain = vals.sort((a, b) => a - b);
+  winPb = pbVal;
+  
+  winLookup.fill(0);
+  winMain.forEach(v => winLookup[v] = 1);
+  
+  return true;
+}
+
+// Perform optimized draw
+function drawOneOptimized() {
+  for (let i = 0; i < 5; i++) {
+    const j = i + Math.floor(Math.random() * (35 - i));
+    const temp = drawPool[i];
+    drawPool[i] = drawPool[j];
+    drawPool[j] = temp;
+  }
+  
+  const m1 = drawPool[0];
+  const m2 = drawPool[1];
+  const m3 = drawPool[2];
+  const m4 = drawPool[3];
+  const m5 = drawPool[4];
+  
+  const pb = Math.floor(Math.random() * 12) + 1;
+  
+  let matchCount = 0;
+  if (winLookup[m1]) matchCount++;
+  if (winLookup[m2]) matchCount++;
+  if (winLookup[m3]) matchCount++;
+  if (winLookup[m4]) matchCount++;
+  if (winLookup[m5]) matchCount++;
+  
+  return {
+    numbers: [m1, m2, m3, m4, m5].sort((a, b) => a - b),
+    pb: pb,
+    matchCount: matchCount,
+    pbMatched: (pb === winPb)
+  };
+}
+
+function updateStatsUI() {
+  statDraws.textContent = formatNum(drawsCount);
+  const currencySymbol = (typeof currentLang !== 'undefined' && currentLang === 'vi') ? 'đ' : ' VND';
+  statCost.textContent = formatNum(drawsCount * 10000) + currencySymbol;
+  
+  const now = performance.now();
+  if (startTime > 0) {
+    elapsedSeconds = (now - startTime) / 1000;
+  }
+  statTime.textContent = elapsedSeconds.toFixed(1) + 's';
+  
+  const timeDiff = now - lastSpeedUpdate;
+  if (timeDiff >= 500 && isRunning) {
+    const speed = Math.round((drawsCount - lastDrawsCount) / (timeDiff / 1000));
+    statSpeed.textContent = formatNum(speed) + '/s';
+    lastSpeedUpdate = now;
+    lastDrawsCount = drawsCount;
+  } else if (!isRunning) {
+    statSpeed.textContent = '0/s';
+  }
+  
+  pM2.textContent = formatNum(countM2);
+  pM2Pct.textContent = drawsCount > 0 ? ((countM2 / drawsCount) * 100).toFixed(4) + '%' : '0%';
+  
+  pM3.textContent = formatNum(countM3);
+  pM3Pct.textContent = drawsCount > 0 ? ((countM3 / drawsCount) * 100).toFixed(4) + '%' : '0%';
+  
+  pM3pb.textContent = formatNum(countM3pb);
+  pM3pbPct.textContent = drawsCount > 0 ? ((countM3pb / drawsCount) * 100).toFixed(5) + '%' : '0%';
+  
+  pM4.textContent = formatNum(countM4);
+  pM4Pct.textContent = drawsCount > 0 ? ((countM4 / drawsCount) * 100).toFixed(4) + '%' : '0%';
+  
+  pM4pb.textContent = formatNum(countM4pb);
+  pM4pbPct.textContent = drawsCount > 0 ? ((countM4pb / drawsCount) * 100).toFixed(5) + '%' : '0%';
+  
+  pM5.textContent = formatNum(countM5);
+  pM5Pct.textContent = drawsCount > 0 ? ((countM5 / drawsCount) * 100).toFixed(6) + '%' : '0%';
+  
+  pM5pb.textContent = formatNum(countM5pb);
+  pM5pbPct.textContent = drawsCount > 0 ? ((countM5pb / drawsCount) * 100).toFixed(6) + '%' : '0%';
+}
+
+function addHistoryLog(drawIdx, result) {
+  const mode = historyModeSelect ? historyModeSelect.value : 'all';
+  const hasMatch = (result.matchCount > 0 || result.pbMatched);
+  
+  if (mode === 'matched' && !hasMatch) {
+    return;
+  }
+  
+  const mainStr = result.numbers.map(n => String(n).padStart(2, '0')).join(' ');
+  const pbStr = String(result.pb).padStart(2, '0');
+  let matchBadge = '';
+  if (hasMatch) {
+    matchBadge = ` (Trùng ${result.matchCount} số${result.pbMatched ? ' + PB' : ''})`;
+  }
+  const line = `#${drawIdx}: ${mainStr} | ${pbStr}${matchBadge}`;
+  historyBuffer.push(line);
+  if (historyBuffer.length > 1000) {
+    historyBuffer.shift();
+  }
+}
+
+function flushHistoryLogUI() {
+  if (historyLogEl) {
+    historyLogEl.value = historyBuffer.join('\n');
+    historyLogEl.scrollTop = historyLogEl.scrollHeight;
+  }
+}
+
+function renderMatchingTicket(result) {
+  const greenPalette = PAL.green;
+  const orangePalette = PAL.orange;
+  
+  let mainBallsHtml = result.numbers.map(num => {
+    const isMatched = winLookup[num] === 1;
+    const extraClass = isMatched ? ' ball-match' : '';
+    const ballHtml = BaseLottery.renderBall(num, greenPalette);
+    return ballHtml.replace('class="ball-svg"', `class="ball-svg${extraClass}"`);
+  }).join('');
+  
+  const pbMatched = result.pb === winPb;
+  const pbExtraClass = pbMatched ? ' ball-match-pb' : '';
+  const pbBallHtml = BaseLottery.renderBall(result.pb, orangePalette).replace('class="ball-svg"', `class="ball-svg${pbExtraClass}"`);
+  
+  let labelText = simT('sim_p_m2').toUpperCase();
+  if (result.matchCount === 5 && result.pbMatched) {
+    labelText = "🏆 " + simT('sim_p_m5pb').toUpperCase() + " MATCHED! 🎉";
+  } else if (result.matchCount === 5) {
+    labelText = "🔥 " + simT('sim_p_m5').toUpperCase() + " MATCHED! 🥳";
+  } else if (result.matchCount === 4 && result.pbMatched) {
+    labelText = "⭐ " + simT('sim_p_m4pb').toUpperCase() + " (" + result.matchCount + "+PB)";
+  } else if (result.matchCount === 4) {
+    labelText = "⭐ " + simT('sim_p_m4').toUpperCase() + " (" + result.matchCount + ")";
+  } else if (result.matchCount === 3 && result.pbMatched) {
+    labelText = "✔️ " + simT('sim_p_m3pb').toUpperCase() + " (" + result.matchCount + "+PB)";
+  } else if (result.matchCount === 3) {
+    labelText = "✔️ " + simT('sim_p_m3').toUpperCase() + " (" + result.matchCount + ")";
+  } else if (result.matchCount === 2) {
+    labelText = "✔️ " + simT('sim_p_m2').toUpperCase() + " (" + result.matchCount + ")";
+  }
+  
+  const mainLabelText = simT('sim_ticket_main_lbl').replace('{count}', result.matchCount);
+  const pbStatusText = pbMatched ? simT('sim_ticket_pb_match') : simT('sim_ticket_pb_no');
+  const pbLabelText = simT('sim_ticket_pb_lbl').replace('{status}', pbStatusText);
+  
+  const formattedCost = formatNum(drawsCount * 10000) + ((typeof currentLang !== 'undefined' && currentLang === 'vi') ? 'đ' : ' VND');
+  const ticketCostText = simT('sim_ticket_cost_lbl')
+    .replace('{draws}', formatNum(drawsCount))
+    .replace('{cost}', formattedCost);
+  
+  ticketArea.innerHTML = `
+    <div style="font-weight: 700; color: var(--accent-teal); margin-bottom: 12px; font-size: 1.1rem; text-transform: uppercase;">
+      ${labelText}
+    </div>
+    <div class="ball-group">
+      <div class="ball-group-label">${mainLabelText}</div>
+      <div class="ball-row">${mainBallsHtml}</div>
+    </div>
+    <div class="ball-group">
+      <div class="ball-group-label">${pbLabelText}</div>
+      <div class="ball-row">${pbBallHtml}</div>
+    </div>
+    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 10px; font-weight: 600;">
+      ${ticketCostText}
+    </div>
+  `;
+}
+
+function renderLiveTicket(result) {
+  const greenPalette = PAL.green;
+  const orangePalette = PAL.orange;
+  
+  let mainBallsHtml = result.numbers.map(num => {
+    const isMatched = winLookup[num] === 1;
+    const extraClass = isMatched ? ' ball-match' : '';
+    const ballHtml = BaseLottery.renderBall(num, greenPalette);
+    return ballHtml.replace('class="ball-svg"', `class="ball-svg${extraClass}"`);
+  }).join('');
+  
+  const pbMatched = result.pb === winPb;
+  const pbExtraClass = pbMatched ? ' ball-match-pb' : '';
+  const pbBallHtml = BaseLottery.renderBall(result.pb, orangePalette).replace('class="ball-svg"', `class="ball-svg${pbExtraClass}"`);
+  
+  const labelText = (typeof currentLang !== 'undefined' && currentLang === 'vi') ? "⚡ ĐANG QUAY NGẪU NHIÊN..." : "⚡ DRAWING NUMBERS...";
+  const mainLabelText = simT('sim_ticket_main_lbl').replace('{count}', result.matchCount);
+  const pbStatusText = pbMatched ? simT('sim_ticket_pb_match') : simT('sim_ticket_pb_no');
+  const pbLabelText = simT('sim_ticket_pb_lbl').replace('{status}', pbStatusText);
+  
+  const formattedCost = formatNum(drawsCount * 10000) + ((typeof currentLang !== 'undefined' && currentLang === 'vi') ? 'đ' : ' VND');
+  const ticketCostText = simT('sim_ticket_cost_lbl')
+    .replace('{draws}', formatNum(drawsCount))
+    .replace('{cost}', formattedCost);
+  
+  ticketArea.innerHTML = `
+    <div style="font-weight: 700; color: var(--accent-gold); margin-bottom: 12px; font-size: 1.1rem; text-transform: uppercase;">
+      ${labelText}
+    </div>
+    <div class="ball-group">
+      <div class="ball-group-label">${mainLabelText}</div>
+      <div class="ball-row">${mainBallsHtml}</div>
+    </div>
+    <div class="ball-group">
+      <div class="ball-group-label">${pbLabelText}</div>
+      <div class="ball-row">${pbBallHtml}</div>
+    </div>
+    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 10px; font-weight: 600;">
+      ${ticketCostText}
+    </div>
+  `;
+}
+
+function checkMatchesCondition(result, stopVal) {
+  if (stopVal === 'match_2' && result.matchCount >= 2) return true;
+  if (stopVal === 'match_3' && result.matchCount >= 3) return true;
+  if (stopVal === 'match_3_pb' && result.matchCount >= 3 && result.pbMatched) return true;
+  if (stopVal === 'match_4' && result.matchCount >= 4) return true;
+  if (stopVal === 'match_4_pb' && result.matchCount >= 4 && result.pbMatched) return true;
+  if (stopVal === 'match_5' && result.matchCount === 5) return true;
+  if (stopVal === 'match_5_pb' && result.matchCount === 5 && result.pbMatched) return true;
+  return false;
+}
+
+function recordDrawStats(result) {
+  if (result.matchCount === 2) countM2++;
+  else if (result.matchCount === 3) {
+    if (result.pbMatched) countM3pb++;
+    else countM3++;
+  }
+  else if (result.matchCount === 4) {
+    if (result.pbMatched) countM4pb++;
+    else countM4++;
+  }
+  else if (result.matchCount === 5) {
+    if (result.pbMatched) countM5pb++;
+    else countM5++;
+  }
+}
+
+function simulationLoop() {
+  if (!isRunning) return;
+  
+  const batchSize = parseInt(selectSpeed.value);
+  const stopVal = selectStop.value;
+  
+  let matchFound = false;
+  let winningTicket = null;
+  let lastResult = null;
+  
+  const step = batchSize > 20 ? Math.ceil(batchSize / 15) : 1;
+  
+  for (let i = 0; i < batchSize; i++) {
+    drawsCount++;
+    const result = drawOneOptimized();
+    lastResult = result;
+    
+    recordDrawStats(result);
+    
+    const isMatched = checkMatchesCondition(result, stopVal);
+    if (i % step === 0 || isMatched) {
+      addHistoryLog(drawsCount, result);
+    }
+    
+    if (isMatched) {
+      matchFound = true;
+      winningTicket = result;
+      break;
+    }
+  }
+  
+  updateStatsUI();
+  flushHistoryLogUI();
+  
+  if (matchFound && winningTicket) {
+    stopSimulation();
+    renderMatchingTicket(winningTicket);
+    ticketArea.style.borderColor = 'var(--accent-gold)';
+    setTimeout(() => {
+      ticketArea.style.borderColor = 'var(--accent-teal)';
+    }, 1000);
+  } else {
+    if (lastResult) {
+      renderLiveTicket(lastResult);
+    }
+    timerId = requestAnimationFrame(simulationLoop);
+  }
+}
+
+// Single draw action ("Quay 1 lần")
+function drawOnce() {
+  if (isRunning) return;
+  if (!validateInputs()) return;
+  
+  drawsCount++;
+  const result = drawOneOptimized();
+  recordDrawStats(result);
+  addHistoryLog(drawsCount, result);
+  updateStatsUI();
+  flushHistoryLogUI();
+  
+  const stopVal = selectStop.value;
+  if (checkMatchesCondition(result, stopVal)) {
+    renderMatchingTicket(result);
+    ticketArea.style.borderColor = 'var(--accent-gold)';
+    setTimeout(() => {
+      ticketArea.style.borderColor = 'var(--accent-teal)';
+    }, 1000);
+  } else {
+    renderLiveTicket(result);
+  }
+}
+
+function startSimulation() {
+  if (!validateInputs()) return;
+  
+  isRunning = true;
+  ticketArea.classList.add('running');
+  btnStart.style.display = 'none';
+  btnStop.style.display = 'inline-flex';
+  btnRand.disabled = true;
+  btnReset.disabled = false;
+  btnRandInputs.disabled = true;
+  inputs.forEach(i => i.disabled = true);
+  inputPb.disabled = true;
+  selectStop.disabled = true;
+  
+  if (startTime === 0) {
+    startTime = performance.now();
+    lastSpeedUpdate = startTime;
+    lastDrawsCount = drawsCount;
+  } else {
+    lastSpeedUpdate = performance.now();
+    lastDrawsCount = drawsCount;
+  }
+  
+  timerId = requestAnimationFrame(simulationLoop);
+}
+
+function stopSimulation() {
+  isRunning = false;
+  ticketArea.classList.remove('running');
+  btnStart.style.display = 'inline-flex';
+  btnStop.style.display = 'none';
+  btnRand.disabled = false;
+  btnReset.disabled = false;
+  btnRandInputs.disabled = false;
+  inputs.forEach(i => i.disabled = false);
+  inputPb.disabled = false;
+  selectStop.disabled = false;
+  
+  if (timerId) {
+    cancelAnimationFrame(timerId);
+    timerId = null;
+  }
+  
+  startTime = 0;
+  statSpeed.textContent = '0/s';
+}
+
+function resetSimulation() {
+  stopSimulation();
+  drawsCount = 0;
+  startTime = 0;
+  elapsedSeconds = 0;
+  countM2 = 0;
+  countM3 = 0;
+  countM3pb = 0;
+  countM4 = 0;
+  countM4pb = 0;
+  countM5 = 0;
+  countM5pb = 0;
+  historyBuffer = [];
+  
+  if (historyLogEl) {
+    historyLogEl.value = '';
+  }
+  
+  updateStatsUI();
+  statSpeed.textContent = '0/s';
+  statTime.textContent = '0.0s';
+  
+  ticketArea.innerHTML = `<div style="color: var(--text-secondary); font-size: 0.9rem; font-style: italic;">${simT('sim_placeholder')}</div>`;
+}
+
+function applySimLang() {
+  document.getElementById('h-title').textContent = simT('sim_h_title');
+  document.getElementById('h-sub').textContent = simT('sim_h_sub');
+  
+  document.getElementById('lbl-sim-title').innerHTML = simT('sim_title');
+  document.getElementById('lbl-sim-input').textContent = simT('sim_input_lbl');
+  document.getElementById('lbl-sim-stop').textContent = simT('sim_stop_lbl');
+  
+  selectStop.options[0].text = simT('sim_stop_opt2');
+  selectStop.options[1].text = simT('sim_stop_opt3');
+  selectStop.options[2].text = simT('sim_stop_opt3pb');
+  selectStop.options[3].text = simT('sim_stop_opt4');
+  selectStop.options[4].text = simT('sim_stop_opt4pb');
+  selectStop.options[5].text = simT('sim_stop_opt5');
+  selectStop.options[6].text = simT('sim_stop_opt5pb');
+  
+  document.getElementById('lbl-sim-speed').textContent = simT('sim_speed_lbl');
+  
+  selectSpeed.options[0].text = simT('sim_speed_normal');
+  selectSpeed.options[1].text = simT('sim_speed_fast');
+  selectSpeed.options[2].text = simT('sim_speed_super');
+  selectSpeed.options[3].text = simT('sim_speed_god');
+  selectSpeed.options[4].text = simT('sim_speed_max');
+  
+  btnStart.innerHTML = simT('sim_btn_start');
+  btnStop.innerHTML = simT('sim_btn_stop');
+  btnRand.innerHTML = simT('sim_btn_rand');
+  btnReset.innerHTML = simT('sim_btn_reset');
+  
+  document.getElementById('lbl-sim-history').textContent = simT('sim_history_lbl');
+  if (historyModeSelect) {
+    historyModeSelect.options[0].text = simT('sim_hist_mode_matched');
+    historyModeSelect.options[1].text = simT('sim_hist_mode_all');
+  }
+  if (historyLogEl && historyBuffer.length === 0) {
+    historyLogEl.placeholder = simT('sim_history_placeholder');
+  }
+  
+  document.getElementById('lbl-sim-stats-title').innerHTML = simT('sim_stats_title');
+  document.getElementById('lbl-stat-draws').textContent = simT('sim_stat_draws');
+  document.getElementById('lbl-stat-cost').textContent = simT('sim_stat_cost');
+  document.getElementById('lbl-stat-speed').textContent = simT('sim_stat_speed');
+  document.getElementById('lbl-stat-time').textContent = simT('sim_stat_time');
+  
+  document.getElementById('lbl-sim-prize').textContent = simT('sim_prize_lbl');
+  
+  const table = document.querySelector('.prize-table');
+  table.rows[0].cells[0].textContent = simT('sim_tbl_prize');
+  table.rows[0].cells[1].textContent = simT('sim_tbl_req');
+  table.rows[0].cells[2].textContent = simT('sim_tbl_count');
+  table.rows[0].cells[3].textContent = simT('sim_tbl_rate');
+  
+  table.rows[1].cells[0].textContent = simT('sim_p_m2');
+  table.rows[1].cells[1].textContent = simT('sim_p_m2_req');
+  
+  table.rows[2].cells[0].textContent = simT('sim_p_m3');
+  table.rows[2].cells[1].textContent = simT('sim_p_m3_req');
+  
+  table.rows[3].cells[0].textContent = simT('sim_p_m3pb');
+  table.rows[3].cells[1].textContent = simT('sim_p_m3pb_req');
+  
+  table.rows[4].cells[0].textContent = simT('sim_p_m4');
+  table.rows[4].cells[1].textContent = simT('sim_p_m4_req');
+  
+  table.rows[5].cells[0].textContent = simT('sim_p_m4pb');
+  table.rows[5].cells[1].textContent = simT('sim_p_m4pb_req');
+  
+  table.rows[6].cells[0].textContent = simT('sim_p_m5');
+  table.rows[6].cells[1].textContent = simT('sim_p_m5_req');
+  
+  table.rows[7].cells[0].textContent = simT('sim_p_m5pb');
+  table.rows[7].cells[1].textContent = simT('sim_p_m5pb_req');
+  
+  if (!isRunning && drawsCount === 0) {
+    ticketArea.innerHTML = `<div style="color: var(--text-secondary); font-size: 0.9rem; font-style: italic;">${simT('sim_placeholder')}</div>`;
+  }
+}
+
+// Hook into lotto.js applyLang
+const originalApplyLang = window.applyLang;
+if (typeof applyLang === 'function') {
+  window.applyLang = function() {
+    originalApplyLang();
+    applySimLang();
+  };
+}
+
+// Event listeners
+btnStart.addEventListener('click', startSimulation);
+btnStop.addEventListener('click', stopSimulation);
+btnRand.addEventListener('click', drawOnce);
+btnReset.addEventListener('click', resetSimulation);
+btnRandInputs.addEventListener('click', randomizeWinningNumbers);
+
+// Init: check URL first, fallback to random
+if (!loadWinningNumbersFromUrl()) {
+  randomizeWinningNumbers();
+}
+applySimLang();
+</script>
+</body>
+</html>
