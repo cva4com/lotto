@@ -183,6 +183,14 @@
 .sim-btn-rand:hover {
   background: var(--btn-gold-hover);
 }
+.sim-btn-rand7 {
+  background: var(--btn-gold-bg);
+  color: var(--accent-gold);
+  border: 1px solid var(--accent-gold);
+}
+.sim-btn-rand7:hover {
+  background: var(--btn-gold-hover);
+}
 .sim-btn-reset {
   background: transparent;
   color: var(--text-secondary);
@@ -251,7 +259,7 @@
   color: var(--accent-gold);
 }
 .ticket-container {
-  margin-top: 20px;
+  margin: 10px 0 20px 0;
   border: 2px dashed var(--accent-teal);
   border-radius: 12px;
   padding: 16px;
@@ -316,7 +324,7 @@ svg.ball-match-pb > text {
     </div>
     <span class="follow-label sr-only">Follow us:</span>
     <a class="social-link fb" href="https://www.facebook.com/LottoLuckyNumber/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M22 12.07C22 6.48 17.52 2 11.93 2 6.34 2 2 6.48 2 12.07 2 17.09 5.66 21.19 10.44 22v-7.01H8.08V12.1h2.36V9.79c0-2.33 1.39-3.61 3.52-3.61 1.02 0 2.09.18 2.09.18v2.3h-1.18c-1.16 0-1.52.72-1.52 1.46v1.75h2.59l-.41 2.89h-2.18V22C18.34 21.19 22 17.09 22 12.07z" fill="currentColor"/></svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M22 12.07C22 6.48 17.52 2 11.93 2 6.34 2 2 6.48 2 12.07 2 17.09 5.66 21.19 10.44 22v-7.01H8.08V12.1h2.36V9.79c0-2.33 1.39-3.61 3.52-3.61 1.02 0 2.09.18 2.09.18v2.3h-1.18c-1.16 0-1.52.72-1.52 1.46v1.75h2.59l-.41 2.89h-2.18V22C18.34 21.19 22 12.07 22z" fill="currentColor"/></svg>
     </a>
     <a class="social-link yt" href="https://www.youtube.com/@CV_A4" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
       <svg width="20" height="14" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M23.5 2.2s-.2-1.6-.8-2.3C21.8-.5 20.9-.5 20.4-.6 17.8-.9 12-.9 12-.9s-5.8 0-8.4.1C3.1-.4 2.2-.5 1.3-.1.7.3.5 1.5.5 1.5S0 4.1 0 6.8v2.5C0 11.9.5 14.5.5 14.5s.2 1.2.8 1.6c.9.4 2.1.3 2.6.4 1.9.1 8.1.1 8.1.1s5.8 0 8.4-.1c.5 0 1.4 0 1.9-.4.6-.4.8-1.6.8-1.6S24 11.9 24 9.2V6.8c0-2.7-.5-5-0.5-5.6zM9.8 11.1V4.8l6.2 3.1-6.2 3.2z" fill="currentColor"/></svg>
@@ -393,6 +401,7 @@ svg.ball-match-pb > text {
           <button class="sim-btn sim-btn-start" id="btn-start">▶ Bắt đầu</button>
           <button class="sim-btn sim-btn-stop" id="btn-stop" style="display:none;">⏸ Tạm dừng</button>
           <button class="sim-btn sim-btn-rand" id="btn-rand">🎲 Quay 1 lần</button>
+          <button class="sim-btn sim-btn-rand7" id="btn-rand7">🎲 Quay 7 cặp số</button>
           <button class="sim-btn sim-btn-reset" id="btn-reset">🔄 Đặt lại</button>
         </div>
 
@@ -430,6 +439,12 @@ svg.ball-match-pb > text {
           <div class="stat-box">
             <div class="stat-val" id="stat-time">0.0s</div>
             <div class="stat-lbl" id="lbl-stat-time">Thời gian chạy</div>
+          </div>
+        </div>
+        
+        <div class="ticket-container" id="ticket-area">
+          <div style="color: var(--text-secondary); font-size: 0.9rem; font-style: italic;">
+            Vé trùng khớp sẽ xuất hiện tại đây...
           </div>
         </div>
         
@@ -488,12 +503,6 @@ svg.ball-match-pb > text {
             </tr>
           </tbody>
         </table>
-        
-        <div class="ticket-container" id="ticket-area">
-          <div style="color: var(--text-secondary); font-size: 0.9rem; font-style: italic;">
-            Vé trùng khớp sẽ xuất hiện tại đây...
-          </div>
-        </div>
       </div>
       
     </div>
@@ -530,6 +539,7 @@ const SIM_I18N = {
     sim_btn_start: '▶ Start',
     sim_btn_stop: '⏸ Pause',
     sim_btn_rand: '🎲 Draw 1 Ticket',
+    sim_btn_rand7: '🎲 Draw 7 Tickets',
     sim_btn_reset: '🔄 Reset',
     sim_history_lbl: 'Generated Numbers Log',
     sim_hist_mode_matched: 'Matched Only',
@@ -592,6 +602,7 @@ const SIM_I18N = {
     sim_btn_start: '▶ Démarrer',
     sim_btn_stop: '⏸ Pause',
     sim_btn_rand: '🎲 Tirer 1 billet',
+    sim_btn_rand7: '🎲 Tirer 7 billets',
     sim_btn_reset: '🔄 Réinitialiser',
     sim_history_lbl: 'Historique des numéros générés',
     sim_hist_mode_matched: 'Correspondances uniquement',
@@ -654,6 +665,7 @@ const SIM_I18N = {
     sim_btn_start: '▶ Iniciar',
     sim_btn_stop: '⏸ Pausar',
     sim_btn_rand: '🎲 Generar 1 boleto',
+    sim_btn_rand7: '🎲 Generar 7 boletos',
     sim_btn_reset: '🔄 Restablecer',
     sim_history_lbl: 'Registro de números generados',
     sim_hist_mode_matched: 'Solo coincidencias',
@@ -716,6 +728,7 @@ const SIM_I18N = {
     sim_btn_start: '▶ Start',
     sim_btn_stop: '⏸ Pause',
     sim_btn_rand: '🎲 1 Los ziehen',
+    sim_btn_rand7: '🎲 7 Lose ziehen',
     sim_btn_reset: '🔄 Zurücksetzen',
     sim_history_lbl: 'Protokoll der generierten Zahlen',
     sim_hist_mode_matched: 'Nur Treffer',
@@ -778,6 +791,7 @@ const SIM_I18N = {
     sim_btn_start: '▶ 開始',
     sim_btn_stop: '⏸ 一時停止',
     sim_btn_rand: '🎲 チケットを1枚生成',
+    sim_btn_rand7: '🎲 チケットを7枚生成',
     sim_btn_reset: '🔄 リセット',
     sim_history_lbl: '生成された番号の履歴',
     sim_hist_mode_matched: '一致したもののみ',
@@ -840,6 +854,7 @@ const SIM_I18N = {
     sim_btn_start: '▶ 시작',
     sim_btn_stop: '⏸ 일시정지',
     sim_btn_rand: '🎲 티켓 1장 생성',
+    sim_btn_rand7: '🎲 티켓 7장 생성',
     sim_btn_reset: '🔄 초기화',
     sim_history_lbl: '생성된 번호 기록',
     sim_hist_mode_matched: '일치한 번호만',
@@ -902,6 +917,7 @@ const SIM_I18N = {
     sim_btn_start: '▶ 开始',
     sim_btn_stop: '⏸ 暂停',
     sim_btn_rand: '🎲 随机生成1张彩票',
+    sim_btn_rand7: '🎲 随机生成7张彩票',
     sim_btn_reset: '🔄 重置',
     sim_history_lbl: '生成号码记录',
     sim_hist_mode_matched: '仅显示匹配号码',
@@ -964,6 +980,7 @@ const SIM_I18N = {
     sim_btn_start: '▶ Bắt đầu',
     sim_btn_stop: '⏸ Tạm dừng',
     sim_btn_rand: '🎲 Quay 1 lần',
+    sim_btn_rand7: '🎲 Quay 7 cặp số',
     sim_btn_reset: '🔄 Đặt lại',
     sim_history_lbl: 'Danh sách các bộ số đã sinh',
     sim_hist_mode_matched: 'Chỉ số có trùng lặp',
@@ -1028,6 +1045,7 @@ const valMsg = document.getElementById('validation-msg');
 const btnStart = document.getElementById('btn-start');
 const btnStop = document.getElementById('btn-stop');
 const btnRand = document.getElementById('btn-rand');
+const btnRand7 = document.getElementById('btn-rand7');
 const btnReset = document.getElementById('btn-reset');
 const btnRandInputs = document.getElementById('btn-rand-inputs');
 const historyLogEl = document.getElementById('draw-history-log');
@@ -1297,7 +1315,7 @@ function addHistoryLog(drawIdx, result) {
   const pbStr = String(result.pb).padStart(2, '0');
   let matchBadge = '';
   if (hasMatch) {
-    matchBadge = ` (Trùng ${result.matchCount} số${result.pbMatched ? ' + PB' : ''})`;
+    matchBadge = ` (Match ${result.matchCount} main number${result.pbMatched ? ' + PB' : ''})`;
   }
   const line = `#${drawIdx}: ${mainStr} | ${pbStr}${matchBadge}`;
   historyBuffer.push(line);
@@ -1515,6 +1533,98 @@ function drawOnce() {
   }
 }
 
+// Draw 7 tickets action ("Quay 7 cặp số")
+function drawSeven() {
+  if (isRunning) return;
+  if (!validateInputs()) return;
+  
+  const stopVal = selectStop.value;
+  const results = [];
+  let matchFound = false;
+  let winningTicket = null;
+  
+  for (let i = 0; i < 7; i++) {
+    drawsCount++;
+    const result = drawOneOptimized();
+    results.push(result);
+    
+    recordDrawStats(result);
+    addHistoryLog(drawsCount, result);
+    
+    if (checkMatchesCondition(result, stopVal)) {
+      matchFound = true;
+      winningTicket = result;
+      break;
+    }
+  }
+  
+  updateStatsUI();
+  flushHistoryLogUI();
+  
+  // Render all 7 pairs on 7 rows
+  const greenPalette = PAL.green;
+  const orangePalette = PAL.orange;
+  
+  const rowsHtml = results.map((result, idx) => {
+    const mainBallsHtml = result.numbers.map(num => {
+      const isMatched = winLookup[num] === 1;
+      const extraClass = isMatched ? ' ball-match' : '';
+      const ballHtml = BaseLottery.renderBall(num, greenPalette);
+      return ballHtml.replace('class="ball-svg"', `class="ball-svg${extraClass}"`);
+    }).join('');
+    
+    const pbMatched = result.pb === winPb;
+    const pbExtraClass = pbMatched ? ' ball-match-pb' : '';
+    const pbBallHtml = BaseLottery.renderBall(result.pb, orangePalette).replace('class="ball-svg"', `class="ball-svg${pbExtraClass}"`);
+    
+    const isWinning = (winningTicket && result === winningTicket);
+    const rowStyle = isWinning ? 'background: rgba(0, 229, 204, 0.08); border: 1px solid var(--accent-gold); border-radius: 8px; padding: 10px;' : '';
+    
+    const mainLabelText = simT('sim_ticket_main_lbl').replace('{count}', result.matchCount);
+    const pbStatusText = pbMatched ? simT('sim_ticket_pb_match') : simT('sim_ticket_pb_no');
+    const pbLabelText = simT('sim_ticket_pb_lbl').replace('{status}', pbStatusText);
+    
+    return `
+      <div class="draw-result"${rowStyle ? ' style="' + rowStyle + '"' : ''}>
+        <div class="ball-group">
+          <div class="ball-group-label">${mainLabelText}</div>
+          <div class="ball-row">${mainBallsHtml}</div>
+        </div>
+        <div class="ball-group">
+          <div class="ball-group-label">${pbLabelText}</div>
+          <div class="ball-row">${pbBallHtml}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  const labelText = (typeof currentLang !== 'undefined' && currentLang === 'vi') 
+    ? "🎲 7 CẶP SỐ ĐÃ QUAY" 
+    : "🎲 7 TICKETS DRAWN";
+  
+  const formattedCost = formatNum(drawsCount * 10000) + ((typeof currentLang !== 'undefined' && currentLang === 'vi') ? 'đ' : ' VND');
+  const ticketCostText = simT('sim_ticket_cost_lbl')
+    .replace('{draws}', formatNum(drawsCount))
+    .replace('{cost}', formattedCost);
+  
+  ticketArea.innerHTML = `
+    <div style="font-weight: 700; color: var(--accent-teal); margin-bottom: 12px; font-size: 1.1rem; text-transform: uppercase;">
+      ${labelText}
+    </div>
+    ${rowsHtml}
+    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 10px; font-weight: 600;">
+      ${ticketCostText}
+    </div>
+  `;
+  
+  if (matchFound && winningTicket) {
+    ticketArea.style.borderColor = 'var(--accent-gold)';
+    setTimeout(() => {
+      ticketArea.style.borderColor = 'var(--accent-teal)';
+    }, 1000);
+  }
+}
+
 function startSimulation() {
   if (!validateInputs()) return;
   
@@ -1523,6 +1633,7 @@ function startSimulation() {
   btnStart.style.display = 'none';
   btnStop.style.display = 'inline-flex';
   btnRand.disabled = true;
+  btnRand7.disabled = true;
   btnReset.disabled = false;
   btnRandInputs.disabled = true;
   inputs.forEach(i => i.disabled = true);
@@ -1547,6 +1658,7 @@ function stopSimulation() {
   btnStart.style.display = 'inline-flex';
   btnStop.style.display = 'none';
   btnRand.disabled = false;
+  btnRand7.disabled = false;
   btnReset.disabled = false;
   btnRandInputs.disabled = false;
   inputs.forEach(i => i.disabled = false);
@@ -1614,6 +1726,7 @@ function applySimLang() {
   btnStart.innerHTML = simT('sim_btn_start');
   btnStop.innerHTML = simT('sim_btn_stop');
   btnRand.innerHTML = simT('sim_btn_rand');
+  btnRand7.innerHTML = simT('sim_btn_rand7');
   btnReset.innerHTML = simT('sim_btn_reset');
   
   document.getElementById('lbl-sim-history').textContent = simT('sim_history_lbl');
@@ -1678,6 +1791,7 @@ if (typeof applyLang === 'function') {
 btnStart.addEventListener('click', startSimulation);
 btnStop.addEventListener('click', stopSimulation);
 btnRand.addEventListener('click', drawOnce);
+btnRand7.addEventListener('click', drawSeven);
 btnReset.addEventListener('click', resetSimulation);
 btnRandInputs.addEventListener('click', randomizeWinningNumbers);
 
