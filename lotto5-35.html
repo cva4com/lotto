@@ -429,7 +429,7 @@ svg.ball-match-pb > text {
             <div class="stat-lbl" id="lbl-stat-draws">Số vé đã thử</div>
           </div>
           <div class="stat-box">
-            <div class="stat-val" id="stat-cost">0đ</div>
+            <div class="stat-val" id="stat-cost">$0.00</div>
             <div class="stat-lbl" id="lbl-stat-cost">Ước tính chi phí</div>
           </div>
           <div class="stat-box">
@@ -1121,6 +1121,7 @@ inputs.forEach((input, index) => {
       }
     }
     validateInputs();
+    updateUrlFromNumbers();
   });
 });
 
@@ -1129,11 +1130,22 @@ inputPb.addEventListener('input', () => {
   if (val > 12) inputPb.value = 12;
   if (val < 1 && inputPb.value !== '') inputPb.value = 1;
   validateInputs();
+  updateUrlFromNumbers();
 });
 
 // Format numbers with commas
 function formatNum(num) {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+// Ticket price & currency conversion (VND → USD)
+const TICKET_PRICE_VND = 10000;  // 10,000 VND per ticket
+const VND_PER_USD = 25000;       // Exchange rate: 1 USD = 25,000 VND
+
+// Format total cost in US Dollars
+function formatCostUSD() {
+  const usd = (drawsCount * TICKET_PRICE_VND) / VND_PER_USD;
+  return '$' + usd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
 function randomizeWinningNumbers() {
@@ -1151,32 +1163,78 @@ function randomizeWinningNumbers() {
   
   inputPb.value = Math.floor(Math.random() * 12) + 1;
   validateInputs();
+  updateUrlFromNumbers();
+}
+
+function getCurrentNumbersFromInputs() {
+  const mainVals = inputs.map(i => parseInt(i.value, 10));
+  const pbVal = parseInt(inputPb.value, 10);
+  
+  if (mainVals.some(isNaN) || isNaN(pbVal)) return null;
+  if (mainVals.some(n => n < 1 || n > 35)) return null;
+  if (pbVal < 1 || pbVal > 12) return null;
+  if (new Set(mainVals).size !== 5) return null;
+  
+  return { main: mainVals.slice().sort((a, b) => a - b), pb: pbVal };
+}
+
+function updateUrlFromNumbers() {
+  const nums = getCurrentNumbersFromInputs();
+  if (!nums) return;
+  
+  // Format: 5 two-digit main numbers concatenated + '|' + 2-digit powerball
+  const numsStr = nums.main.map(n => String(n).padStart(2, '0')).join('') + '|' + String(nums.pb).padStart(2, '0');
+  const params = new URLSearchParams(window.location.search);
+  params.set('nums', numsStr);
+  
+  const newUrl = window.location.pathname + '?' + params.toString();
+  history.replaceState(null, '', newUrl);
 }
 
 function loadWinningNumbersFromUrl() {
-  const urlStr = decodeURIComponent(window.location.href);
-  const match = urlStr.match(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})\|(\d{2})/);
-  if (match) {
-    const m1 = parseInt(match[1], 10);
-    const m2 = parseInt(match[2], 10);
-    const m3 = parseInt(match[3], 10);
-    const m4 = parseInt(match[4], 10);
-    const m5 = parseInt(match[5], 10);
-    const pb = parseInt(match[6], 10);
-    
-    if ([m1, m2, m3, m4, m5].every(n => n >= 1 && n <= 35) && pb >= 1 && pb <= 12) {
-      const unique = new Set([m1, m2, m3, m4, m5]);
-      if (unique.size === 5) {
-        const sorted = [m1, m2, m3, m4, m5].sort((a, b) => a - b);
-        inputs[0].value = sorted[0];
-        inputs[1].value = sorted[1];
-        inputs[2].value = sorted[2];
-        inputs[3].value = sorted[3];
-        inputs[4].value = sorted[4];
-        inputPb.value = pb;
-        validateInputs();
-        return true;
-      }
+  // Try modern query param format: ?nums=0105122235|07
+  const params = new URLSearchParams(window.location.search);
+  const numsParam = params.get('nums');
+  const urlMatch = numsParam !== null
+    ? numsParam.match(/^(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})\|(\d{2})$/)
+    : null;
+  
+  let m1, m2, m3, m4, m5, pb;
+  
+  if (urlMatch) {
+    m1 = parseInt(urlMatch[1], 10);
+    m2 = parseInt(urlMatch[2], 10);
+    m3 = parseInt(urlMatch[3], 10);
+    m4 = parseInt(urlMatch[4], 10);
+    m5 = parseInt(urlMatch[5], 10);
+    pb = parseInt(urlMatch[6], 10);
+  } else {
+    // Fallback: legacy format embedded in URL (e.g. ...#0105122235|07)
+    const urlStr = decodeURIComponent(window.location.href);
+    const legacyMatch = urlStr.match(/(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})\|(\d{2})/);
+    if (!legacyMatch) return false;
+    m1 = parseInt(legacyMatch[1], 10);
+    m2 = parseInt(legacyMatch[2], 10);
+    m3 = parseInt(legacyMatch[3], 10);
+    m4 = parseInt(legacyMatch[4], 10);
+    m5 = parseInt(legacyMatch[5], 10);
+    pb = parseInt(legacyMatch[6], 10);
+  }
+  
+  if ([m1, m2, m3, m4, m5].every(n => n >= 1 && n <= 35) && pb >= 1 && pb <= 12) {
+    const unique = new Set([m1, m2, m3, m4, m5]);
+    if (unique.size === 5) {
+      const sorted = [m1, m2, m3, m4, m5].sort((a, b) => a - b);
+      inputs[0].value = sorted[0];
+      inputs[1].value = sorted[1];
+      inputs[2].value = sorted[2];
+      inputs[3].value = sorted[3];
+      inputs[4].value = sorted[4];
+      inputPb.value = pb;
+      validateInputs();
+      // Normalize URL to clean query param format
+      updateUrlFromNumbers();
+      return true;
     }
   }
   return false;
@@ -1262,8 +1320,7 @@ function drawOneOptimized() {
 
 function updateStatsUI() {
   statDraws.textContent = formatNum(drawsCount);
-  const currencySymbol = (typeof currentLang !== 'undefined' && currentLang === 'vi') ? 'đ' : ' VND';
-  statCost.textContent = formatNum(drawsCount * 10000) + currencySymbol;
+  statCost.textContent = formatCostUSD();
   
   const now = performance.now();
   if (startTime > 0) {
@@ -1367,11 +1424,11 @@ function renderMatchingTicket(result) {
   const pbStatusText = pbMatched ? simT('sim_ticket_pb_match') : simT('sim_ticket_pb_no');
   const pbLabelText = simT('sim_ticket_pb_lbl').replace('{status}', pbStatusText);
   
-  const formattedCost = formatNum(drawsCount * 10000) + ((typeof currentLang !== 'undefined' && currentLang === 'vi') ? 'đ' : ' VND');
+  const formattedCost = formatCostUSD();
   const ticketCostText = simT('sim_ticket_cost_lbl')
     .replace('{draws}', formatNum(drawsCount))
     .replace('{cost}', formattedCost);
-  
+
   ticketArea.innerHTML = `
     <div style="font-weight: 700; color: var(--accent-teal); margin-bottom: 12px; font-size: 1.1rem; text-transform: uppercase;">
       ${labelText}
@@ -1410,11 +1467,11 @@ function renderLiveTicket(result) {
   const pbStatusText = pbMatched ? simT('sim_ticket_pb_match') : simT('sim_ticket_pb_no');
   const pbLabelText = simT('sim_ticket_pb_lbl').replace('{status}', pbStatusText);
   
-  const formattedCost = formatNum(drawsCount * 10000) + ((typeof currentLang !== 'undefined' && currentLang === 'vi') ? 'đ' : ' VND');
+  const formattedCost = formatCostUSD();
   const ticketCostText = simT('sim_ticket_cost_lbl')
     .replace('{draws}', formatNum(drawsCount))
     .replace('{cost}', formattedCost);
-  
+
   ticketArea.innerHTML = `
     <div style="font-weight: 700; color: var(--accent-gold); margin-bottom: 12px; font-size: 1.1rem; text-transform: uppercase;">
       ${labelText}
@@ -1602,7 +1659,7 @@ function drawSeven() {
     ? "🎲 7 CẶP SỐ ĐÃ QUAY" 
     : "🎲 7 TICKETS DRAWN";
   
-  const formattedCost = formatNum(drawsCount * 10000) + ((typeof currentLang !== 'undefined' && currentLang === 'vi') ? 'đ' : ' VND');
+  const formattedCost = formatCostUSD();
   const ticketCostText = simT('sim_ticket_cost_lbl')
     .replace('{draws}', formatNum(drawsCount))
     .replace('{cost}', formattedCost);
