@@ -1600,11 +1600,42 @@ function drawSeven() {
   let matchFound = false;
   let winningTicket = null;
   
+  // Per group: shuffle the full pool once, deal numbers draw-by-draw like lotto.js
+  const shufflePool = (min, max) => {
+    const p = [];
+    for (let n = min; n <= max; n++) p.push(n);
+    for (let i = p.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [p[i], p[j]] = [p[j], p[i]];
+    }
+    return p;
+  };
+  
+  let mainPool = shufflePool(1, 35);
+  let pbPool = shufflePool(1, 12);
+  
   for (let i = 0; i < 7; i++) {
     drawsCount++;
-    const result = drawOneOptimized();
-    results.push(result);
     
+    if (mainPool.length < 5) mainPool = mainPool.concat(shufflePool(1, 35));
+    if (pbPool.length < 1) pbPool = pbPool.concat(shufflePool(1, 12));
+    
+    const numbers = mainPool.splice(0, 5).sort((a, b) => a - b);
+    const pb = pbPool.splice(0, 1)[0];
+    
+    let matchCount = 0;
+    for (let k = 0; k < 5; k++) {
+      if (winLookup[numbers[k]]) matchCount++;
+    }
+    
+    const result = {
+      numbers: numbers,
+      pb: pb,
+      matchCount: matchCount,
+      pbMatched: (pb === winPb)
+    };
+    
+    results.push(result);
     recordDrawStats(result);
     addHistoryLog(drawsCount, result);
     
@@ -1635,20 +1666,14 @@ function drawSeven() {
     const pbBallHtml = BaseLottery.renderBall(result.pb, orangePalette).replace('class="ball-svg"', `class="ball-svg${pbExtraClass}"`);
     
     const isWinning = (winningTicket && result === winningTicket);
-    const rowStyle = isWinning ? 'background: rgba(0, 229, 204, 0.08); border: 1px solid var(--accent-gold); border-radius: 8px; padding: 10px;' : '';
-    
-    const mainLabelText = simT('sim_ticket_main_lbl').replace('{count}', result.matchCount);
-    const pbStatusText = pbMatched ? simT('sim_ticket_pb_match') : simT('sim_ticket_pb_no');
-    const pbLabelText = simT('sim_ticket_pb_lbl').replace('{status}', pbStatusText);
+    const rowStyle = isWinning ? 'background: rgba(0, 229, 204, 0.08); border: 1px solid var(--accent-gold); border-radius: 6px; padding: 2px 6px;' : '';
     
     return `
-      <div class="draw-result"${rowStyle ? ' style="' + rowStyle + '"' : ''}>
-        <div class="ball-group">
-          <div class="ball-group-label">${mainLabelText}</div>
+      <div class="draw-result" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 2px; ${rowStyle}">
+        <div class="ball-group" style="margin: 0;">
           <div class="ball-row">${mainBallsHtml}</div>
         </div>
-        <div class="ball-group">
-          <div class="ball-group-label">${pbLabelText}</div>
+        <div class="ball-group" style="margin: 0;">
           <div class="ball-row">${pbBallHtml}</div>
         </div>
       </div>
