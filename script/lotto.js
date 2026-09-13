@@ -484,7 +484,7 @@ const LOTTERIES = [
     groups: [{ labelKey: 'g_main', min: 1, max: 45, count: 6, palette: PAL.red }]
   }),
   new BaseLottery({
-    id: 'vn_6_55', nameKey: 'l_vn_6_55', country: '🇻🇳', subKey: 'l_vn_sub', drawCount: 9,
+    id: 'vn_6_55', nameKey: 'l_vn_6_55', country: '🇻🇳', subKey: 'l_vn_sub', drawCount: 9, link: 'lotto6-55.html',
     groups: [{ labelKey: 'g_main', min: 1, max: 55, count: 6, palette: PAL.blue }]
   }),
   new BaseLottery({
