@@ -707,6 +707,62 @@ const SIM_I18N = {
     sim_h_title: '🎰 Lotto 6/45 Gewinnsimulator',
     sim_h_sub: 'Simuliert fortlaufende Ziehungen, bis die Gewinnbedingung erfüllt ist'
   },
+  ru: {
+    sim_title: '<span>🎯</span> Реальные выигрышные номера',
+    sim_input_lbl: 'Введите 6 основных номеров (1 - 45)',
+    sim_stop_lbl: 'Выберите условие остановки',
+    sim_stop_opt3: 'Угадать как минимум 3 основных номера (Третий приз)',
+    sim_stop_opt4: 'Угадать как минимум 4 основных номера (Второй приз)',
+    sim_stop_opt5: 'Угадать как минимум 5 основных номеров (Первый приз)',
+    sim_stop_opt6: 'Угадать все 6 основных номеров (Джекпот)',
+    sim_speed_lbl: 'Скорость симуляции',
+    sim_speed_normal: 'Обычная (60 билетов/сек)',
+    sim_speed_fast: 'Быстрая (6 000 билетов/сек)',
+    sim_speed_super: 'Супер скорость (30 000 билетов/сек)',
+    sim_speed_god: 'Режим бога (90 000 билетов/сек)',
+    sim_speed_max: 'Максимальная (300 000 билетов/сек)',
+    sim_btn_start: '▶ Старт',
+    sim_btn_stop: '⏸ Пауза',
+    sim_btn_rand: '🎲 Вытянуть 1 билет',
+    sim_btn_rand7: '🎲 Вытянуть 7 билетов',
+    sim_btn_reset: '🔄 Сброс',
+    sim_history_lbl: 'Журнал сгенерированных номеров',
+    sim_hist_mode_matched: 'Только совпавшие',
+    sim_hist_mode_all: 'Показать все номера',
+    sim_history_placeholder: 'Сгенерированные номера появятся здесь...',
+    sim_stats_title: '<span>📊</span> Статистика симуляции',
+    sim_stat_draws: 'Проверено билетов',
+    sim_stat_cost: 'Оценочная стоимость',
+    sim_stat_speed: 'Фактическая скорость',
+    sim_stat_time: 'Прошедшее время',
+    sim_prize_lbl: 'Призы, выигранные во время симуляции',
+    sim_tbl_prize: 'Приз',
+    sim_tbl_req: 'Условие',
+    sim_tbl_count: 'Количество',
+    sim_tbl_rate: 'Частота',
+    sim_p_m3: 'Третий приз',
+    sim_p_m3_req: 'Угадано 3 основных номера',
+    sim_p_m4: 'Второй приз',
+    sim_p_m4_req: 'Угадано 4 основных номера',
+    sim_p_m5: 'Первый приз',
+    sim_p_m5_req: 'Угадано 5 основных номеров',
+    sim_p_m6: 'Джекпот',
+    sim_p_m6_req: 'Угадано 6 основных номеров',
+    sim_placeholder: 'Билет с совпадением появится здесь...',
+    sim_validate_range: 'Основные номера должны быть от 1 до 45.',
+    sim_validate_empty: 'Пожалуйста, введите все 6 основных номеров.',
+    sim_validate_dup: 'Основные номера не должны повторяться.',
+    sim_ticket_main_lbl: 'Основные номера (Совпало {count}/6)',
+    sim_ticket_cost_lbl: 'Билет #{draws} | Общие затраты: {cost}',
+    sim_ticket_remaining_lbl: 'Оставшиеся номера',
+    sim_ticket_drawn7_title: '🎲 Вытянуто 7 билетов',
+    sim_ticket_drawing_live: '⚡ Розыгрыш номеров...',
+    sim_btn_rand_inputs_title: 'Случайные выигрышные номера',
+    sim_ticket_matched_suffix: 'СОВПАЛО!',
+    sim_log_match: ' (Совпало номеров: {count})',
+    sim_h_title: '🎰 Симулятор выигрыша Lotto 6/45',
+    sim_h_sub: 'Непрерывная симуляция тиражей до выполнения условий выигрыша'
+  },
   ja: {
     sim_title: '<span>🎯</span> 実際の当選番号',
     sim_input_lbl: '本数字6個（1～45）を入力してください',
@@ -934,7 +990,7 @@ const SIM_I18N = {
 };
 
 function simT(key) {
-  return SIM_I18N[currentLang][key] || SIM_I18N['en'][key] || key;
+  return (SIM_I18N[currentLang] && SIM_I18N[currentLang][key]) || SIM_I18N['en'][key] || key;
 }
 
 // Inputs (6 main numbers, no Powerball)

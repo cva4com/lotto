@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta property="og:title" content="🇷🇺 Russia Lottery Generator"/>
+<meta property="og:description" content="Generate winning numbers for Gosloto 5/36 (Спортлото «5 из 36») in Russia. Entertainment purposes only."/>
+<meta property="og:image" content="https://cva4.com/lotto/images/banner.jpg"/>
+<meta property="og:url" content="https://cva4.com/lotto/russia.html"/>
+<meta property="og:type" content="website"/>
+<meta name="description" content="Gosloto 5/36 (Спортлото «5 из 36») - Generate winning numbers for lotteries in Russia"/>
+<title>🇷🇺 Russia Lottery Generator</title>
+<link rel="stylesheet" href="style/lotto.css"/>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0SM6SYKD3T"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-0SM6SYKD3T');
+</script>
+</head>
+<body data-theme="light">
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="hamburger" id="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></div>
+    <div class="lang-pills" id="lang-pills"></div>
+  </div>
+  <div class="follow-us">
+    <div class="theme-toggle">
+      <span class="icon" id="icon-dark">🌙</span>
+      <div class="toggle-track" onclick="toggleTheme()"><div class="toggle-knob"></div></div>
+      <span class="icon active" id="icon-light">☀️</span>
+    </div>
+    <span class="follow-label sr-only">Follow us:</span>
+    <a class="social-link fb" href="https://www.facebook.com/LottoLuckyNumber/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M22 12.07C22 6.48 17.52 2 11.93 2 6.34 2 2 6.48 2 12.07 2 17.09 5.66 21.19 10.44 22v-7.01H8.08V12.1h2.36V9.79c0-2.33 1.39-3.61 3.52-3.61 1.02 0 2.09.18 2.09.18v2.3h-1.18c-1.16 0-1.52.72-1.52 1.46v1.75h2.59l-.41 2.89h-2.18V22C18.34 21.19 22 17.09 22 12.07z" fill="currentColor"/></svg>
+    </a>
+    <a class="social-link yt" href="https://www.youtube.com/@CV_A4" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+      <svg width="20" height="14" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M23.5 2.2s-.2-1.6-.8-2.3C21.8-.5 20.9-.5 20.4-.6 17.8-.9 12-.9 12-.9s-5.8 0-8.4.1C3.1-.4 2.2-.5 1.3-.1.7.3.5 1.5.5 1.5S0 4.1 0 6.8v2.5C0 11.9.5 14.5.5 14.5s.2 1.2.8 1.6c.9.4 2.1.3 2.6.4 1.9.1 8.1.1 8.1.1s5.8 0 8.4-.1c.5 0 1.4 0 1.9-.4.6-.4.8-1.6.8-1.6S24 11.9 24 9.2V6.8c0-2.7-.5-5-0.5-5.6zM9.8 11.1V4.8l6.2 3.1-6.2 3.2z" fill="currentColor"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header" id="sb-header"></div>
+    <div id="sb-body"></div>
+  </aside>
+  <div class="sb-overlay" id="sb-overlay" onclick="toggleSidebar()"></div>
+  <div class="main">
+    <div class="content-header"><h1 id="h-title"></h1><p id="h-sub"></p></div>
+    <div class="action-bar"><button id="btn-all">🎰</button></div>
+    <div id="lottery-grid"></div>
+    <footer id="footer-text"></footer>
+  </div>
+</div>
+
+<script>
+// Russia-only configuration
+const RUSSIA_MODE = true;
+const RU_IDS = ['ru_5_36'];
+</script>
+<script src="script/lotto.js"></script>
+<script>
+// Override initialization for Russia-only view
+function renderRussiaView() {
+  if (typeof t === 'function') {
+    document.getElementById('h-title').textContent = t('ui_title_ru');
+    document.getElementById('h-sub').textContent = t('ui_sub_ru');
+  } else {
+    document.getElementById('h-title').textContent = '🇷🇺 Russia Lottery Generator';
+    document.getElementById('h-sub').textContent = 'Generate winning numbers for lotteries in Russia';
+  }
+
+  // Render only Russian lotteries
+  if (RUSSIA_MODE) {
+    document.getElementById('lottery-grid').innerHTML = LOTTERIES
+      .filter(l => RU_IDS.includes(l.id))
+      .map(l => l.renderCard(null))
+      .join('');
+    document.querySelectorAll('.card').forEach((c, i) => {
+      c.style.animationDelay = (i * 0.03) + 's';
+    });
+  }
+}
+
+// Hook into lotto.js applyLang to keep Russia view and language updated
+const originalApplyLang = window.applyLang;
+if (typeof originalApplyLang === 'function') {
+  window.applyLang = function() {
+    originalApplyLang();
+    renderRussiaView();
+  };
+}
+
+renderRussiaView();
+</script>
+</body>
+</html>
