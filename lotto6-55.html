@@ -1101,6 +1101,113 @@ let countM6 = 0;
 
 let lastTicketRenderState = null;
 
+// Sound Effects
+const SFX = {
+  rand: 'audio/floraphonic-level-up-bonus-sequence-1-186890.mp3',
+  rand7: 'audio/floraphonic-level-up-bonus-sequence-2-186891.mp3',
+  reset: 'audio/chisper-stage-clear-638332.mp3',
+  spin: [
+    'audio/arcade-casino-gambling-gaming-machine-sound-effect-232000701.mp3',
+    'audio/casino-slot-machine-jackpot-3-sound-effect-197477333.mp3',
+    'audio/custom-slot-machine-spin-loop-sound-effect-241518953.mp3'
+  ],
+  winHighest: 'audio/floraphonic-you-win-sequence-3-183950.mp3',
+  winSecond: 'audio/floraphonic-you-win-sequence-2-183949.mp3',
+  winOther: 'audio/floraphonic-you-win-sequence-1-183948.mp3'
+};
+
+// Preload audio files
+[
+  SFX.rand,
+  SFX.rand7,
+  SFX.reset,
+  ...SFX.spin,
+  SFX.winHighest,
+  SFX.winSecond,
+  SFX.winOther
+].forEach(src => {
+  const a = new Audio();
+  a.src = src;
+  a.preload = 'auto';
+});
+
+let currentSpinAudio = null;
+let currentActionAudio = null;
+let isSpinAudioActive = false;
+
+function stopAudio(audioEl) {
+  if (!audioEl) return;
+  audioEl.onended = null;
+  try {
+    audioEl.pause();
+    audioEl.currentTime = 0;
+  } catch (e) {}
+}
+
+function stopSpinAudio() {
+  isSpinAudioActive = false;
+  if (currentSpinAudio) {
+    stopAudio(currentSpinAudio);
+    currentSpinAudio = null;
+  }
+}
+
+function stopActionAudio() {
+  if (currentActionAudio) {
+    stopAudio(currentActionAudio);
+    currentActionAudio = null;
+  }
+}
+
+function playActionSound(src) {
+  stopActionAudio();
+  const audio = new Audio(src);
+  currentActionAudio = audio;
+  const p = audio.play();
+  if (p !== undefined) {
+    p.catch(err => {
+      console.warn('Action audio play error:', err);
+    });
+  }
+  return audio;
+}
+
+function startSpinAudio() {
+  stopSpinAudio();
+  stopActionAudio();
+  isSpinAudioActive = true;
+
+  function playNext() {
+    if (!isSpinAudioActive) return;
+    const chosen = SFX.spin[Math.floor(Math.random() * SFX.spin.length)];
+    const audio = new Audio(chosen);
+    currentSpinAudio = audio;
+    audio.onended = () => {
+      if (isSpinAudioActive) {
+        playNext();
+      }
+    };
+    const p = audio.play();
+    if (p !== undefined) {
+      p.catch(err => {
+        console.warn('Spin audio play error:', err);
+      });
+    }
+  }
+
+  playNext();
+}
+
+function playWinSound(result) {
+  if (result.matchCount === 6) {
+    playActionSound(SFX.winHighest);
+  } else if (result.matchCount === 5 && result.bonusMatched) {
+    playActionSound(SFX.winSecond);
+  } else {
+    playActionSound(SFX.winOther);
+  }
+}
+
 // Winning number array
 let winMain = [];
 let winBonus = 0;
@@ -1542,6 +1649,7 @@ function simulationLoop() {
     setTimeout(() => {
       ticketArea.style.borderColor = 'var(--accent-teal)';
     }, 1000);
+    playWinSound(winningTicket);
   } else {
     if (lastResult) {
       renderLiveTicket(lastResult);
@@ -1554,6 +1662,8 @@ function simulationLoop() {
 function drawOnce() {
   if (isRunning) return;
   if (!validateInputs()) return;
+  
+  playActionSound(SFX.rand);
   
   drawsCount++;
   const result = drawOneOptimized();
@@ -1578,6 +1688,8 @@ function drawOnce() {
 function drawNine() {
   if (isRunning) return;
   if (!validateInputs()) return;
+  
+  playActionSound(SFX.rand7);
   
   const stopVal = selectStop.value;
   const results = [];
@@ -1696,6 +1808,7 @@ function startSimulation() {
   if (!validateInputs()) return;
   
   isRunning = true;
+  startSpinAudio();
   ticketArea.classList.add('running');
   btnStart.style.display = 'none';
   btnStop.style.display = 'inline-flex';
@@ -1720,6 +1833,7 @@ function startSimulation() {
 }
 
 function stopSimulation() {
+  stopSpinAudio();
   isRunning = false;
   ticketArea.classList.remove('running');
   btnStart.style.display = 'inline-flex';
@@ -1743,6 +1857,7 @@ function stopSimulation() {
 
 function resetSimulation() {
   stopSimulation();
+  playActionSound(SFX.reset);
   drawsCount = 0;
   startTime = 0;
   elapsedSeconds = 0;
