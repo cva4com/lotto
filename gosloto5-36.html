@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta property="og:title" content="🎰 Lotto 5/35 Simulator & Analyzer"/>
-<meta property="og:description" content="Simulate continuous 5/35 Lotto draws until you win. Experience the real odds of winning."/>
+<meta property="og:title" content="🎰 Gosloto 5/36 (Спортлото «5 из 36») Simulator & Analyzer"/>
+<meta property="og:description" content="Gosloto 5/36 is a popular lottery game in Russia where players select 5 numbers from a pool of 36, plus an additional 1 number from a separate pool of 4. Simulate continuous draws until you win."/>
 <meta property="og:image" content="https://cva4.com/lotto/images/banner.jpg"/>
-<meta property="og:url" content="https://cva4.com/lotto/lotto5-35.html"/>
+<meta property="og:url" content="https://cva4.com/lotto/gosloto5-36.html"/>
 <meta property="og:type" content="website"/>
-<meta name="description" content="Simulate continuous 5/35 Lotto draws until a win occurs."/>
-<title>🎰 Lotto 5/35 Simulator</title>
+<meta name="description" content="Gosloto 5/36 (Спортлото «5 из 36») - simulate continuous draws: 5 numbers from 36 plus 1 extra number from 4."/>
+<title>🎰 Gosloto 5/36 Simulator</title>
 <link rel="stylesheet" href="style/lotto.css"/>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-0SM6SYKD3T"></script>
@@ -306,6 +306,25 @@ svg.ball-match-pb > text {
   min-height: 1.2em;
   font-weight: 600;
 }
+.site-logo {
+  display: inline-flex;
+  align-items: center;
+}
+.site-logo img {
+  height: 32px;
+  width: auto;
+  display: block;
+}
+[data-theme="dark"] .site-logo img {
+  filter: invert(1);
+}
+.h-desc {
+  max-width: 820px;
+  margin: 8px auto 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
 </style>
 </head>
 <body data-theme="light">
@@ -314,6 +333,7 @@ svg.ball-match-pb > text {
 <div class="top-bar">
   <div style="display:flex;align-items:center;gap:12px">
     <div class="hamburger" id="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></div>
+    <a class="site-logo" href="russia.html" title="Russia" aria-label="Back to Russia lotteries"><img src="images/stoloto.svg" alt="Stoloto"/></a>
     <div class="lang-pills" id="lang-pills"></div>
   </div>
   <div class="follow-us">
@@ -347,8 +367,9 @@ svg.ball-match-pb > text {
   
   <div class="main" style="width:100%;">
     <div class="content-header">
-      <h1 id="h-title">🎰 Lotto 5/35 Simulator</h1>
+      <h1 id="h-title">🎰 Gosloto 5/36 Win Simulator</h1>
       <p id="h-sub">Simulate drawing numbers continuously until winning condition is met</p>
+      <p id="h-desc" class="h-desc">Gosloto 5/36 is a popular lottery game in Russia where players select 5 numbers from a pool of 36, plus an additional 1 number from a separate pool of 4. To win the jackpot, a player must match all 5 main numbers as well as the extra number.</p>
     </div>
     
     <!-- Simulation grid -->
@@ -360,16 +381,16 @@ svg.ball-match-pb > text {
           <span>🎯</span> Real Winning Numbers
         </div>
         
-        <div class="control-label" id="lbl-sim-input">Enter 5 main numbers (1 - 35) & 1 Powerball (1 - 12)</div>
+        <div class="control-label" id="lbl-sim-input">Enter 5 main numbers (1 - 36) & 1 extra number (1 - 4)</div>
         <div class="input-row">
-          <input type="number" min="1" max="35" class="num-input main-input" placeholder="-" id="in-m1">
-          <input type="number" min="1" max="35" class="num-input main-input" placeholder="-" id="in-m2">
-          <input type="number" min="1" max="35" class="num-input main-input" placeholder="-" id="in-m3">
-          <input type="number" min="1" max="35" class="num-input main-input" placeholder="-" id="in-m4">
-          <input type="number" min="1" max="35" class="num-input main-input" placeholder="-" id="in-m5">
+          <input type="number" min="1" max="36" class="num-input main-input" placeholder="-" id="in-m1">
+          <input type="number" min="1" max="36" class="num-input main-input" placeholder="-" id="in-m2">
+          <input type="number" min="1" max="36" class="num-input main-input" placeholder="-" id="in-m3">
+          <input type="number" min="1" max="36" class="num-input main-input" placeholder="-" id="in-m4">
+          <input type="number" min="1" max="36" class="num-input main-input" placeholder="-" id="in-m5">
           <span style="font-weight: 700; color: var(--accent-gold); font-size: 1.5rem; margin: 0 2px;">+</span>
-          <input type="number" min="1" max="12" class="num-input pb-input" placeholder="-" id="in-pb">
-          <button class="btn-rand-inputs" id="btn-rand-inputs" title="Random kết quả trúng">🎲</button>
+          <input type="number" min="1" max="4" class="num-input pb-input" placeholder="-" id="in-pb">
+          <button class="btn-rand-inputs" id="btn-rand-inputs" title="Randomize winning numbers">🎲</button>
         </div>
         <div id="validation-msg" class="validation-error"></div>
         
@@ -378,11 +399,11 @@ svg.ball-match-pb > text {
           <select class="sim-select" id="stop-condition">
             <option value="match_2">Match at least 2 main numbers</option>
             <option value="match_3" selected>Match at least 3 main numbers</option>
-            <option value="match_3_pb">Match 3 main + 1 Powerball</option>
+            <option value="match_3_pb">Match 3 main + 1 extra number</option>
             <option value="match_4">Match at least 4 main numbers</option>
-            <option value="match_4_pb">Match 4 main + 1 Powerball</option>
+            <option value="match_4_pb">Match 4 main + 1 extra number</option>
             <option value="match_5">Match all 5 main numbers (Jackpot 2)</option>
-            <option value="match_5_pb">Match 5 main + 1 Powerball (Jackpot 1)</option>
+            <option value="match_5_pb">Match 5 main + 1 extra number (Jackpot 1)</option>
           </select>
         </div>
         
@@ -472,8 +493,8 @@ svg.ball-match-pb > text {
               <td id="p-m3-pct">0%</td>
             </tr>
             <tr>
-              <td>Second Prize + PB</td>
-              <td>Match 3 main + 1 PB</td>
+              <td>Second Prize + Extra</td>
+              <td>Match 3 main + 1 extra</td>
               <td class="prize-count" id="p-m3pb">0</td>
               <td id="p-m3pb-pct">0%</td>
             </tr>
@@ -484,8 +505,8 @@ svg.ball-match-pb > text {
               <td id="p-m4-pct">0%</td>
             </tr>
             <tr>
-              <td>First Prize + PB</td>
-              <td>Match 4 main + 1 PB</td>
+              <td>First Prize + Extra</td>
+              <td>Match 4 main + 1 extra</td>
               <td class="prize-count" id="p-m4pb">0</td>
               <td id="p-m4pb-pct">0%</td>
             </tr>
@@ -497,7 +518,7 @@ svg.ball-match-pb > text {
             </tr>
             <tr>
               <td>Jackpot 1</td>
-              <td>Match 5 main + 1 PB</td>
+              <td>Match 5 main + 1 extra</td>
               <td class="prize-count" id="p-m5pb">0</td>
               <td id="p-m5pb-pct">0%</td>
             </tr>
@@ -517,19 +538,25 @@ const VIETNAM_MODE = false;
 <script src="script/lotto.js"></script>
 
 <script>
+// ===== Game configuration: edit here =====
+const MAX_MAIN = 36;   // main numbers: 1..MAX_MAIN
+const MAX_EXTRA = 4;   // extra number: 1..MAX_EXTRA
+// ==========================================
+
 // Multi-language dictionary for simulation page
+// {max_main} / {max_extra} are replaced by MAX_MAIN / MAX_EXTRA in simT()
 const SIM_I18N = {
   en: {
     sim_title: '<span>🎯</span> Real Winning Numbers',
-    sim_input_lbl: 'Enter 5 main numbers (1 - 35) & 1 Powerball (1 - 12)',
+    sim_input_lbl: 'Enter 5 main numbers (1 - {max_main}) & 1 extra number (1 - {max_extra})',
     sim_stop_lbl: 'Select Stop Condition',
     sim_stop_opt2: 'Match at least 2 main numbers',
     sim_stop_opt3: 'Match at least 3 main numbers',
-    sim_stop_opt3pb: 'Match 3 main + 1 Powerball',
+    sim_stop_opt3pb: 'Match 3 main + 1 extra number',
     sim_stop_opt4: 'Match at least 4 main numbers',
-    sim_stop_opt4pb: 'Match 4 main + 1 Powerball',
+    sim_stop_opt4pb: 'Match 4 main + 1 extra number',
     sim_stop_opt5: 'Match all 5 main numbers (Jackpot 2)',
-    sim_stop_opt5pb: 'Match 5 main + 1 Powerball (Jackpot 1)',
+    sim_stop_opt5pb: 'Match 5 main + 1 extra number (Jackpot 1)',
     sim_speed_lbl: 'Simulation Speed',
     sim_speed_normal: 'Normal (60 tickets / sec)',
     sim_speed_fast: 'Fast (6,000 tickets / sec)',
@@ -559,23 +586,23 @@ const SIM_I18N = {
     sim_p_m2_req: 'Match 2 main numbers',
     sim_p_m3: 'Second Prize',
     sim_p_m3_req: 'Match 3 main numbers',
-    sim_p_m3pb: 'Second Prize + PB',
-    sim_p_m3pb_req: 'Match 3 main + 1 PB',
+    sim_p_m3pb: 'Second Prize + Extra',
+    sim_p_m3pb_req: 'Match 3 main + 1 Extra',
     sim_p_m4: 'First Prize',
     sim_p_m4_req: 'Match 4 main numbers',
-    sim_p_m4pb: 'First Prize + PB',
-    sim_p_m4pb_req: 'Match 4 main + 1 PB',
+    sim_p_m4pb: 'First Prize + Extra',
+    sim_p_m4pb_req: 'Match 4 main + 1 Extra',
     sim_p_m5: 'Jackpot 2',
     sim_p_m5_req: 'Match 5 main numbers',
     sim_p_m5pb: 'Jackpot 1',
-    sim_p_m5pb_req: 'Match 5 main + 1 PB',
+    sim_p_m5pb_req: 'Match 5 main + 1 Extra',
     sim_placeholder: 'Matching ticket will appear here...',
-    sim_validate_range: 'Main numbers must be between 1 and 35.',
-    sim_validate_pb: 'Powerball must be between 1 and 12.',
-    sim_validate_empty: 'Please enter all main numbers and Powerball.',
+    sim_validate_range: 'Main numbers must be between 1 and {max_main}.',
+    sim_validate_pb: 'Extra number must be between 1 and {max_extra}.',
+    sim_validate_empty: 'Please enter all main numbers and the extra number.',
     sim_validate_dup: 'Main numbers cannot be duplicated.',
     sim_ticket_main_lbl: 'Main Numbers (Matched {count}/5)',
-    sim_ticket_pb_lbl: 'Powerball ({status})',
+    sim_ticket_pb_lbl: 'Extra Number ({status})',
     sim_ticket_pb_match: 'Matched',
     sim_ticket_pb_no: 'No match',
     sim_ticket_cost_lbl: 'Ticket #{draws} | Total Cost: {cost}',
@@ -585,21 +612,22 @@ const SIM_I18N = {
     sim_ticket_drawing_live: '⚡ Drawing Numbers...',
     sim_ticket_matched_suffix: 'MATCHED!',
     sim_log_match: ' (Matched {count} numbers)',
-    sim_log_match_pb: ' (Matched {count} numbers + PB)',
-    sim_h_title: '🎰 Lotto 5/35 Win Simulator',
-    sim_h_sub: 'Simulate drawing numbers continuously until winning condition is met'
+    sim_log_match_pb: ' (Matched {count} numbers + Extra)',
+    sim_h_title: '🎰 Gosloto 5/36 Win Simulator',
+    sim_h_sub: 'Simulate drawing numbers continuously until winning condition is met',
+    sim_h_desc: 'Gosloto 5/36 is a popular lottery game in Russia where players select 5 numbers from a pool of 36, plus an additional 1 number from a separate pool of 4. To win the jackpot, a player must match all 5 main numbers as well as the extra number.'
   },
   fr: {
     sim_title: '<span>🎯</span> Numéros gagnants réels',
-    sim_input_lbl: 'Saisissez 5 numéros principaux (1 - 35) et 1 Powerball (1 - 12)',
+    sim_input_lbl: 'Saisissez 5 numéros principaux (1 - {max_main}) et 1 numéro supplémentaire (1 - {max_extra})',
     sim_stop_lbl: 'Sélectionnez la condition d\'arrêt',
     sim_stop_opt2: 'Correspond à au moins 2 numéros principaux',
     sim_stop_opt3: 'Correspond à au moins 3 numéros principaux',
-    sim_stop_opt3pb: 'Correspond à 3 numéros principaux + 1 Powerball',
+    sim_stop_opt3pb: 'Correspond à 3 numéros principaux + 1 numéro supplémentaire',
     sim_stop_opt4: 'Correspond à au moins 4 numéros principaux',
-    sim_stop_opt4pb: 'Correspond à 4 numéros principaux + 1 Powerball',
+    sim_stop_opt4pb: 'Correspond à 4 numéros principaux + 1 numéro supplémentaire',
     sim_stop_opt5: 'Correspond aux 5 numéros principaux (Jackpot 2)',
-    sim_stop_opt5pb: 'Correspond à 5 numéros principaux + 1 Powerball (Jackpot 1)',
+    sim_stop_opt5pb: 'Correspond à 5 numéros principaux + 1 numéro supplémentaire (Jackpot 1)',
     sim_speed_lbl: 'Vitesse de simulation',
     sim_speed_normal: 'Normale (60 billets / s)',
     sim_speed_fast: 'Rapide (6 000 billets / s)',
@@ -629,23 +657,23 @@ const SIM_I18N = {
     sim_p_m2_req: 'Correspond à 2 numéros principaux',
     sim_p_m3: 'Deuxième prix',
     sim_p_m3_req: 'Correspond à 3 numéros principaux',
-    sim_p_m3pb: 'Deuxième prix + PB',
-    sim_p_m3pb_req: 'Correspond à 3 numéros principaux + 1 PB',
+    sim_p_m3pb: 'Deuxième prix + Supp.',
+    sim_p_m3pb_req: 'Correspond à 3 numéros principaux + 1 Supp.',
     sim_p_m4: 'Premier prix',
     sim_p_m4_req: 'Correspond à 4 numéros principaux',
-    sim_p_m4pb: 'Premier prix + PB',
-    sim_p_m4pb_req: 'Correspond à 4 numéros principaux + 1 PB',
+    sim_p_m4pb: 'Premier prix + Supp.',
+    sim_p_m4pb_req: 'Correspond à 4 numéros principaux + 1 Supp.',
     sim_p_m5: 'Jackpot 2',
     sim_p_m5_req: 'Correspond aux 5 numéros principaux',
     sim_p_m5pb: 'Jackpot 1',
-    sim_p_m5pb_req: 'Correspond à 5 numéros principaux + 1 PB',
+    sim_p_m5pb_req: 'Correspond à 5 numéros principaux + 1 Supp.',
     sim_placeholder: 'Le billet gagnant apparaîtra ici...',
-    sim_validate_range: 'Les numéros principaux doivent être compris entre 1 et 35.',
-    sim_validate_pb: 'Le Powerball doit être compris entre 1 et 12.',
-    sim_validate_empty: 'Veuillez saisir tous les numéros principaux et le Powerball.',
+    sim_validate_range: 'Les numéros principaux doivent être compris entre 1 et {max_main}.',
+    sim_validate_pb: 'Le numéro supplémentaire doit être compris entre 1 et {max_extra}.',
+    sim_validate_empty: 'Veuillez saisir tous les numéros principaux et le numéro supplémentaire.',
     sim_validate_dup: 'Les numéros principaux ne peuvent pas être dupliqués.',
     sim_ticket_main_lbl: 'Numéros principaux (Correspondance {count}/5)',
-    sim_ticket_pb_lbl: 'Powerball ({status})',
+    sim_ticket_pb_lbl: 'Numéro supplémentaire ({status})',
     sim_ticket_pb_match: 'Correspond',
     sim_ticket_pb_no: 'Aucune correspondance',
     sim_ticket_cost_lbl: 'Billet n°{draws} | Coût total : {cost}',
@@ -655,21 +683,22 @@ const SIM_I18N = {
     sim_ticket_drawing_live: '⚡ Tirage en cours...',
     sim_ticket_matched_suffix: 'GAGNÉ !',
     sim_log_match: ' (Correspond à {count} numéros)',
-    sim_log_match_pb: ' (Correspond à {count} numéros + PB)',
-    sim_h_title: '🎰 Simulateur de gain Lotto 5/35',
-    sim_h_sub: 'Simule des tirages en continu jusqu\'à ce que la condition de victoire soit atteinte'
+    sim_log_match_pb: ' (Correspond à {count} numéros + Supp.)',
+    sim_h_title: '🎰 Simulateur de gain Gosloto 5/36',
+    sim_h_sub: 'Simule des tirages en continu jusqu\'à ce que la condition de victoire soit atteinte',
+    sim_h_desc: 'Gosloto 5/36 est un jeu de loterie populaire en Russie où les joueurs choisissent 5 numéros parmi 36, plus 1 numéro supplémentaire parmi 4. Pour remporter le jackpot, il faut trouver les 5 numéros principaux ainsi que le numéro supplémentaire.'
   },
   es: {
     sim_title: '<span>🎯</span> Números ganadores reales',
-    sim_input_lbl: 'Introduce 5 números principales (1 - 35) y 1 Powerball (1 - 12)',
+    sim_input_lbl: 'Introduce 5 números principales (1 - {max_main}) y 1 número extra (1 - {max_extra})',
     sim_stop_lbl: 'Selecciona la condición de parada',
     sim_stop_opt2: 'Acierta al menos 2 números principales',
     sim_stop_opt3: 'Acierta al menos 3 números principales',
-    sim_stop_opt3pb: 'Acierta 3 números principales + 1 Powerball',
+    sim_stop_opt3pb: 'Acierta 3 números principales + 1 número extra',
     sim_stop_opt4: 'Acierta al menos 4 números principales',
-    sim_stop_opt4pb: 'Acierta 4 números principales + 1 Powerball',
+    sim_stop_opt4pb: 'Acierta 4 números principales + 1 número extra',
     sim_stop_opt5: 'Acierta los 5 números principales (Jackpot 2)',
-    sim_stop_opt5pb: 'Acierta 5 números principales + 1 Powerball (Jackpot 1)',
+    sim_stop_opt5pb: 'Acierta 5 números principales + 1 número extra (Jackpot 1)',
     sim_speed_lbl: 'Velocidad de simulación',
     sim_speed_normal: 'Normal (60 boletos/s)',
     sim_speed_fast: 'Rápida (6.000 boletos/s)',
@@ -699,23 +728,23 @@ const SIM_I18N = {
     sim_p_m2_req: 'Acierta 2 números principales',
     sim_p_m3: 'Segundo premio',
     sim_p_m3_req: 'Acierta 3 números principales',
-    sim_p_m3pb: 'Segundo premio + PB',
-    sim_p_m3pb_req: 'Acierta 3 números principales + 1 PB',
+    sim_p_m3pb: 'Segundo premio + Extra',
+    sim_p_m3pb_req: 'Acierta 3 números principales + 1 Extra',
     sim_p_m4: 'Primer premio',
     sim_p_m4_req: 'Acierta 4 números principales',
-    sim_p_m4pb: 'Primer premio + PB',
-    sim_p_m4pb_req: 'Acierta 4 números principales + 1 PB',
+    sim_p_m4pb: 'Primer premio + Extra',
+    sim_p_m4pb_req: 'Acierta 4 números principales + 1 Extra',
     sim_p_m5: 'Jackpot 2',
     sim_p_m5_req: 'Acierta los 5 números principales',
     sim_p_m5pb: 'Jackpot 1',
-    sim_p_m5pb_req: 'Acierta 5 números principales + 1 PB',
+    sim_p_m5pb_req: 'Acierta 5 números principales + 1 Extra',
     sim_placeholder: 'El boleto ganador aparecerá aquí...',
-    sim_validate_range: 'Los números principales deben estar entre 1 y 35.',
-    sim_validate_pb: 'El Powerball debe estar entre 1 y 12.',
-    sim_validate_empty: 'Introduce todos los números principales y el Powerball.',
+    sim_validate_range: 'Los números principales deben estar entre 1 y {max_main}.',
+    sim_validate_pb: 'El número extra debe estar entre 1 y {max_extra}.',
+    sim_validate_empty: 'Introduce todos los números principales y el número extra.',
     sim_validate_dup: 'Los números principales no pueden repetirse.',
     sim_ticket_main_lbl: 'Números principales (Aciertos {count}/5)',
-    sim_ticket_pb_lbl: 'Powerball ({status})',
+    sim_ticket_pb_lbl: 'Número extra ({status})',
     sim_ticket_pb_match: 'Acertado',
     sim_ticket_pb_no: 'Sin acierto',
     sim_ticket_cost_lbl: 'Boleto n.º {draws} | Costo total: {cost}',
@@ -725,21 +754,22 @@ const SIM_I18N = {
     sim_ticket_drawing_live: '⚡ Sorteando números...',
     sim_ticket_matched_suffix: '¡ACERTADO!',
     sim_log_match: ' (Coincidencia {count} números)',
-    sim_log_match_pb: ' (Coincidencia {count} números + PB)',
-    sim_h_title: '🎰 Simulador de premios Lotto 5/35',
-    sim_h_sub: 'Simula sorteos continuamente hasta cumplir la condición de victoria'
+    sim_log_match_pb: ' (Coincidencia {count} números + Extra)',
+    sim_h_title: '🎰 Simulador de premios Gosloto 5/36',
+    sim_h_sub: 'Simula sorteos continuamente hasta cumplir la condición de victoria',
+    sim_h_desc: 'Gosloto 5/36 es un popular juego de lotería en Rusia en el que los jugadores eligen 5 números de 36, más 1 número extra de otro grupo de 4. Para ganar el jackpot hay que acertar los 5 números principales y también el número extra.'
   },
   de: {
     sim_title: '<span>🎯</span> Echte Gewinnzahlen',
-    sim_input_lbl: 'Geben Sie 5 Hauptzahlen (1 - 35) und 1 Powerball (1 - 12) ein',
+    sim_input_lbl: 'Geben Sie 5 Hauptzahlen (1 - {max_main}) und 1 Zusatzzahl (1 - {max_extra}) ein',
     sim_stop_lbl: 'Abbruchbedingung auswählen',
     sim_stop_opt2: 'Mindestens 2 Hauptzahlen richtig',
     sim_stop_opt3: 'Mindestens 3 Hauptzahlen richtig',
-    sim_stop_opt3pb: '3 Hauptzahlen + 1 Powerball richtig',
+    sim_stop_opt3pb: '3 Hauptzahlen + 1 Zusatzzahl richtig',
     sim_stop_opt4: 'Mindestens 4 Hauptzahlen richtig',
-    sim_stop_opt4pb: '4 Hauptzahlen + 1 Powerball richtig',
+    sim_stop_opt4pb: '4 Hauptzahlen + 1 Zusatzzahl richtig',
     sim_stop_opt5: 'Alle 5 Hauptzahlen richtig (Jackpot 2)',
-    sim_stop_opt5pb: '5 Hauptzahlen + 1 Powerball richtig (Jackpot 1)',
+    sim_stop_opt5pb: '5 Hauptzahlen + 1 Zusatzzahl richtig (Jackpot 1)',
     sim_speed_lbl: 'Simulationsgeschwindigkeit',
     sim_speed_normal: 'Normal (60 Lose/Sek.)',
     sim_speed_fast: 'Schnell (6.000 Lose/Sek.)',
@@ -769,23 +799,23 @@ const SIM_I18N = {
     sim_p_m2_req: '2 Hauptzahlen richtig',
     sim_p_m3: '2. Preis',
     sim_p_m3_req: '3 Hauptzahlen richtig',
-    sim_p_m3pb: '2. Preis + PB',
-    sim_p_m3pb_req: '3 Hauptzahlen + 1 PB richtig',
+    sim_p_m3pb: '2. Preis + ZZ',
+    sim_p_m3pb_req: '3 Hauptzahlen + 1 ZZ richtig',
     sim_p_m4: '1. Preis',
     sim_p_m4_req: '4 Hauptzahlen richtig',
-    sim_p_m4pb: '1. Preis + PB',
-    sim_p_m4pb_req: '4 Hauptzahlen + 1 PB richtig',
+    sim_p_m4pb: '1. Preis + ZZ',
+    sim_p_m4pb_req: '4 Hauptzahlen + 1 ZZ richtig',
     sim_p_m5: 'Jackpot 2',
     sim_p_m5_req: '5 Hauptzahlen richtig',
     sim_p_m5pb: 'Jackpot 1',
-    sim_p_m5pb_req: '5 Hauptzahlen + 1 PB richtig',
+    sim_p_m5pb_req: '5 Hauptzahlen + 1 ZZ richtig',
     sim_placeholder: 'Das Gewinnlos wird hier angezeigt...',
-    sim_validate_range: 'Die Hauptzahlen müssen zwischen 1 und 35 liegen.',
-    sim_validate_pb: 'Der Powerball muss zwischen 1 und 12 liegen.',
-    sim_validate_empty: 'Bitte geben Sie alle Hauptzahlen und den Powerball ein.',
+    sim_validate_range: 'Die Hauptzahlen müssen zwischen 1 und {max_main} liegen.',
+    sim_validate_pb: 'Die Zusatzzahl muss zwischen 1 und {max_extra} liegen.',
+    sim_validate_empty: 'Bitte geben Sie alle Hauptzahlen und die Zusatzzahl ein.',
     sim_validate_dup: 'Hauptzahlen dürfen nicht doppelt vorkommen.',
     sim_ticket_main_lbl: 'Hauptzahlen ({count}/5 Treffer)',
-    sim_ticket_pb_lbl: 'Powerball ({status})',
+    sim_ticket_pb_lbl: 'Zusatzzahl ({status})',
     sim_ticket_pb_match: 'Getroffen',
     sim_ticket_pb_no: 'Kein Treffer',
     sim_ticket_cost_lbl: 'Los Nr. {draws} | Gesamtkosten: {cost}',
@@ -795,21 +825,22 @@ const SIM_I18N = {
     sim_ticket_drawing_live: '⚡ Zahlen werden gezogen...',
     sim_ticket_matched_suffix: 'GETROFFEN!',
     sim_log_match: ' ({count} Zahlen Treffer)',
-    sim_log_match_pb: ' ({count} Zahlen + PB Treffer)',
-    sim_h_title: '🎰 Lotto 5/35 Gewinnsimulator',
-    sim_h_sub: 'Simuliert fortlaufende Ziehungen, bis die Gewinnbedingung erfüllt ist'
+    sim_log_match_pb: ' ({count} Zahlen + ZZ Treffer)',
+    sim_h_title: '🎰 Gosloto 5/36 Gewinnsimulator',
+    sim_h_sub: 'Simuliert fortlaufende Ziehungen, bis die Gewinnbedingung erfüllt ist',
+    sim_h_desc: 'Gosloto 5/36 ist ein beliebtes Lotteriespiel in Russland, bei dem 5 Zahlen aus 36 sowie 1 Zusatzzahl aus einem separaten Pool von 4 gewählt werden. Für den Jackpot müssen alle 5 Hauptzahlen und die Zusatzzahl richtig sein.'
   },
   ru: {
     sim_title: '<span>🎯</span> Реальные выигрышные номера',
-    sim_input_lbl: 'Введите 5 основных номеров (1 - 35) и 1 Powerball (1 - 12)',
+    sim_input_lbl: 'Введите 5 основных чисел (1 - {max_main}) и 1 дополнительное число (1 - {max_extra})',
     sim_stop_lbl: 'Выберите условие остановки',
     sim_stop_opt2: 'Угадать как минимум 2 основных номера',
     sim_stop_opt3: 'Угадать как минимум 3 основных номера',
-    sim_stop_opt3pb: 'Угадать 3 основных + 1 Powerball',
+    sim_stop_opt3pb: 'Угадать 3 основных + 1 доп. число',
     sim_stop_opt4: 'Угадать как минимум 4 основных номера',
-    sim_stop_opt4pb: 'Угадать 4 основных + 1 Powerball',
+    sim_stop_opt4pb: 'Угадать 4 основных + 1 доп. число',
     sim_stop_opt5: 'Угадать все 5 основных номеров (Джекпот 2)',
-    sim_stop_opt5pb: 'Угадать 5 основных + 1 Powerball (Джекпот 1)',
+    sim_stop_opt5pb: 'Угадать 5 основных + 1 доп. число (Джекпот 1)',
     sim_speed_lbl: 'Скорость симуляции',
     sim_speed_normal: 'Обычная (60 билетов/сек)',
     sim_speed_fast: 'Быстрая (6 000 билетов/сек)',
@@ -839,23 +870,23 @@ const SIM_I18N = {
     sim_p_m2_req: 'Угадано 2 основных номера',
     sim_p_m3: 'Второй приз',
     sim_p_m3_req: 'Угадано 3 основных номера',
-    sim_p_m3pb: 'Второй приз + PB',
-    sim_p_m3pb_req: 'Угадано 3 основных + 1 PB',
+    sim_p_m3pb: 'Второй приз + Доп.',
+    sim_p_m3pb_req: 'Угадано 3 основных + 1 Доп.',
     sim_p_m4: 'Первый приз',
     sim_p_m4_req: 'Угадано 4 основных номера',
-    sim_p_m4pb: 'Первый приз + PB',
-    sim_p_m4pb_req: 'Угадано 4 основных + 1 PB',
+    sim_p_m4pb: 'Первый приз + Доп.',
+    sim_p_m4pb_req: 'Угадано 4 основных + 1 Доп.',
     sim_p_m5: 'Джекпот 2',
     sim_p_m5_req: 'Угадано 5 основных номеров',
     sim_p_m5pb: 'Джекпот 1',
-    sim_p_m5pb_req: 'Угадано 5 основных + 1 PB',
+    sim_p_m5pb_req: 'Угадано 5 основных + 1 Доп.',
     sim_placeholder: 'Билет с совпадением появится здесь...',
-    sim_validate_range: 'Основные номера должны быть от 1 до 35.',
-    sim_validate_pb: 'Powerball должен быть от 1 до 12.',
-    sim_validate_empty: 'Пожалуйста, введите все основные номера и Powerball.',
+    sim_validate_range: 'Основные номера должны быть от 1 до {max_main}.',
+    sim_validate_pb: 'Дополнительное число должно быть от 1 до {max_extra}.',
+    sim_validate_empty: 'Пожалуйста, введите все основные числа и дополнительное число.',
     sim_validate_dup: 'Основные номера не должны повторяться.',
     sim_ticket_main_lbl: 'Основные номера (Совпало {count}/5)',
-    sim_ticket_pb_lbl: 'Powerball ({status})',
+    sim_ticket_pb_lbl: 'Доп. число ({status})',
     sim_ticket_pb_match: 'Совпал',
     sim_ticket_pb_no: 'Не совпал',
     sim_ticket_cost_lbl: 'Билет #{draws} | Общие затраты: {cost}',
@@ -865,21 +896,22 @@ const SIM_I18N = {
     sim_ticket_drawing_live: '⚡ Розыгрыш номеров...',
     sim_ticket_matched_suffix: 'СОВПАЛО!',
     sim_log_match: ' (Совпало номеров: {count})',
-    sim_log_match_pb: ' (Совпало номеров: {count} + PB)',
-    sim_h_title: '🎰 Симулятор выигрыша Lotto 5/35',
-    sim_h_sub: 'Непрерывная симуляция тиражей до выполнения условий выигрыша'
+    sim_log_match_pb: ' (Совпало номеров: {count} + Доп.)',
+    sim_h_title: '🎰 Симулятор выигрыша Спортлото «5 из 36»',
+    sim_h_sub: 'Непрерывная симуляция тиражей до выполнения условий выигрыша',
+    sim_h_desc: 'Спортлото «5 из 36» — популярная лотерея в России: игрок выбирает 5 чисел из 36 и ещё 1 дополнительное число из отдельного поля из 4. Чтобы выиграть джекпот, нужно угадать все 5 основных чисел и дополнительное число.'
   },
   ja: {
     sim_title: '<span>🎯</span> 実際の当選番号',
-    sim_input_lbl: '本数字5個（1～35）とPowerball 1個（1～12）を入力してください',
+    sim_input_lbl: '本数字5個（1～{max_main}）と追加数字1個（1～{max_extra}）を入力してください',
     sim_stop_lbl: '停止条件を選択',
     sim_stop_opt2: '本数字を2個以上一致',
     sim_stop_opt3: '本数字を3個以上一致',
-    sim_stop_opt3pb: '本数字3個 + Powerball 1個一致',
+    sim_stop_opt3pb: '本数字3個 + 追加数字1個一致',
     sim_stop_opt4: '本数字を4個以上一致',
-    sim_stop_opt4pb: '本数字4個 + Powerball 1個一致',
+    sim_stop_opt4pb: '本数字4個 + 追加数字1個一致',
     sim_stop_opt5: '本数字5個すべて一致（ジャックポット2）',
-    sim_stop_opt5pb: '本数字5個 + Powerball 1個一致（ジャックポット1）',
+    sim_stop_opt5pb: '本数字5個 + 追加数字1個一致（ジャックポット1）',
     sim_speed_lbl: 'シミュレーション速度',
     sim_speed_normal: '通常（毎秒60枚）',
     sim_speed_fast: '高速（毎秒6,000枚）',
@@ -909,23 +941,23 @@ const SIM_I18N = {
     sim_p_m2_req: '本数字2個一致',
     sim_p_m3: '2等',
     sim_p_m3_req: '本数字3個一致',
-    sim_p_m3pb: '2等 + PB',
-    sim_p_m3pb_req: '本数字3個 + PB 1個一致',
+    sim_p_m3pb: '2等 + 追加',
+    sim_p_m3pb_req: '本数字3個 + 追加 1個一致',
     sim_p_m4: '1等',
     sim_p_m4_req: '本数字4個一致',
-    sim_p_m4pb: '1等 + PB',
-    sim_p_m4pb_req: '本数字4個 + PB 1個一致',
+    sim_p_m4pb: '1等 + 追加',
+    sim_p_m4pb_req: '本数字4個 + 追加 1個一致',
     sim_p_m5: 'ジャックポット2',
     sim_p_m5_req: '本数字5個一致',
     sim_p_m5pb: 'ジャックポット1',
-    sim_p_m5pb_req: '本数字5個 + PB 1個一致',
+    sim_p_m5pb_req: '本数字5個 + 追加 1個一致',
     sim_placeholder: '一致したチケットがここに表示されます...',
-    sim_validate_range: '本数字は1～35の範囲で入力してください。',
-    sim_validate_pb: 'Powerballは1～12の範囲で入力してください。',
-    sim_validate_empty: '本数字5個とPowerballを入力してください。',
+    sim_validate_range: '本数字は1～{max_main}の範囲で入力してください。',
+    sim_validate_pb: '追加数字は1～{max_extra}の範囲で入力してください。',
+    sim_validate_empty: '本数字5個と追加数字を入力してください。',
     sim_validate_dup: '本数字は重複できません。',
     sim_ticket_main_lbl: '本数字（一致 {count}/5）',
-    sim_ticket_pb_lbl: 'Powerball（{status}）',
+    sim_ticket_pb_lbl: '追加数字（{status}）',
     sim_ticket_pb_match: '一致',
     sim_ticket_pb_no: '不一致',
     sim_ticket_cost_lbl: 'チケット #{draws} | 合計コスト: {cost}',
@@ -935,21 +967,22 @@ const SIM_I18N = {
     sim_ticket_drawing_live: '⚡ 抽選中...',
     sim_ticket_matched_suffix: '当選！',
     sim_log_match: ' （{count}個一致）',
-    sim_log_match_pb: ' （{count}個+PB一致）',
-    sim_h_title: '🎰 Lotto 5/35 当選シミュレーター',
-    sim_h_sub: '当選条件を満たすまで抽選を繰り返しシミュレーションします'
+    sim_log_match_pb: ' （{count}個+追加一致）',
+    sim_h_title: '🎰 Gosloto 5/36 当選シミュレーター',
+    sim_h_sub: '当選条件を満たすまで抽選を繰り返しシミュレーションします',
+    sim_h_desc: 'Gosloto 5/36はロシアで人気のロトで、36個の中から5個の数字を選び、さらに別の4個の中から追加数字を1個選びます。ジャックポットを当てるには、本数字5個と追加数字のすべてを一致させる必要があります。'
   },
   ko: {
     sim_title: '<span>🎯</span> 실제 당첨 번호',
-    sim_input_lbl: '메인 번호 5개(1~35)와 Powerball 1개(1~12)를 입력하세요',
+    sim_input_lbl: '메인 번호 5개(1~{max_main})와 추가 번호 1개(1~{max_extra})를 입력하세요',
     sim_stop_lbl: '중지 조건 선택',
     sim_stop_opt2: '메인 번호 2개 이상 일치',
     sim_stop_opt3: '메인 번호 3개 이상 일치',
-    sim_stop_opt3pb: '메인 번호 3개 + Powerball 1개 일치',
+    sim_stop_opt3pb: '메인 번호 3개 + 추가 번호 1개 일치',
     sim_stop_opt4: '메인 번호 4개 이상 일치',
-    sim_stop_opt4pb: '메인 번호 4개 + Powerball 1개 일치',
+    sim_stop_opt4pb: '메인 번호 4개 + 추가 번호 1개 일치',
     sim_stop_opt5: '메인 번호 5개 모두 일치 (잭팟 2)',
-    sim_stop_opt5pb: '메인 번호 5개 + Powerball 1개 일치 (잭팟 1)',
+    sim_stop_opt5pb: '메인 번호 5개 + 추가 번호 1개 일치 (잭팟 1)',
     sim_speed_lbl: '시뮬레이션 속도',
     sim_speed_normal: '보통 (초당 60장)',
     sim_speed_fast: '빠름 (초당 6,000장)',
@@ -979,23 +1012,23 @@ const SIM_I18N = {
     sim_p_m2_req: '메인 번호 2개 일치',
     sim_p_m3: '2등',
     sim_p_m3_req: '메인 번호 3개 일치',
-    sim_p_m3pb: '2등 + PB',
-    sim_p_m3pb_req: '메인 번호 3개 + PB 1개 일치',
+    sim_p_m3pb: '2등 + 추가',
+    sim_p_m3pb_req: '메인 번호 3개 + 추가 1개 일치',
     sim_p_m4: '1등',
     sim_p_m4_req: '메인 번호 4개 일치',
-    sim_p_m4pb: '1등 + PB',
-    sim_p_m4pb_req: '메인 번호 4개 + PB 1개 일치',
+    sim_p_m4pb: '1등 + 추가',
+    sim_p_m4pb_req: '메인 번호 4개 + 추가 1개 일치',
     sim_p_m5: '잭팟 2',
     sim_p_m5_req: '메인 번호 5개 일치',
     sim_p_m5pb: '잭팟 1',
-    sim_p_m5pb_req: '메인 번호 5개 + PB 1개 일치',
+    sim_p_m5pb_req: '메인 번호 5개 + 추가 1개 일치',
     sim_placeholder: '일치하는 티켓이 여기에 표시됩니다...',
-    sim_validate_range: '메인 번호는 1~35 사이여야 합니다.',
-    sim_validate_pb: 'Powerball은 1~12 사이여야 합니다.',
-    sim_validate_empty: '메인 번호와 Powerball을 모두 입력하세요.',
+    sim_validate_range: '메인 번호는 1~{max_main} 사이여야 합니다.',
+    sim_validate_pb: '추가 번호는 1~{max_extra} 사이여야 합니다.',
+    sim_validate_empty: '메인 번호와 추가 번호를 모두 입력하세요.',
     sim_validate_dup: '메인 번호는 중복될 수 없습니다.',
     sim_ticket_main_lbl: '메인 번호 (일치 {count}/5)',
-    sim_ticket_pb_lbl: 'Powerball ({status})',
+    sim_ticket_pb_lbl: '추가 번호 ({status})',
     sim_ticket_pb_match: '일치',
     sim_ticket_pb_no: '불일치',
     sim_ticket_cost_lbl: '티켓 #{draws} | 총 비용: {cost}',
@@ -1005,21 +1038,22 @@ const SIM_I18N = {
     sim_ticket_drawing_live: '⚡ 추첨 중...',
     sim_ticket_matched_suffix: '당첨!',
     sim_log_match: ' ({count}개 번호 일치)',
-    sim_log_match_pb: ' ({count}개+PB 번호 일치)',
-    sim_h_title: '🎰 Lotto 5/35 당첨 시뮬레이터',
-    sim_h_sub: '당첨 조건을 만족할 때까지 계속 추첨을 시뮬레이션합니다'
+    sim_log_match_pb: ' ({count}개+추가 번호 일치)',
+    sim_h_title: '🎰 Gosloto 5/36 당첨 시뮬레이터',
+    sim_h_sub: '당첨 조건을 만족할 때까지 계속 추첨을 시뮬레이션합니다',
+    sim_h_desc: 'Gosloto 5/36은 러시아의 인기 복권으로, 36개 번호 중 5개를 고르고 별도의 4개 번호 중 추가 번호 1개를 고릅니다. 잭팟에 당첨되려면 메인 번호 5개와 추가 번호를 모두 맞혀야 합니다.'
   },
   zh: {
     sim_title: '<span>🎯</span> 真实开奖号码',
-    sim_input_lbl: '请输入5个主号码（1 - 35）和1个Powerball号码（1 - 12）',
+    sim_input_lbl: '请输入5个主号码（1 - {max_main}）和1个附加号码（1 - {max_extra}）',
     sim_stop_lbl: '选择停止条件',
     sim_stop_opt2: '至少匹配2个主号码',
     sim_stop_opt3: '至少匹配3个主号码',
-    sim_stop_opt3pb: '匹配3个主号码 + 1个Powerball',
+    sim_stop_opt3pb: '匹配3个主号码 + 1个附加号码',
     sim_stop_opt4: '至少匹配4个主号码',
-    sim_stop_opt4pb: '匹配4个主号码 + 1个Powerball',
+    sim_stop_opt4pb: '匹配4个主号码 + 1个附加号码',
     sim_stop_opt5: '匹配全部5个主号码（头奖2）',
-    sim_stop_opt5pb: '匹配5个主号码 + 1个Powerball（头奖1）',
+    sim_stop_opt5pb: '匹配5个主号码 + 1个附加号码（头奖1）',
     sim_speed_lbl: '模拟速度',
     sim_speed_normal: '普通（60张彩票/秒）',
     sim_speed_fast: '快速（6,000张彩票/秒）',
@@ -1049,23 +1083,23 @@ const SIM_I18N = {
     sim_p_m2_req: '匹配2个主号码',
     sim_p_m3: '二等奖',
     sim_p_m3_req: '匹配3个主号码',
-    sim_p_m3pb: '二等奖 + PB',
-    sim_p_m3pb_req: '匹配3个主号码 + 1个PB',
+    sim_p_m3pb: '二等奖 + 附加',
+    sim_p_m3pb_req: '匹配3个主号码 + 1个附加',
     sim_p_m4: '一等奖',
     sim_p_m4_req: '匹配4个主号码',
-    sim_p_m4pb: '一等奖 + PB',
-    sim_p_m4pb_req: '匹配4个主号码 + 1个PB',
+    sim_p_m4pb: '一等奖 + 附加',
+    sim_p_m4pb_req: '匹配4个主号码 + 1个附加',
     sim_p_m5: '头奖2',
     sim_p_m5_req: '匹配5个主号码',
     sim_p_m5pb: '头奖1',
-    sim_p_m5pb_req: '匹配5个主号码 + 1个PB',
+    sim_p_m5pb_req: '匹配5个主号码 + 1个附加',
     sim_placeholder: '匹配的彩票将显示在这里...',
-    sim_validate_range: '主号码必须介于1到35之间。',
-    sim_validate_pb: 'Powerball号码必须介于1到12之间。',
-    sim_validate_empty: '请输入所有主号码和Powerball号码。',
+    sim_validate_range: '主号码必须介于1到{max_main}之间。',
+    sim_validate_pb: '附加号码必须介于1到{max_extra}之间。',
+    sim_validate_empty: '请输入所有主号码和附加号码。',
     sim_validate_dup: '主号码不能重复。',
     sim_ticket_main_lbl: '主号码（匹配 {count}/5）',
-    sim_ticket_pb_lbl: 'Powerball（{status}）',
+    sim_ticket_pb_lbl: '附加号码（{status}）',
     sim_ticket_pb_match: '匹配',
     sim_ticket_pb_no: '未匹配',
     sim_ticket_cost_lbl: '彩票 #{draws} | 总成本：{cost}',
@@ -1075,21 +1109,22 @@ const SIM_I18N = {
     sim_ticket_drawing_live: '⚡ 开奖中...',
     sim_ticket_matched_suffix: '中奖！',
     sim_log_match: ' （匹配{count}个号码）',
-    sim_log_match_pb: ' （匹配{count}个+PB）',
-    sim_h_title: '🎰 Lotto 5/35 中奖模拟器',
-    sim_h_sub: '持续模拟开奖，直到满足中奖条件'
+    sim_log_match_pb: ' （匹配{count}个+附加）',
+    sim_h_title: '🎰 Gosloto 5/36 中奖模拟器',
+    sim_h_sub: '持续模拟开奖，直到满足中奖条件',
+    sim_h_desc: 'Gosloto 5/36 是俄罗斯一种很受欢迎的彩票：玩家从36个号码中选5个，再从另外4个号码中选1个附加号码。要赢得头奖，必须同时猜中全部5个主号码和附加号码。'
   },
   vi: {
     sim_title: '<span>🎯</span> Kết quả trúng thưởng thật',
-    sim_input_lbl: 'Nhập 5 số chính (1 - 35) & 1 Powerball (1 - 12)',
+    sim_input_lbl: 'Nhập 5 số chính (1 - {max_main}) & 1 số phụ (1 - {max_extra})',
     sim_stop_lbl: 'Chọn điều kiện dừng quay',
     sim_stop_opt2: 'Trùng ít nhất 2 số chính',
     sim_stop_opt3: 'Trùng ít nhất 3 số chính',
-    sim_stop_opt3pb: 'Trùng 3 số chính + 1 Powerball',
+    sim_stop_opt3pb: 'Trùng 3 số chính + 1 số phụ',
     sim_stop_opt4: 'Trùng ít nhất 4 số chính',
-    sim_stop_opt4pb: 'Trùng 4 số chính + 1 Powerball',
+    sim_stop_opt4pb: 'Trùng 4 số chính + 1 số phụ',
     sim_stop_opt5: 'Trùng cả 5 số chính (Jackpot 2)',
-    sim_stop_opt5pb: 'Trùng 5 số chính + 1 Powerball (Jackpot 1)',
+    sim_stop_opt5pb: 'Trùng 5 số chính + 1 số phụ (Jackpot 1)',
     sim_speed_lbl: 'Tốc độ quay giả lập',
     sim_speed_normal: 'Bình thường (60 vé / giây)',
     sim_speed_fast: 'Nhanh (6,000 vé / giây)',
@@ -1119,23 +1154,23 @@ const SIM_I18N = {
     sim_p_m2_req: 'Trùng 2 số chính',
     sim_p_m3: 'Giải Nhì',
     sim_p_m3_req: 'Trùng 3 số chính',
-    sim_p_m3pb: 'Giải Nhì + PB',
-    sim_p_m3pb_req: 'Trùng 3 chính + 1 PB',
+    sim_p_m3pb: 'Giải Nhì + Phụ',
+    sim_p_m3pb_req: 'Trùng 3 chính + 1 Phụ',
     sim_p_m4: 'Giải Nhất',
     sim_p_m4_req: 'Trùng 4 số chính',
-    sim_p_m4pb: 'Giải Nhất + PB',
-    sim_p_m4pb_req: 'Trùng 4 chính + 1 PB',
+    sim_p_m4pb: 'Giải Nhất + Phụ',
+    sim_p_m4pb_req: 'Trùng 4 chính + 1 Phụ',
     sim_p_m5: 'Jackpot 2',
     sim_p_m5_req: 'Trùng 5 số chính',
     sim_p_m5pb: 'Jackpot 1',
-    sim_p_m5pb_req: 'Trùng 5 chính + 1 PB',
+    sim_p_m5pb_req: 'Trùng 5 chính + 1 Phụ',
     sim_placeholder: 'Vé trùng khớp sẽ xuất hiện tại đây...',
-    sim_validate_range: 'Các số chính phải nằm trong khoảng 1 đến 35.',
-    sim_validate_pb: 'Số Powerball phải nằm trong khoảng 1 đến 12.',
-    sim_validate_empty: 'Vui lòng nhập đầy đủ các số chính và số Powerball.',
+    sim_validate_range: 'Các số chính phải nằm trong khoảng 1 đến {max_main}.',
+    sim_validate_pb: 'Số phụ phải nằm trong khoảng 1 đến {max_extra}.',
+    sim_validate_empty: 'Vui lòng nhập đầy đủ các số chính và số phụ.',
     sim_validate_dup: 'Các số chính không được trùng lặp nhau.',
     sim_ticket_main_lbl: 'Số Chính (Trùng {count}/5)',
-    sim_ticket_pb_lbl: 'Powerball ({status})',
+    sim_ticket_pb_lbl: 'Số phụ ({status})',
     sim_ticket_pb_match: 'Trùng',
     sim_ticket_pb_no: 'Không trùng',
     sim_ticket_cost_lbl: 'Vé số #{draws} | Chi phí lũy kế: {cost}',
@@ -1145,15 +1180,17 @@ const SIM_I18N = {
     sim_ticket_drawing_live: '⚡ Đang quay ngẫu nhiên...',
     sim_ticket_matched_suffix: 'ĐÃ TRÚNG!',
     sim_log_match: ' (Trùng {count} số)',
-    sim_log_match_pb: ' (Trùng {count} số + PB)',
-    sim_h_title: '🎰 Lotto 5/35 Simulation',
-    sim_h_sub: 'Chạy giả lập quay số liên tục cho đến khi trúng giải theo cấu hình'
+    sim_log_match_pb: ' (Trùng {count} số + Phụ)',
+    sim_h_title: '🎰 Gosloto 5/36 Simulation',
+    sim_h_sub: 'Chạy giả lập quay số liên tục cho đến khi trúng giải theo cấu hình',
+    sim_h_desc: 'Gosloto 5/36 là trò chơi xổ số phổ biến ở Nga: người chơi chọn 5 số từ 36 số, cộng thêm 1 số phụ từ một nhóm riêng gồm 4 số. Để trúng Jackpot, người chơi phải trùng cả 5 số chính và số phụ.'
   }
 };
 
 function simT(key) {
   // const lang = (typeof currentLang !== 'undefined' && currentLang === 'vi') ? 'vi' : 'en';
-  return (SIM_I18N[currentLang] && SIM_I18N[currentLang][key]) || SIM_I18N['en'][key] || key;
+  const text = (SIM_I18N[currentLang] && SIM_I18N[currentLang][key]) || SIM_I18N['en'][key] || key;
+  return String(text).replace(/\{max_main\}/g, MAX_MAIN).replace(/\{max_extra\}/g, MAX_EXTRA);
 }
 
 // Inputs
@@ -1166,6 +1203,8 @@ const inputs = [
 ];
 const inputPb = document.getElementById('in-pb');
 const valMsg = document.getElementById('validation-msg');
+inputs.forEach(el => { el.max = MAX_MAIN; });
+inputPb.max = MAX_EXTRA;
 
 // Buttons
 const btnStart = document.getElementById('btn-start');
@@ -1335,17 +1374,17 @@ function playWinSound(result) {
 // Winning number array
 let winMain = [];
 let winPb = 0;
-let winLookup = new Uint8Array(36); // boolean lookup array for fast matching
+let winLookup = new Uint8Array(MAX_MAIN + 1); // boolean lookup array for fast matching
 
 // Fast draw pool
-const drawPool = new Uint8Array(35);
-for (let i = 0; i < 35; i++) drawPool[i] = i + 1;
+const drawPool = new Uint8Array(MAX_MAIN);
+for (let i = 0; i < MAX_MAIN; i++) drawPool[i] = i + 1;
 
 // Auto focus next input helper
 inputs.forEach((input, index) => {
   input.addEventListener('input', () => {
     let val = parseInt(input.value);
-    if (val > 35) input.value = 35;
+    if (val > MAX_MAIN) input.value = MAX_MAIN;
     if (val < 1 && input.value !== '') input.value = 1;
     
     if (input.value.length >= 2 || (input.value.length === 1 && parseInt(input.value) >= 4)) {
@@ -1362,7 +1401,7 @@ inputs.forEach((input, index) => {
 
 inputPb.addEventListener('input', () => {
   let val = parseInt(inputPb.value);
-  if (val > 12) inputPb.value = 12;
+  if (val > MAX_EXTRA) inputPb.value = MAX_EXTRA;
   if (val < 1 && inputPb.value !== '') inputPb.value = 1;
   validateInputs();
   updateUrlFromNumbers();
@@ -1385,7 +1424,7 @@ function formatCostUSD() {
 
 function randomizeWinningNumbers() {
   const pool = [];
-  for (let i = 1; i <= 35; i++) pool.push(i);
+  for (let i = 1; i <= MAX_MAIN; i++) pool.push(i);
   for (let i = pool.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [pool[i], pool[j]] = [pool[j], pool[i]];
@@ -1396,7 +1435,7 @@ function randomizeWinningNumbers() {
     input.value = pickedMain[idx];
   });
   
-  inputPb.value = Math.floor(Math.random() * 12) + 1;
+  inputPb.value = Math.floor(Math.random() * MAX_EXTRA) + 1;
   validateInputs();
   updateUrlFromNumbers();
 }
@@ -1406,8 +1445,8 @@ function getCurrentNumbersFromInputs() {
   const pbVal = parseInt(inputPb.value, 10);
   
   if (mainVals.some(isNaN) || isNaN(pbVal)) return null;
-  if (mainVals.some(n => n < 1 || n > 35)) return null;
-  if (pbVal < 1 || pbVal > 12) return null;
+  if (mainVals.some(n => n < 1 || n > MAX_MAIN)) return null;
+  if (pbVal < 1 || pbVal > MAX_EXTRA) return null;
   if (new Set(mainVals).size !== 5) return null;
   
   return { main: mainVals.slice().sort((a, b) => a - b), pb: pbVal };
@@ -1456,7 +1495,7 @@ function loadWinningNumbersFromUrl() {
     pb = parseInt(legacyMatch[6], 10);
   }
   
-  if ([m1, m2, m3, m4, m5].every(n => n >= 1 && n <= 35) && pb >= 1 && pb <= 12) {
+  if ([m1, m2, m3, m4, m5].every(n => n >= 1 && n <= MAX_MAIN) && pb >= 1 && pb <= MAX_EXTRA) {
     const unique = new Set([m1, m2, m3, m4, m5]);
     if (unique.size === 5) {
       const sorted = [m1, m2, m3, m4, m5].sort((a, b) => a - b);
@@ -1485,7 +1524,7 @@ function validateInputs() {
     const val = parseInt(inputs[i].value);
     if (isNaN(val)) {
       hasEmpty = true;
-    } else if (val < 1 || val > 35) {
+    } else if (val < 1 || val > MAX_MAIN) {
       valMsg.textContent = simT('sim_validate_range');
       return false;
     } else {
@@ -1496,7 +1535,7 @@ function validateInputs() {
   const pbVal = parseInt(inputPb.value);
   if (isNaN(pbVal)) {
     hasEmpty = true;
-  } else if (pbVal < 1 || pbVal > 12) {
+  } else if (pbVal < 1 || pbVal > MAX_EXTRA) {
     valMsg.textContent = simT('sim_validate_pb');
     return false;
   }
@@ -1524,7 +1563,7 @@ function validateInputs() {
 // Perform optimized draw
 function drawOneOptimized() {
   for (let i = 0; i < 5; i++) {
-    const j = i + Math.floor(Math.random() * (35 - i));
+    const j = i + Math.floor(Math.random() * (MAX_MAIN - i));
     const temp = drawPool[i];
     drawPool[i] = drawPool[j];
     drawPool[j] = temp;
@@ -1536,7 +1575,7 @@ function drawOneOptimized() {
   const m4 = drawPool[3];
   const m5 = drawPool[4];
   
-  const pb = Math.floor(Math.random() * 12) + 1;
+  const pb = Math.floor(Math.random() * MAX_EXTRA) + 1;
   
   let matchCount = 0;
   if (winLookup[m1]) matchCount++;
@@ -1649,11 +1688,11 @@ function renderMatchingTicket(result) {
   } else if (result.matchCount === 5) {
     labelText = "🔥 " + simT('sim_p_m5').toUpperCase() + " " + simT('sim_ticket_matched_suffix') + " 🥳";
   } else if (result.matchCount === 4 && result.pbMatched) {
-    labelText = "⭐ " + simT('sim_p_m4pb').toUpperCase() + " (" + result.matchCount + "+PB)";
+    labelText = "⭐ " + simT('sim_p_m4pb').toUpperCase() + " (" + result.matchCount + "+1)";
   } else if (result.matchCount === 4) {
     labelText = "⭐ " + simT('sim_p_m4').toUpperCase() + " (" + result.matchCount + ")";
   } else if (result.matchCount === 3 && result.pbMatched) {
-    labelText = "✔️ " + simT('sim_p_m3pb').toUpperCase() + " (" + result.matchCount + "+PB)";
+    labelText = "✔️ " + simT('sim_p_m3pb').toUpperCase() + " (" + result.matchCount + "+1)";
   } else if (result.matchCount === 3) {
     labelText = "✔️ " + simT('sim_p_m3').toUpperCase() + " (" + result.matchCount + ")";
   } else if (result.matchCount === 2) {
@@ -1857,14 +1896,14 @@ function drawSeven() {
     return p;
   };
   
-  let mainPool = shufflePool(1, 35);
-  let pbPool = shufflePool(1, 12);
+  let mainPool = shufflePool(1, MAX_MAIN);
+  let pbPool = shufflePool(1, MAX_EXTRA);
   
   for (let i = 0; i < 7; i++) {
     drawsCount++;
     
-    if (mainPool.length < 5) mainPool = mainPool.concat(shufflePool(1, 35));
-    if (pbPool.length < 1) pbPool = pbPool.concat(shufflePool(1, 12));
+    if (mainPool.length < 5) mainPool = mainPool.concat(shufflePool(1, MAX_MAIN));
+    if (pbPool.length < 1) pbPool = pbPool.concat(shufflePool(1, MAX_EXTRA));
     
     const numbers = mainPool.splice(0, 5).sort((a, b) => a - b);
     const pb = pbPool.splice(0, 1)[0];
@@ -2061,6 +2100,7 @@ function resetSimulation() {
 function applySimLang() {
   document.getElementById('h-title').textContent = simT('sim_h_title');
   document.getElementById('h-sub').textContent = simT('sim_h_sub');
+  document.getElementById('h-desc').textContent = simT('sim_h_desc');
   
   document.getElementById('lbl-sim-title').innerHTML = simT('sim_title');
   document.getElementById('lbl-sim-input').textContent = simT('sim_input_lbl');

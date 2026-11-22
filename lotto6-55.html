@@ -509,11 +509,17 @@ const VIETNAM_MODE = false;
 <script src="script/lotto.js"></script>
 
 <script>
+// ===== Game configuration: edit here =====
+const MAX_MAIN = 55;   // main numbers: 1..MAX_MAIN
+// Bonus number is drawn from the same pool as main numbers (1..MAX_MAIN)
+// ==========================================
+
 // Multi-language dictionary for simulation page
+// {max_main} / {max_extra} are replaced by MAX_MAIN / MAX_EXTRA in simT()
 const SIM_I18N = {
   en: {
     sim_title: '<span>🎯</span> Real Winning Numbers',
-    sim_input_lbl: 'Enter 6 main numbers (1 - 55) & 1 Bonus Number (1 - 55)',
+    sim_input_lbl: 'Enter 6 main numbers (1 - {max_main}) & 1 Bonus Number (1 - {max_main})',
     sim_stop_lbl: 'Select Stop Condition',
     sim_stop_opt3: 'Match at least 3 main numbers (Third Prize)',
     sim_stop_opt4: 'Match at least 4 main numbers (Second Prize)',
@@ -556,8 +562,8 @@ const SIM_I18N = {
     sim_p_m6: 'Jackpot 1',
     sim_p_m6_req: 'Match all 6 main numbers',
     sim_placeholder: 'Matching ticket will appear here...',
-    sim_validate_range: 'Main numbers must be between 1 and 55.',
-    sim_validate_bonus: 'Bonus number must be between 1 and 55.',
+    sim_validate_range: 'Main numbers must be between 1 and {max_main}.',
+    sim_validate_bonus: 'Bonus number must be between 1 and {max_main}.',
     sim_validate_empty: 'Please enter all 6 main numbers and Bonus number.',
     sim_validate_dup: 'Main numbers cannot be duplicated.',
     sim_validate_dup_bonus: 'Bonus number cannot duplicate main numbers.',
@@ -578,7 +584,7 @@ const SIM_I18N = {
   },
   fr: {
     sim_title: '<span>🎯</span> Numéros gagnants réels',
-    sim_input_lbl: 'Saisissez 6 numéros principaux (1 - 55) et 1 numéro Bonus (1 - 55)',
+    sim_input_lbl: 'Saisissez 6 numéros principaux (1 - {max_main}) et 1 numéro Bonus (1 - {max_main})',
     sim_stop_lbl: 'Sélectionnez la condition d\'arrêt',
     sim_stop_opt3: 'Correspond à au moins 3 numéros principaux',
     sim_stop_opt4: 'Correspond à au moins 4 numéros principaux',
@@ -621,8 +627,8 @@ const SIM_I18N = {
     sim_p_m6: 'Jackpot 1',
     sim_p_m6_req: 'Correspond aux 6 numéros principaux',
     sim_placeholder: 'Le billet gagnant apparaîtra ici...',
-    sim_validate_range: 'Les numéros principaux doivent être compris entre 1 et 55.',
-    sim_validate_bonus: 'Le numéro Bonus doit être compris entre 1 et 55.',
+    sim_validate_range: 'Les numéros principaux doivent être compris entre 1 et {max_main}.',
+    sim_validate_bonus: 'Le numéro Bonus doit être compris entre 1 et {max_main}.',
     sim_validate_empty: 'Veuillez saisir tous les 6 numéros principaux et le numéro Bonus.',
     sim_validate_dup: 'Les numéros principaux ne peuvent pas être dupliqués.',
     sim_validate_dup_bonus: 'Le numéro Bonus ne peut pas être identique à un numéro principal.',
@@ -643,7 +649,7 @@ const SIM_I18N = {
   },
   es: {
     sim_title: '<span>🎯</span> Números ganadores reales',
-    sim_input_lbl: 'Introduce 6 números principales (1 - 55) y 1 número Bonus (1 - 55)',
+    sim_input_lbl: 'Introduce 6 números principales (1 - {max_main}) y 1 número Bonus (1 - {max_main})',
     sim_stop_lbl: 'Selecciona la condición de parada',
     sim_stop_opt3: 'Acierta al menos 3 números principales',
     sim_stop_opt4: 'Acierta al menos 4 números principales',
@@ -686,8 +692,8 @@ const SIM_I18N = {
     sim_p_m6: 'Jackpot 1',
     sim_p_m6_req: 'Acierta los 6 números principales',
     sim_placeholder: 'El boleto ganador aparecerá aquí...',
-    sim_validate_range: 'Los números principales deben estar entre 1 y 55.',
-    sim_validate_bonus: 'El número Bonus debe estar entre 1 y 55.',
+    sim_validate_range: 'Los números principales deben estar entre 1 y {max_main}.',
+    sim_validate_bonus: 'El número Bonus debe estar entre 1 y {max_main}.',
     sim_validate_empty: 'Introduce los 6 números principales y el número Bonus.',
     sim_validate_dup: 'Los números principales no pueden repetirse.',
     sim_validate_dup_bonus: 'El número Bonus no puede repetirse con los principales.',
@@ -708,7 +714,7 @@ const SIM_I18N = {
   },
   de: {
     sim_title: '<span>🎯</span> Echte Gewinnzahlen',
-    sim_input_lbl: 'Geben Sie 6 Hauptzahlen (1 - 55) und 1 Bonuszahl (1 - 55) ein',
+    sim_input_lbl: 'Geben Sie 6 Hauptzahlen (1 - {max_main}) und 1 Bonuszahl (1 - {max_main}) ein',
     sim_stop_lbl: 'Abbruchbedingung auswählen',
     sim_stop_opt3: 'Mindestens 3 Hauptzahlen richtig',
     sim_stop_opt4: 'Mindestens 4 Hauptzahlen richtig',
@@ -751,8 +757,8 @@ const SIM_I18N = {
     sim_p_m6: 'Jackpot 1',
     sim_p_m6_req: 'Alle 6 Hauptzahlen richtig',
     sim_placeholder: 'Das Gewinnlos wird hier angezeigt...',
-    sim_validate_range: 'Die Hauptzahlen müssen zwischen 1 und 55 liegen.',
-    sim_validate_bonus: 'Die Bonuszahl muss zwischen 1 und 55 liegen.',
+    sim_validate_range: 'Die Hauptzahlen müssen zwischen 1 und {max_main} liegen.',
+    sim_validate_bonus: 'Die Bonuszahl muss zwischen 1 und {max_main} liegen.',
     sim_validate_empty: 'Bitte geben Sie alle 6 Hauptzahlen und die Bonuszahl ein.',
     sim_validate_dup: 'Hauptzahlen dürfen nicht doppelt vorkommen.',
     sim_validate_dup_bonus: 'Die Bonuszahl darf nicht doppelt vorkommen.',
@@ -773,7 +779,7 @@ const SIM_I18N = {
   },
   ru: {
     sim_title: '<span>🎯</span> Реальные выигрышные номера',
-    sim_input_lbl: 'Введите 6 основных номеров (1 - 55) и 1 бонусный номер (1 - 55)',
+    sim_input_lbl: 'Введите 6 основных номеров (1 - {max_main}) и 1 бонусный номер (1 - {max_main})',
     sim_stop_lbl: 'Выберите условие остановки',
     sim_stop_opt3: 'Угадать как минимум 3 основных номера (Третий приз)',
     sim_stop_opt4: 'Угадать как минимум 4 основных номера (Второй приз)',
@@ -816,8 +822,8 @@ const SIM_I18N = {
     sim_p_m6: 'Джекпот 1',
     sim_p_m6_req: 'Угадано все 6 основных номеров',
     sim_placeholder: 'Билет с совпадением появится здесь...',
-    sim_validate_range: 'Основные номера должны быть от 1 до 55.',
-    sim_validate_bonus: 'Бонусный номер должен быть от 1 до 55.',
+    sim_validate_range: 'Основные номера должны быть от 1 до {max_main}.',
+    sim_validate_bonus: 'Бонусный номер должен быть от 1 до {max_main}.',
     sim_validate_empty: 'Пожалуйста, введите все 6 основных номеров и бонусный номер.',
     sim_validate_dup: 'Основные номера не должны повторяться.',
     sim_validate_dup_bonus: 'Бонусный номер не может совпадать с основными номерами.',
@@ -838,7 +844,7 @@ const SIM_I18N = {
   },
   ja: {
     sim_title: '<span>🎯</span> 実際の当選番号',
-    sim_input_lbl: '本数字6個（1～55）とBonus 1個（1～55）を入力してください',
+    sim_input_lbl: '本数字6個（1～{max_main}）とBonus 1個（1～{max_main}）を入力してください',
     sim_stop_lbl: '停止条件を選択',
     sim_stop_opt3: '本数字を3個以上一致',
     sim_stop_opt4: '本数字を4個以上一致',
@@ -881,8 +887,8 @@ const SIM_I18N = {
     sim_p_m6: 'ジャックポット1',
     sim_p_m6_req: '本数字6個すべて一致',
     sim_placeholder: '一致したチケットがここに表示されます...',
-    sim_validate_range: '本数字は1～55の範囲で入力してください。',
-    sim_validate_bonus: 'Bonusは1～55の範囲で入力してください。',
+    sim_validate_range: '本数字は1～{max_main}の範囲で入力してください。',
+    sim_validate_bonus: 'Bonusは1～{max_main}の範囲で入力してください。',
     sim_validate_empty: '本数字6個とBonusを入力してください。',
     sim_validate_dup: '本数字は重複できません。',
     sim_validate_dup_bonus: 'Bonusは本数字と重複できません。',
@@ -903,7 +909,7 @@ const SIM_I18N = {
   },
   ko: {
     sim_title: '<span>🎯</span> 실제 당첨 번호',
-    sim_input_lbl: '메인 번호 6개(1~55)와 Bonus 번호 1개(1~55)를 입력하세요',
+    sim_input_lbl: '메인 번호 6개(1~{max_main})와 Bonus 번호 1개(1~{max_main})를 입력하세요',
     sim_stop_lbl: '중지 조건 선택',
     sim_stop_opt3: '메인 번호 3개 이상 일치',
     sim_stop_opt4: '메인 번호 4개 이상 일치',
@@ -946,8 +952,8 @@ const SIM_I18N = {
     sim_p_m6: '잭팟 1',
     sim_p_m6_req: '메인 번호 6개 모두 일치',
     sim_placeholder: '일치하는 티켓이 여기에 표시됩니다...',
-    sim_validate_range: '메인 번호는 1~55 사이여야 합니다.',
-    sim_validate_bonus: 'Bonus 번호는 1~55 사이여야 합니다.',
+    sim_validate_range: '메인 번호는 1~{max_main} 사이여야 합니다.',
+    sim_validate_bonus: 'Bonus 번호는 1~{max_main} 사이여야 합니다.',
     sim_validate_empty: '메인 번호 6개와 Bonus 번호를 모두 입력하세요.',
     sim_validate_dup: '메인 번호는 중복될 수 없습니다.',
     sim_validate_dup_bonus: 'Bonus 번호는 메인 번호와 중복될 수 없습니다.',
@@ -968,7 +974,7 @@ const SIM_I18N = {
   },
   zh: {
     sim_title: '<span>🎯</span> 真实开奖号码',
-    sim_input_lbl: '请输入6个主号码（1 - 55）和1个Bonus号码（1 - 55）',
+    sim_input_lbl: '请输入6个主号码（1 - {max_main}）和1个Bonus号码（1 - {max_main}）',
     sim_stop_lbl: '选择停止条件',
     sim_stop_opt3: '至少匹配3个主号码',
     sim_stop_opt4: '至少匹配4个主号码',
@@ -1011,8 +1017,8 @@ const SIM_I18N = {
     sim_p_m6: '头奖1',
     sim_p_m6_req: '匹配全部6个主号码',
     sim_placeholder: '匹配的彩票将显示在这里...',
-    sim_validate_range: '主号码必须介于1到55之间。',
-    sim_validate_bonus: 'Bonus号码必须介于1到55之间。',
+    sim_validate_range: '主号码必须介于1到{max_main}之间。',
+    sim_validate_bonus: 'Bonus号码必须介于1到{max_main}之间。',
     sim_validate_empty: '请输入所有主号码和Bonus号码。',
     sim_validate_dup: '主号码不能重复。',
     sim_validate_dup_bonus: 'Bonus号码不能与主号码重复。',
@@ -1033,7 +1039,7 @@ const SIM_I18N = {
   },
   vi: {
     sim_title: '<span>🎯</span> Kết quả trúng thưởng thật',
-    sim_input_lbl: 'Nhập 6 số chính (1 - 55) & 1 Bonus Number (1 - 55)',
+    sim_input_lbl: 'Nhập 6 số chính (1 - {max_main}) & 1 Bonus Number (1 - {max_main})',
     sim_stop_lbl: 'Chọn điều kiện dừng quay',
     sim_stop_opt3: 'Trùng ít nhất 3 số chính (Giải Ba)',
     sim_stop_opt4: 'Trùng ít nhất 4 số chính (Giải Nhì)',
@@ -1076,8 +1082,8 @@ const SIM_I18N = {
     sim_p_m6: 'Jackpot 1',
     sim_p_m6_req: 'Trùng cả 6 số chính',
     sim_placeholder: 'Vé trùng khớp sẽ xuất hiện tại đây...',
-    sim_validate_range: 'Các số chính phải nằm trong khoảng 1 đến 55.',
-    sim_validate_bonus: 'Số Bonus phải nằm trong khoảng 1 đến 55.',
+    sim_validate_range: 'Các số chính phải nằm trong khoảng 1 đến {max_main}.',
+    sim_validate_bonus: 'Số Bonus phải nằm trong khoảng 1 đến {max_main}.',
     sim_validate_empty: 'Vui lòng nhập đầy đủ 6 số chính và số Bonus.',
     sim_validate_dup: 'Các số chính không được trùng lặp nhau.',
     sim_validate_dup_bonus: 'Số Bonus không được trùng với các số chính.',
@@ -1099,7 +1105,8 @@ const SIM_I18N = {
 };
 
 function simT(key) {
-  return (SIM_I18N[currentLang] && SIM_I18N[currentLang][key]) || SIM_I18N['en'][key] || key;
+  const text = (SIM_I18N[currentLang] && SIM_I18N[currentLang][key]) || SIM_I18N['en'][key] || key;
+  return String(text).replace(/\{max_main\}/g, MAX_MAIN);
 }
 
 // Inputs (6 main numbers + 1 Bonus number)
@@ -1113,6 +1120,8 @@ const inputs = [
 ];
 const inputBonus = document.getElementById('in-bonus');
 const valMsg = document.getElementById('validation-msg');
+inputs.forEach(el => { el.max = MAX_MAIN; });
+inputBonus.max = MAX_MAIN;
 
 // Buttons
 const btnStart = document.getElementById('btn-start');
@@ -1276,17 +1285,17 @@ function playWinSound(result) {
 // Winning number array
 let winMain = [];
 let winBonus = 0;
-let winLookup = new Uint8Array(56); // boolean lookup array for fast matching (1-55)
+let winLookup = new Uint8Array(MAX_MAIN + 1); // boolean lookup array for fast matching (1-MAX_MAIN)
 
 // Fast draw pool for 6/55
-const drawPool = new Uint8Array(55);
-for (let i = 0; i < 55; i++) drawPool[i] = i + 1;
+const drawPool = new Uint8Array(MAX_MAIN);
+for (let i = 0; i < MAX_MAIN; i++) drawPool[i] = i + 1;
 
 // Auto focus next input helper
 inputs.forEach((input, index) => {
   input.addEventListener('input', () => {
     let val = parseInt(input.value);
-    if (val > 55) input.value = 55;
+    if (val > MAX_MAIN) input.value = MAX_MAIN;
     if (val < 1 && input.value !== '') input.value = 1;
     
     if (input.value.length >= 2 || (input.value.length === 1 && parseInt(input.value) >= 6)) {
@@ -1303,7 +1312,7 @@ inputs.forEach((input, index) => {
 
 inputBonus.addEventListener('input', () => {
   let val = parseInt(inputBonus.value);
-  if (val > 55) inputBonus.value = 55;
+  if (val > MAX_MAIN) inputBonus.value = MAX_MAIN;
   if (val < 1 && inputBonus.value !== '') inputBonus.value = 1;
   validateInputs();
   updateUrlFromNumbers();
@@ -1326,7 +1335,7 @@ function formatCostUSD() {
 
 function randomizeWinningNumbers() {
   const pool = [];
-  for (let i = 1; i <= 55; i++) pool.push(i);
+  for (let i = 1; i <= MAX_MAIN; i++) pool.push(i);
   for (let i = pool.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [pool[i], pool[j]] = [pool[j], pool[i]];
@@ -1348,7 +1357,7 @@ function getCurrentNumbersFromInputs() {
   const bonusVal = parseInt(inputBonus.value, 10);
   
   if (mainVals.some(isNaN) || isNaN(bonusVal)) return null;
-  if (mainVals.some(n => n < 1 || n > 55) || bonusVal < 1 || bonusVal > 55) return null;
+  if (mainVals.some(n => n < 1 || n > MAX_MAIN) || bonusVal < 1 || bonusVal > MAX_MAIN) return null;
   if (new Set(mainVals).size !== 6) return null;
   if (mainVals.includes(bonusVal)) return null;
   
@@ -1404,7 +1413,7 @@ function loadWinningNumbersFromUrl() {
     b = parseInt(legacyMatch[7], 10);
   }
   
-  if ([m1, m2, m3, m4, m5, m6, b].every(n => n >= 1 && n <= 55)) {
+  if ([m1, m2, m3, m4, m5, m6, b].every(n => n >= 1 && n <= MAX_MAIN)) {
     const unique = new Set([m1, m2, m3, m4, m5, m6]);
     if (unique.size === 6 && !unique.has(b)) {
       const sorted = [m1, m2, m3, m4, m5, m6].sort((a, b) => a - b);
@@ -1433,7 +1442,7 @@ function validateInputs() {
     const val = parseInt(inputs[i].value);
     if (isNaN(val)) {
       hasEmpty = true;
-    } else if (val < 1 || val > 55) {
+    } else if (val < 1 || val > MAX_MAIN) {
       valMsg.textContent = simT('sim_validate_range');
       return false;
     } else {
@@ -1444,7 +1453,7 @@ function validateInputs() {
   const bVal = parseInt(inputBonus.value);
   if (isNaN(bVal)) {
     hasEmpty = true;
-  } else if (bVal < 1 || bVal > 55) {
+  } else if (bVal < 1 || bVal > MAX_MAIN) {
     valMsg.textContent = simT('sim_validate_bonus');
     return false;
   }
@@ -1476,7 +1485,7 @@ function validateInputs() {
 // Perform optimized draw for 6/55 (6 main numbers)
 function drawOneOptimized() {
   for (let i = 0; i < 6; i++) {
-    const j = i + Math.floor(Math.random() * (55 - i));
+    const j = i + Math.floor(Math.random() * (MAX_MAIN - i));
     const temp = drawPool[i];
     drawPool[i] = drawPool[j];
     drawPool[j] = temp;
@@ -1771,12 +1780,12 @@ function drawNine() {
     return p;
   };
   
-  let mainPool = shufflePool(1, 55);
+  let mainPool = shufflePool(1, MAX_MAIN);
   
   for (let i = 0; i < 9; i++) {
     drawsCount++;
     
-    if (mainPool.length < 6) mainPool = mainPool.concat(shufflePool(1, 55));
+    if (mainPool.length < 6) mainPool = mainPool.concat(shufflePool(1, MAX_MAIN));
     
     const numbers = mainPool.splice(0, 6).sort((a, b) => a - b);
     
