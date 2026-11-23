@@ -99,6 +99,7 @@ const I18N = {
   // ── REGIONS ──
   r_usa: { en: 'USA', vi: 'Mỹ', fr: 'USA', es: 'USA', de: 'USA', ru: 'США', ja: 'アメリカ', ko: '미국', zh: '美国' },
   r_europe: { en: 'Europe', vi: 'Châu Âu', fr: 'Europe', es: 'Europa', de: 'Europa', ru: 'Европа', ja: 'ヨーロッパ', ko: '유럽', zh: '欧洲' },
+  r_russia: { en: 'Russia', vi: 'Nga', fr: 'Russie', es: 'Rusia', de: 'Russland', ru: 'Россия', ja: 'ロシア', ko: '러시아', zh: '俄罗斯' },
   r_asia: { en: 'Asia', vi: 'Châu Á', fr: 'Asie', es: 'Asia', de: 'Asien', ru: 'Азия', ja: 'アジア', ko: '아시아', zh: '亚洲' },
   r_oceania: { en: 'Oceania', vi: 'Châu Úc', fr: 'Océanie', es: 'Oceanía', de: 'Ozeanien', ru: 'Океания', ja: 'オセアニア', ko: '오세아니아', zh: '大洋洲' },
   r_americas: { en: 'Americas', vi: 'Châu Mỹ', fr: 'Amériques', es: 'Américas', de: 'Amerika', ru: 'Америка', ja: 'アメリカ大陸', ko: '아메리카', zh: '美洲' },
@@ -126,6 +127,8 @@ const I18N = {
   g_additional: { en: 'Additional', vi: 'Thêm', fr: 'Supplémentaire', es: 'Adicional', de: 'Zusätzlich', ru: 'Дополнительный', ja: '追加', ko: '추가', zh: '附加' },
   g_supp: { en: 'Supplementary', vi: 'Hỗ Trợ', fr: 'Supplémentaire', es: 'Suplementario', de: 'Ergänzend', ru: 'Дополнительный', ja: '補充', ko: '보충', zh: '补充球' },
   g_bonus_ball: { en: 'Bonus Ball', vi: 'Bóng Thưởng', fr: 'Boule Bonus', es: 'Bola Bonus', de: 'Bonuskugel', ru: 'Бонусный шар', ja: 'ボーナスボール', ko: '보너스 볼', zh: '奖励球' },
+  g_digits: { en: '3 Digits (0 - 9)', vi: 'Bộ 3 chữ số (0 - 9)', fr: '3 chiffres (0 - 9)', es: '3 dígitos (0 - 9)', de: '3 Ziffern (0 - 9)', ru: '3 цифры (0 - 9)', ja: '3桁の数字 (0 - 9)', ko: '3자리 숫자 (0 - 9)', zh: '3位数字 (0 - 9)' },
+  g_superprize: { en: 'Superprize', vi: 'Superprize', fr: 'Superprix', es: 'Superpremio', de: 'Superpreis', ru: 'Суперприз', ja: 'スーパープライズ', ko: '슈퍼프라이즈', zh: '超级大奖' },
 
   // ── LOTTERY NAMES ──
   l_powerball: { en: 'Powerball', vi: 'Powerball', fr: 'Powerball', es: 'Powerball', de: 'Powerball', ru: 'Powerball', ja: 'パワーボール', ko: '파워볼', zh: '强力球' },
@@ -209,6 +212,14 @@ const I18N = {
   l_pk_lotto: { en: 'National Lottery', vi: 'Xổ Số Quốc Gia Pak', fr: 'Loterie Nationale Pak', es: 'Lotería Nacional Pak', de: 'Nationallotterie Pak', ru: 'National Lottery', ja: 'パキスタン国立', ko: '파키스탄 국립복권', zh: '巴基斯坦国家彩票' },
   l_pk_sub: { en: 'Pakistan', vi: 'Pakistan', fr: 'Pakistan', es: 'Pakistán', de: 'Pakistan', ru: 'Пакистан', ja: 'パキスタン', ko: '파키스탄', zh: '巴基斯坦' },
   l_ru_5_36: { en: 'Gosloto 5/36', vi: 'Gosloto 5/36', fr: 'Gosloto 5/36', es: 'Gosloto 5/36', de: 'Gosloto 5/36', ru: 'Спортлото «5 из 36»', ja: 'ゴスロト 5/36', ko: '고슬로또 5/36', zh: '高斯乐透 5/36' },
+  l_ru_5_50: { en: 'Gosloto 5/50', vi: 'Gosloto 5/50', fr: 'Gosloto 5/50', es: 'Gosloto 5/50', de: 'Gosloto 5/50', ru: 'Большое Спортлото', ja: 'ゴスロト 5/50', ko: '고슬로또 5/50', zh: '高斯乐透 5/50' },
+  l_ru_8_20: { en: 'Rapido 2.0', vi: 'Rapido 2.0', fr: 'Rapido 2.0', es: 'Rapido 2.0', de: 'Rapido 2.0', ru: 'Рапидо Старт', ja: 'ラピド 2.0', ko: '라피도 2.0', zh: 'Rapido 2.0' },
+  l_ru_12_24: { en: 'All or Nothing', vi: 'All or Nothing', fr: 'Tout ou rien', es: 'Todo o nada', de: 'Alles oder nichts', ru: 'Всё или ничего', ja: 'オール・オア・ナッシング', ko: '올 오어 낫싱', zh: '全中或全不中' },
+  l_ru_top3: { en: 'Top 3', vi: 'Top 3', fr: 'Top 3', es: 'Top 3', de: 'Top 3', ru: 'Топ-3', ja: 'トップ3', ko: '톱 3', zh: 'Top 3' },
+  l_ru_keno: { en: 'KENO', vi: 'KENO', fr: 'KENO', es: 'KENO', de: 'KENO', ru: 'КЕНО', ja: 'KENO', ko: 'KENO', zh: 'KENO' },
+  l_ru_6_45_plus: { en: 'Gosloto 6/45 Plus', vi: 'Gosloto 6/45 Plus', fr: 'Gosloto 6/45 Plus', es: 'Gosloto 6/45 Plus', de: 'Gosloto 6/45 Plus', ru: 'Спортлото «6 из 45» Плюс', ja: 'ゴスロト 6/45 プラス', ko: '고슬로또 6/45 플러스', zh: '高斯乐透 6/45 Plus' },
+  l_ru_6_45: { en: 'Gosloto 6/45', vi: 'Gosloto 6/45', fr: 'Gosloto 6/45', es: 'Gosloto 6/45', de: 'Gosloto 6/45', ru: 'Спортлото «6 из 45»', ja: 'ゴスロト 6/45', ko: '고슬로또 6/45', zh: '高斯乐透 6/45' },
+  l_ru_7_49: { en: 'Gosloto 7/49', vi: 'Gosloto 7/49', fr: 'Gosloto 7/49', es: 'Gosloto 7/49', de: 'Gosloto 7/49', ru: 'Спортлото «7 из 49»', ja: 'ゴスロト 7/49', ko: '고슬로또 7/49', zh: '高斯乐透 7/49' },
   l_ru_sub: { en: 'Russia – Stoloto', vi: 'Nga – Stoloto', fr: 'Russie – Stoloto', es: 'Rusia – Stoloto', de: 'Russland – Stoloto', ru: 'Россия – Столото', ja: 'ロシア – Stoloto', ko: '러시아 – Stoloto', zh: '俄罗斯 – Stoloto' },
   ui_title_ru: { en: 'Russia Lottery Generator', vi: 'Máy Quay Xổ Số Nga', fr: 'Générateur de Loterie Russe', es: 'Generador de Lotería Rusa', de: 'Russischer Lotteriegenerator', ru: 'Генератор лотерей России', ja: 'ロシア宝くじジェネレーター', ko: '러시아 복권 생성기', zh: '俄罗斯彩票生成器' },
   ui_sub_ru: { en: 'Generate winning numbers for lotteries in Russia', vi: 'Tạo số trúng thưởng cho các giải xổ số tại Nga', fr: 'Générez des numéros gagnants pour les loteries en Russie', es: 'Genera números ganadores para loterías en Rusia', de: 'Erzeugen Sie Gewinnzahlen für Lotterien in Russland', ru: 'Генерация выигрышных номеров для лотерей в России', ja: 'ロシアの宝くじの当選番号を生成', ko: '러시아 복권 당첨 번호 생성', zh: '生成俄罗斯彩票的中奖号码' },
@@ -226,7 +237,8 @@ function t(key) {
 /* ════ REGIONS ════ */
 const REGIONS = [
   { key: 'r_usa', ids: ['powerball', 'megamillions', 'luckylife'] },
-  { key: 'r_europe', ids: ['euromillions', 'eurojackpot', 'uk_lotto', 'fr_loto', 'de_lotto', 'it_sena', 'es_gordo', 'nl_lotto', 'at_lotto', 'ch_lotto', 'pl_lotto', 'ie_lotto', 'ru_5_36'] },
+  { key: 'r_europe', ids: ['euromillions', 'eurojackpot', 'uk_lotto', 'fr_loto', 'de_lotto', 'it_sena', 'es_gordo', 'nl_lotto', 'at_lotto', 'ch_lotto', 'pl_lotto', 'ie_lotto'] },
+  { key: 'r_russia', ids: ['ru_5_36', 'ru_5_50', 'ru_6_45', 'ru_7_49', 'ru_8_20', 'ru_12_24', 'ru_top3', 'ru_keno', 'ru_6_45_plus'] },
   { key: 'r_asia', ids: ['jp_l6', 'jp_l7', 'kr_lotto', 'in_lotto', 'cn_lotto', 'tw_lotto', 'ph_lotto', 'th_lotto', 'sg_toto', 'my_4d', 'vn_5_35', 'vn_6_45', 'vn_6_55', 'vn_max3d', 'vn_bingo18', 'vn_keno'] },
   { key: 'r_oceania', ids: ['au_pb', 'au_oz', 'nz_lotto'] },
   { key: 'r_americas', ids: ['ca_649', 'ca_h2h', 'br_mega', 'br_quina', 'mx_loteria', 'ar_quini'] },
@@ -243,7 +255,7 @@ class BaseLottery {
     this.nameKey = cfg.nameKey;      // i18n key for name
     this.country = cfg.country;
     this.subKey = cfg.subKey;       // i18n key for subtitle
-    this.groups = cfg.groups;       // { labelKey, min, max, count, palette }
+    this.groups = cfg.groups;       // { labelKey, min, max, count, palette, repeat? (digits may repeat, order kept) }
     this.drawCount = cfg.drawCount || 5;  // default 5 draws
     this.link = cfg.link || null;
   }
@@ -274,9 +286,18 @@ class BaseLottery {
         }
         return p;
       };
-      let pool = shuffle();
+      let pool = g.repeat ? [] : shuffle();
       const draws = [];
       for (let d = 0; d < drawCount; d++) {
+        if (g.repeat) {
+          // Digit games (e.g. Top 3): every digit is drawn independently, repeats allowed, order kept
+          draws.push({
+            label: t(g.labelKey),
+            numbers: Array.from({ length: g.count }, () => g.min + Math.floor(Math.random() * (g.max - g.min + 1))),
+            palette: g.palette
+          });
+          continue;
+        }
         if (pool.length < g.count) pool = pool.concat(shuffle());
         draws.push({
           label: t(g.labelKey),
@@ -517,6 +538,54 @@ const LOTTERIES = [
     groups: [
       { labelKey: 'g_main', min: 1, max: 36, count: 5, palette: PAL.green },
       { labelKey: 'g_bonus', min: 1, max: 4, count: 1, palette: PAL.red }
+    ]
+  }),
+  new BaseLottery({
+    id: 'ru_5_50', nameKey: 'l_ru_5_50', country: '🇷🇺', subKey: 'l_ru_sub', drawCount: 10, link: 'gosloto5-50.html',
+    groups: [
+      { labelKey: 'g_main', min: 1, max: 50, count: 5, palette: PAL.green },
+      { labelKey: 'g_bonus', min: 1, max: 10, count: 2, palette: PAL.red }
+    ]
+  }),
+  new BaseLottery({
+    id: 'ru_6_45', nameKey: 'l_ru_6_45', country: '🇷🇺', subKey: 'l_ru_sub', drawCount: 7, link: 'gosloto6-45.html',
+    groups: [{ labelKey: 'g_main', min: 1, max: 45, count: 6, palette: PAL.gold }]
+  }),
+  new BaseLottery({
+    id: 'ru_6_45_plus', nameKey: 'l_ru_6_45_plus', country: '🇷🇺', subKey: 'l_ru_sub', drawCount: 7, link: 'gosloto6-45-plus.html',
+    groups: [
+      { labelKey: 'g_main', min: 1, max: 45, count: 6, palette: PAL.sky },
+      { labelKey: 'g_bonus', min: 1, max: 4, count: 1, palette: PAL.orange }
+    ]
+  }),
+  new BaseLottery({
+    id: 'ru_7_49', nameKey: 'l_ru_7_49', country: '🇷🇺', subKey: 'l_ru_sub', drawCount: 7, link: 'gosloto7-49.html',
+    groups: [{ labelKey: 'g_main', min: 1, max: 49, count: 7, palette: PAL.purple }]
+  }),
+  new BaseLottery({
+    id: 'ru_8_20', nameKey: 'l_ru_8_20', country: '🇷🇺', subKey: 'l_ru_sub', drawCount: 4, link: 'gosloto8-20.html',
+    groups: [
+      { labelKey: 'g_main', min: 1, max: 20, count: 8, palette: PAL.teal },
+      { labelKey: 'g_bonus', min: 1, max: 4, count: 1, palette: PAL.orange }
+    ]
+  }),
+  new BaseLottery({
+    id: 'ru_12_24', nameKey: 'l_ru_12_24', country: '🇷🇺', subKey: 'l_ru_sub', drawCount: 4, link: 'gosloto12-24.html',
+    groups: [
+      { labelKey: 'g_main', min: 1, max: 24, count: 12, palette: PAL.blue }
+    ]
+  }),
+  new BaseLottery({
+    id: 'ru_top3', nameKey: 'l_ru_top3', country: '🇷🇺', subKey: 'l_ru_sub', drawCount: 5,
+    groups: [
+      { labelKey: 'g_digits', min: 0, max: 9, count: 3, palette: PAL.crimson, repeat: true }
+    ]
+  }),
+  new BaseLottery({
+    id: 'ru_keno', nameKey: 'l_ru_keno', country: '🇷🇺', subKey: 'l_ru_sub', drawCount: 4, link: 'gosloto20-80.html',
+    groups: [
+      { labelKey: 'g_main', min: 1, max: 80, count: 20, palette: PAL.blue },
+      { labelKey: 'g_superprize', min: 0, max: 9, count: 9, palette: PAL.gold, repeat: true }
     ]
   }),
   // OCEANIA

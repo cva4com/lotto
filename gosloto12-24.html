@@ -1,0 +1,1998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta property="og:title" content="🎰 All or Nothing (Всё или ничего) Simulator &amp; Analyzer"/>
+<meta property="og:description" content="Players choose 12 numbers from 1 to 24 and win the Superprize if all 12 numbers match or none of them match. Simulate continuous draws until you win."/>
+<meta property="og:image" content="https://cva4.com/lotto/images/banner.jpg"/>
+<meta property="og:url" content="https://cva4.com/lotto/gosloto12-24.html"/>
+<meta property="og:type" content="website"/>
+<meta name="description" content="All or Nothing (Всё или ничего) - simulate continuous draws: 12 numbers out of 24, win by matching all or none."/>
+<title>🎰 All or Nothing Simulator</title>
+<link rel="stylesheet" href="style/lotto.css"/>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0SM6SYKD3T"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-0SM6SYKD3T');
+</script>
+<style>
+/* Additional CSS for the simulation feature */
+.sim-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 20px;
+  padding: 0 18px 56px;
+}
+@media (max-width: 900px) {
+  .sim-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.sim-card {
+  background: var(--bg-card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  transition: all 0.3s;
+}
+.sim-card:hover {
+  border-color: var(--card-border-hover);
+}
+.sim-title {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--accent-teal);
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--card-border);
+  padding-bottom: 10px;
+}
+.input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.num-input {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 2px solid var(--select-border);
+  background: transparent;
+  color: var(--text-primary);
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  outline: none;
+  transition: all 0.25s;
+}
+.num-input:focus {
+  border-color: var(--accent-teal);
+  box-shadow: 0 0 10px rgba(0, 229, 204, 0.3);
+}
+.btn-rand-inputs {
+  background: transparent;
+  border: 1px solid var(--select-border);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  color: var(--text-primary);
+}
+.btn-rand-inputs:hover {
+  border-color: var(--accent-gold);
+  background: var(--btn-gold-bg);
+  transform: rotate(30deg);
+}
+.control-group {
+  margin-bottom: 20px;
+}
+.control-label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: block;
+}
+.sim-select {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--select-border);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  outline: none;
+  cursor: pointer;
+}
+.sim-select:focus {
+  border-color: var(--accent-teal);
+}
+.sim-btn-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.sim-btn {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  transition: all 0.22s;
+  flex: 1;
+  min-width: 120px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.sim-btn-start {
+  background: linear-gradient(135deg, #0a9e8e, #07796d);
+  color: white;
+  border: none;
+}
+.sim-btn-start:hover {
+  box-shadow: 0 0 15px rgba(10, 158, 142, 0.4);
+  filter: brightness(1.1);
+}
+.sim-btn-stop {
+  background: linear-gradient(135deg, #d32f2f, #b71c1c);
+  color: white;
+  border: none;
+}
+.sim-btn-stop:hover {
+  box-shadow: 0 0 15px rgba(211, 47, 47, 0.4);
+  filter: brightness(1.1);
+}
+.sim-btn-rand {
+  background: var(--btn-gold-bg);
+  color: var(--accent-gold);
+  border: 1px solid var(--accent-gold);
+}
+.sim-btn-rand:hover {
+  background: var(--btn-gold-hover);
+}
+.sim-btn-rand7 {
+  background: var(--btn-gold-bg);
+  color: var(--accent-gold);
+  border: 1px solid var(--accent-gold);
+}
+.sim-btn-rand7:hover {
+  background: var(--btn-gold-hover);
+}
+.sim-btn-reset {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--select-border);
+}
+.sim-btn-reset:hover {
+  background: rgba(0,0,0,0.05);
+}
+[data-theme="dark"] .sim-btn-reset:hover {
+  background: rgba(255,255,255,0.05);
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.stat-box {
+  background: rgba(0,0,0,0.02);
+  border: 1px solid var(--select-border);
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+}
+[data-theme="dark"] .stat-box {
+  background: rgba(255,255,255,0.02);
+}
+.stat-val {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--text-primary);
+}
+.stat-lbl {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+.prize-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+.prize-table th, .prize-table td {
+  padding: 6px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--select-border);
+}
+.prize-table th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+.prize-table td {
+  font-size: 0.82rem;
+}
+.prize-count {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  color: var(--accent-gold);
+}
+.ticket-container {
+  margin: 10px 0 20px 0;
+  border: 2px dashed var(--accent-teal);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+.ticket-container.running::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -150%; width: 50%; height: 100%;
+  background: linear-gradient(to right, transparent, rgba(0, 229, 204, 0.15), transparent);
+  transform: skewX(-25deg);
+  animation: sweep 1.5s infinite;
+}
+@keyframes sweep {
+  0% { left: -150%; }
+  100% { left: 150%; }
+}
+.ball-match {
+  transform: scale(1.1);
+  animation: pulse 1s infinite alternate;
+}
+svg.ball-match > text {
+  fill: yellow;
+}
+@keyframes pulse {
+  0% { transform: scale(1.05); }
+  100% { transform: scale(1.15); }
+}
+.validation-error {
+  color: #ff3333;
+  font-size: 0.8rem;
+  margin-top: -15px;
+  margin-bottom: 15px;
+  min-height: 1.2em;
+  font-weight: 600;
+}
+.site-logo {
+  display: inline-flex;
+  align-items: center;
+}
+.site-logo img {
+  height: 32px;
+  width: auto;
+  display: block;
+}
+[data-theme="dark"] .site-logo img {
+  filter: invert(1);
+}
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.game-logo {
+  display: block;
+  height: clamp(36px, 6vw, 52px);
+  width: auto;
+}
+.h-desc {
+  max-width: 820px;
+  margin: 8px auto 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+</style>
+</head>
+<body data-theme="light">
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div style="display:flex;align-items:center;gap:12px">
+    <div class="hamburger" id="hamburger" onclick="toggleSidebar()"><span></span><span></span><span></span></div>
+    <a class="site-logo" href="russia.html" title="Russia" aria-label="Back to Russia lotteries"><img src="images/stoloto.svg" alt="Stoloto"/></a>
+    <div class="lang-pills" id="lang-pills"></div>
+  </div>
+  <div class="follow-us">
+    <div class="theme-toggle">
+      <span class="icon" id="icon-dark">🌙</span>
+      <div class="toggle-track" onclick="toggleTheme()"><div class="toggle-knob"></div></div>
+      <span class="icon active" id="icon-light">☀️</span>
+    </div>
+    <span class="follow-label sr-only">Follow us:</span>
+    <a class="social-link fb" href="https://www.facebook.com/LottoLuckyNumber/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M22 12.07C22 6.48 17.52 2 11.93 2 6.34 2 2 6.48 2 12.07 2 17.09 5.66 21.19 10.44 22v-7.01H8.08V12.1h2.36V9.79c0-2.33 1.39-3.61 3.52-3.61 1.02 0 2.09.18 2.09.18v2.3h-1.18c-1.16 0-1.52.72-1.52 1.46v1.75h2.59l-.41 2.89h-2.18V22C18.34 21.19 22 12.07 22z" fill="currentColor"/></svg>
+    </a>
+    <a class="social-link yt" href="https://www.youtube.com/@CV_A4" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+      <svg width="20" height="14" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M23.5 2.2s-.2-1.6-.8-2.3C21.8-.5 20.9-.5 20.4-.6 17.8-.9 12-.9 12-.9s-5.8 0-8.4.1C3.1-.4 2.2-.5 1.3-.1.7.3.5 1.5.5 1.5S0 4.1 0 6.8v2.5C0 11.9.5 14.5.5 14.5s.2 1.2.8 1.6c.9.4 2.1.3 2.6.4 1.9.1 8.1.1 8.1.1s5.8 0 8.4-.1c.5 0 1.4 0 1.9-.4.6-.4.8-1.6.8-1.6S24 11.9 24 9.2V6.8c0-2.7-.5-5-0.5-5.6zM9.8 11.1V4.8l6.2 3.1-6.2 3.2z" fill="currentColor"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+  <!-- Hidden elements required for lotto.js compatibility -->
+  <div style="display:none !important;">
+    <button id="btn-all"></button>
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header" id="sb-header"></div>
+      <div id="sb-body"></div>
+    </aside>
+    <div class="sb-overlay" id="sb-overlay" onclick="toggleSidebar()"></div>
+    <div id="lottery-grid"></div>
+  </div>
+  
+  <div class="main" style="width:100%;">
+    <div class="content-header">
+      <div class="title-row">
+        <img class="game-logo" src="images/allin.svg" alt="Всё или ничего"/>
+        <h1 id="h-title">All or Nothing Win Simulator 🎰</h1>
+      </div>
+      <p id="h-sub">Simulate drawing numbers continuously until winning condition is met</p>
+      <p id="h-desc" class="h-desc">Players choose 12 numbers from 1 to 24 and win the Superprize if all 12 numbers match or none of them match.</p>
+    </div>
+    
+    <!-- Simulation grid -->
+    <div class="sim-grid">
+      
+      <!-- Input Panel -->
+      <div class="sim-card">
+        <div class="sim-title" id="lbl-sim-title">
+          <span>🎯</span> Real Winning Numbers
+        </div>
+        
+        <div class="control-label" id="lbl-sim-input">Enter 12 main numbers (1 - 24)</div>
+        <div class="input-row">
+          <input type="number" min="1" max="24" class="num-input main-input" placeholder="-" id="in-m1">
+          <input type="number" min="1" max="24" class="num-input main-input" placeholder="-" id="in-m2">
+          <input type="number" min="1" max="24" class="num-input main-input" placeholder="-" id="in-m3">
+          <input type="number" min="1" max="24" class="num-input main-input" placeholder="-" id="in-m4">
+          <input type="number" min="1" max="24" class="num-input main-input" placeholder="-" id="in-m5">
+          <input type="number" min="1" max="24" class="num-input main-input" placeholder="-" id="in-m6">
+          <input type="number" min="1" max="24" class="num-input main-input" placeholder="-" id="in-m7">
+          <input type="number" min="1" max="24" class="num-input main-input" placeholder="-" id="in-m8">
+          <input type="number" min="1" max="24" class="num-input main-input" placeholder="-" id="in-m9">
+          <input type="number" min="1" max="24" class="num-input main-input" placeholder="-" id="in-m10">
+          <input type="number" min="1" max="24" class="num-input main-input" placeholder="-" id="in-m11">
+          <input type="number" min="1" max="24" class="num-input main-input" placeholder="-" id="in-m12">
+          <button class="btn-rand-inputs" id="btn-rand-inputs" title="Randomize winning numbers">🎲</button>
+        </div>
+        <div id="validation-msg" class="validation-error"></div>
+        
+        <div class="control-group">
+          <div class="control-label" id="lbl-sim-stop">Select Stop Condition</div>
+          <select class="sim-select" id="stop-condition">
+            <option value="tier_4" selected>Fourth Prize or better</option>
+            <option value="tier_3">Third Prize or better</option>
+            <option value="tier_2">Second Prize or better</option>
+            <option value="tier_1">Superprize (match all 12 or none)</option>
+          </select>
+        </div>
+        
+        <div class="control-group">
+          <div class="control-label" id="lbl-sim-speed">Simulation Speed</div>
+          <select class="sim-select" id="sim-speed">
+            <option value="1">Normal (60 tickets / sec)</option>
+            <option value="100">Fast (6,000 tickets / sec)</option>
+            <option value="500" selected>Super Speed (30,000 tickets / sec)</option>
+            <option value="1500">God Mode (90,000 tickets / sec)</option>
+            <option value="5000">Maximum (300,000 tickets / sec)</option>
+          </select>
+        </div>
+        
+        <div class="sim-btn-row">
+          <button class="sim-btn sim-btn-start" id="btn-start">▶ Start</button>
+          <button class="sim-btn sim-btn-stop" id="btn-stop" style="display:none;">⏸ Pause</button>
+          <button class="sim-btn sim-btn-rand" id="btn-rand">🎲 Draw 1 Ticket</button>
+          <button class="sim-btn sim-btn-rand7" id="btn-rand2">🎲 Draw 2 Tickets</button>
+          <button class="sim-btn sim-btn-rand7" id="btn-rand4">🎲 Draw 4 Tickets</button>
+          <button class="sim-btn sim-btn-reset" id="btn-reset">🔄 Reset</button>
+        </div>
+
+        <div class="control-group" style="margin-top: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div class="control-label" id="lbl-sim-history" style="margin-bottom: 0;">Generated Numbers Log</div>
+            <select id="history-log-mode" class="sim-select" style="width: auto; padding: 4px 10px; font-size: 0.8rem;">
+              <option value="matched">Matched Only</option>
+              <option value="all" selected>Show All Numbers</option>
+            </select>
+          </div>
+          <textarea id="draw-history-log" readonly placeholder="Generated numbers will appear here..." style="width: 100%; height: 160px; border-radius: 8px; border: 1px solid var(--select-border); background: var(--bg-card); color: var(--text-primary); font-family: 'Orbitron', monospace; font-size: 0.8rem; padding: 10px; resize: vertical; outline: none; line-height: 1.5;"></textarea>
+        </div>
+      </div>
+      
+      <!-- Stats & Results Panel -->
+      <div class="sim-card">
+        <div class="sim-title" id="lbl-sim-stats-title">
+          <span>📊</span> Simulation Stats
+        </div>
+        
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-val" id="stat-draws">0</div>
+            <div class="stat-lbl" id="lbl-stat-draws">Tickets Checked</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" id="stat-cost">$0.00</div>
+            <div class="stat-lbl" id="lbl-stat-cost">Estimated Cost</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" id="stat-speed">0/s</div>
+            <div class="stat-lbl" id="lbl-stat-speed">Actual Speed</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-val" id="stat-time">0.0s</div>
+            <div class="stat-lbl" id="lbl-stat-time">Elapsed Time</div>
+          </div>
+        </div>
+        
+        <div class="ticket-container" id="ticket-area">
+          <div style="color: var(--text-secondary); font-size: 0.9rem; font-style: italic;">
+            Matching ticket will appear here...
+          </div>
+        </div>
+        
+        <div class="control-label" id="lbl-sim-prize">Prizes Won During Simulation</div>
+        <table class="prize-table">
+          <thead>
+            <tr>
+              <th>Prize</th>
+              <th>Condition</th>
+              <th>Count</th>
+              <th>Rate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Superprize</td>
+              <td>Match 12 or 0 main numbers</td>
+              <td class="prize-count" id="p-t1">0</td>
+              <td id="p-t1-pct">0%</td>
+            </tr>
+            <tr>
+              <td>Second Prize</td>
+              <td>Match 11 or 1 main numbers</td>
+              <td class="prize-count" id="p-t2">0</td>
+              <td id="p-t2-pct">0%</td>
+            </tr>
+            <tr>
+              <td>Third Prize</td>
+              <td>Match 10 or 2 main numbers</td>
+              <td class="prize-count" id="p-t3">0</td>
+              <td id="p-t3-pct">0%</td>
+            </tr>
+            <tr>
+              <td>Fourth Prize</td>
+              <td>Match 9 or 3 main numbers</td>
+              <td class="prize-count" id="p-t4">0</td>
+              <td id="p-t4-pct">0%</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+    </div>
+    
+    <footer id="footer-text"></footer>
+  </div>
+</div>
+
+<script>
+const VIETNAM_MODE = false;
+</script>
+<script src="script/lotto.js"></script>
+
+<script>
+// ===== Game configuration: edit here =====
+const MAX_MAIN = 24;   // main numbers: 1..MAX_MAIN
+const MAIN_COUNT = 12; // how many main numbers are drawn / entered
+let DRAW_MANY = 2;     // number of tickets drawn by the last "Draw N Tickets" button (buttons: 2 and 4)
+// ==========================================
+
+// Multi-language dictionary for simulation page
+// {max_main} / {max_extra} are replaced by MAX_MAIN / MAX_EXTRA in simT()
+const SIM_I18N = {
+  en: {
+    sim_title: '<span>🎯</span> Real Winning Numbers',
+    sim_input_lbl: 'Enter {main_count} main numbers (1 - {max_main})',
+    sim_stop_lbl: 'Select Stop Condition',
+    sim_stop_opt_t4: 'Fourth Prize or better',
+    sim_stop_opt_t3: 'Third Prize or better',
+    sim_stop_opt_t2: 'Second Prize or better',
+    sim_stop_opt_t1: 'Superprize (match all {hi1} or none)',
+    sim_speed_lbl: 'Simulation Speed',
+    sim_speed_normal: 'Normal (60 tickets / sec)',
+    sim_speed_fast: 'Fast (6,000 tickets / sec)',
+    sim_speed_super: 'Super Speed (30,000 tickets / sec)',
+    sim_speed_god: 'God Mode (90,000 tickets / sec)',
+    sim_speed_max: 'Maximum (300,000 tickets / sec)',
+    sim_btn_start: '▶ Start',
+    sim_btn_stop: '⏸ Pause',
+    sim_btn_rand: '🎲 Draw 1 Ticket',
+    sim_btn_rand7: '🎲 Draw {draw_many} Tickets',
+    sim_btn_reset: '🔄 Reset',
+    sim_history_lbl: 'Generated Numbers Log',
+    sim_hist_mode_matched: 'Matched Only',
+    sim_hist_mode_all: 'Show All Numbers',
+    sim_history_placeholder: 'Generated numbers will appear here...',
+    sim_stats_title: '<span>📊</span> Simulation Stats',
+    sim_stat_draws: 'Tickets Checked',
+    sim_stat_cost: 'Estimated Cost',
+    sim_stat_speed: 'Actual Speed',
+    sim_stat_time: 'Elapsed Time',
+    sim_prize_lbl: 'Prizes Won During Simulation',
+    sim_tbl_prize: 'Prize',
+    sim_tbl_req: 'Condition',
+    sim_tbl_count: 'Count',
+    sim_tbl_rate: 'Rate',
+    sim_p_t1: 'Superprize',
+    sim_p_t1_req: 'Match {hi1} or {lo1} main numbers',
+    sim_p_t2: 'Second Prize',
+    sim_p_t2_req: 'Match {hi2} or {lo2} main numbers',
+    sim_p_t3: 'Third Prize',
+    sim_p_t3_req: 'Match {hi3} or {lo3} main numbers',
+    sim_p_t4: 'Fourth Prize',
+    sim_p_t4_req: 'Match {hi4} or {lo4} main numbers',
+    sim_placeholder: 'Matching ticket will appear here...',
+    sim_validate_range: 'Main numbers must be between 1 and {max_main}.',
+    sim_validate_empty: 'Please enter all {main_count} main numbers.',
+    sim_validate_dup: 'Main numbers cannot be duplicated.',
+    sim_ticket_main_lbl: 'Main Numbers (Matched {count}/{main_count})',
+    sim_ticket_cost_lbl: 'Ticket #{draws} | Total Cost: {cost}',
+    sim_ticket_remaining_lbl: 'Remaining Numbers',
+    sim_ticket_drawn7_title: '🎲 {draw_many} Tickets Drawn',
+    sim_ticket_drawing_live: '⚡ Drawing Numbers...',
+    sim_btn_rand_inputs_title: 'Randomize winning numbers',
+    sim_ticket_matched_suffix: 'MATCHED!',
+    sim_log_match: ' (Matched {count} numbers)',
+    sim_h_title: 'All or Nothing Win Simulator 🎰',
+    sim_h_sub: 'Simulate drawing numbers continuously until winning condition is met',
+    sim_h_desc: 'Players choose 12 numbers from 1 to 24 and win the Superprize if all 12 numbers match or none of them match.'
+  },
+  fr: {
+    sim_title: '<span>🎯</span> Numéros gagnants réels',
+    sim_input_lbl: 'Saisissez {main_count} numéros principaux (1 - {max_main})',
+    sim_stop_lbl: 'Sélectionnez la condition d\'arrêt',
+    sim_stop_opt_t4: 'Quatrième prix ou mieux',
+    sim_stop_opt_t3: 'Troisième prix ou mieux',
+    sim_stop_opt_t2: 'Deuxième prix ou mieux',
+    sim_stop_opt_t1: 'Superprix (les {hi1} numéros ou aucun)',
+    sim_speed_lbl: 'Vitesse de simulation',
+    sim_speed_normal: 'Normale (60 billets / s)',
+    sim_speed_fast: 'Rapide (6 000 billets / s)',
+    sim_speed_super: 'Super rapide (30 000 billets / s)',
+    sim_speed_god: 'Mode Dieu (90 000 billets / s)',
+    sim_speed_max: 'Maximum (300 000 billets / s)',
+    sim_btn_start: '▶ Démarrer',
+    sim_btn_stop: '⏸ Pause',
+    sim_btn_rand: '🎲 Tirer 1 billet',
+    sim_btn_rand7: '🎲 Tirer {draw_many} billets',
+    sim_btn_reset: '🔄 Réinitialiser',
+    sim_history_lbl: 'Historique des numéros générés',
+    sim_hist_mode_matched: 'Correspondances uniquement',
+    sim_hist_mode_all: 'Afficher tous les numéros',
+    sim_history_placeholder: 'Les numéros générés apparaîtront ici...',
+    sim_stats_title: '<span>📊</span> Statistiques de simulation',
+    sim_stat_draws: 'Billets vérifiés',
+    sim_stat_cost: 'Coût estimé',
+    sim_stat_speed: 'Vitesse réelle',
+    sim_stat_time: 'Temps écoulé',
+    sim_prize_lbl: 'Lots remportés pendant la simulation',
+    sim_tbl_prize: 'Lot',
+    sim_tbl_req: 'Condition',
+    sim_tbl_count: 'Nombre',
+    sim_tbl_rate: 'Taux',
+    sim_p_t1: 'Superprix',
+    sim_p_t1_req: 'Correspond à {hi1} ou {lo1} numéros principaux',
+    sim_p_t2: 'Deuxième prix',
+    sim_p_t2_req: 'Correspond à {hi2} ou {lo2} numéros principaux',
+    sim_p_t3: 'Troisième prix',
+    sim_p_t3_req: 'Correspond à {hi3} ou {lo3} numéros principaux',
+    sim_p_t4: 'Quatrième prix',
+    sim_p_t4_req: 'Correspond à {hi4} ou {lo4} numéros principaux',
+    sim_placeholder: 'Le billet gagnant apparaîtra ici...',
+    sim_validate_range: 'Les numéros principaux doivent être compris entre 1 et {max_main}.',
+    sim_validate_empty: 'Veuillez saisir tous les {main_count} numéros principaux.',
+    sim_validate_dup: 'Les numéros principaux ne peuvent pas être dupliqués.',
+    sim_ticket_main_lbl: 'Numéros principaux (Correspondance {count}/{main_count})',
+    sim_ticket_cost_lbl: 'Billet n°{draws} | Coût total : {cost}',
+    sim_ticket_remaining_lbl: 'Numéros restants',
+    sim_ticket_drawn7_title: '🎲 {draw_many} Billets Tirés',
+    sim_ticket_drawing_live: '⚡ Tirage en cours...',
+    sim_btn_rand_inputs_title: 'Tirer au sort les numéros gagnants',
+    sim_ticket_matched_suffix: 'GAGNÉ !',
+    sim_log_match: ' (Correspond à {count} numéros)',
+    sim_h_title: 'Simulateur de gain Tout ou rien 🎰',
+    sim_h_sub: 'Simule des tirages en continu jusqu\'à ce que la condition de victoire soit atteinte',
+    sim_h_desc: 'Le joueur choisit 12 numéros de 1 à 24 et remporte le Superprix si les 12 numéros correspondent ou si aucun ne correspond.'
+  },
+  es: {
+    sim_title: '<span>🎯</span> Números ganadores reales',
+    sim_input_lbl: 'Introduce {main_count} números principales (1 - {max_main})',
+    sim_stop_lbl: 'Selecciona la condición de parada',
+    sim_stop_opt_t4: 'Cuarto premio o superior',
+    sim_stop_opt_t3: 'Tercer premio o superior',
+    sim_stop_opt_t2: 'Segundo premio o superior',
+    sim_stop_opt_t1: 'Superpremio (los {hi1} números o ninguno)',
+    sim_speed_lbl: 'Velocidad de simulación',
+    sim_speed_normal: 'Normal (60 boletos/s)',
+    sim_speed_fast: 'Rápida (6.000 boletos/s)',
+    sim_speed_super: 'Súper rápida (30.000 boletos/s)',
+    sim_speed_god: 'Modo Dios (90.000 boletos/s)',
+    sim_speed_max: 'Máxima (300.000 boletos/s)',
+    sim_btn_start: '▶ Iniciar',
+    sim_btn_stop: '⏸ Pausar',
+    sim_btn_rand: '🎲 Generar 1 boleto',
+    sim_btn_rand7: '🎲 Generar {draw_many} boletos',
+    sim_btn_reset: '🔄 Restablecer',
+    sim_history_lbl: 'Registro de números generados',
+    sim_hist_mode_matched: 'Solo coincidencias',
+    sim_hist_mode_all: 'Mostrar todos los números',
+    sim_history_placeholder: 'Los números generados aparecerán aquí...',
+    sim_stats_title: '<span>📊</span> Estadísticas de la simulación',
+    sim_stat_draws: 'Boletos comprobados',
+    sim_stat_cost: 'Costo estimado',
+    sim_stat_speed: 'Velocidad real',
+    sim_stat_time: 'Tiempo transcurrido',
+    sim_prize_lbl: 'Premios obtenidos durante la simulación',
+    sim_tbl_prize: 'Premio',
+    sim_tbl_req: 'Condición',
+    sim_tbl_count: 'Cantidad',
+    sim_tbl_rate: 'Tasa',
+    sim_p_t1: 'Superpremio',
+    sim_p_t1_req: 'Acierta {hi1} o {lo1} números principales',
+    sim_p_t2: 'Segundo premio',
+    sim_p_t2_req: 'Acierta {hi2} o {lo2} números principales',
+    sim_p_t3: 'Tercer premio',
+    sim_p_t3_req: 'Acierta {hi3} o {lo3} números principales',
+    sim_p_t4: 'Cuarto premio',
+    sim_p_t4_req: 'Acierta {hi4} o {lo4} números principales',
+    sim_placeholder: 'El boleto ganador aparecerá aquí...',
+    sim_validate_range: 'Los números principales deben estar entre 1 y {max_main}.',
+    sim_validate_empty: 'Introduce todos los {main_count} números principales.',
+    sim_validate_dup: 'Los números principales no pueden repetirse.',
+    sim_ticket_main_lbl: 'Números principales (Aciertos {count}/{main_count})',
+    sim_ticket_cost_lbl: 'Boleto n.º {draws} | Costo total: {cost}',
+    sim_ticket_remaining_lbl: 'Números restantes',
+    sim_ticket_drawn7_title: '🎲 {draw_many} Boletos Generados',
+    sim_ticket_drawing_live: '⚡ Sorteando números...',
+    sim_btn_rand_inputs_title: 'Generar números ganadores al azar',
+    sim_ticket_matched_suffix: '¡ACERTADO!',
+    sim_log_match: ' (Coincidencia {count} números)',
+    sim_h_title: 'Simulador de premios Todo o nada 🎰',
+    sim_h_sub: 'Simula sorteos continuamente hasta cumplir la condición de victoria',
+    sim_h_desc: 'El jugador elige 12 números del 1 al 24 y gana el Superpremio si acierta los 12 números o ninguno.'
+  },
+  de: {
+    sim_title: '<span>🎯</span> Echte Gewinnzahlen',
+    sim_input_lbl: 'Geben Sie {main_count} Hauptzahlen (1 - {max_main}) ein',
+    sim_stop_lbl: 'Abbruchbedingung auswählen',
+    sim_stop_opt_t4: '4. Preis oder besser',
+    sim_stop_opt_t3: '3. Preis oder besser',
+    sim_stop_opt_t2: '2. Preis oder besser',
+    sim_stop_opt_t1: 'Superpreis (alle {hi1} Zahlen oder keine)',
+    sim_speed_lbl: 'Simulationsgeschwindigkeit',
+    sim_speed_normal: 'Normal (60 Lose/Sek.)',
+    sim_speed_fast: 'Schnell (6.000 Lose/Sek.)',
+    sim_speed_super: 'Super schnell (30.000 Lose/Sek.)',
+    sim_speed_god: 'Gottmodus (90.000 Lose/Sek.)',
+    sim_speed_max: 'Maximum (300.000 Lose/Sek.)',
+    sim_btn_start: '▶ Start',
+    sim_btn_stop: '⏸ Pause',
+    sim_btn_rand: '🎲 1 Los ziehen',
+    sim_btn_rand7: '🎲 {draw_many} Lose ziehen',
+    sim_btn_reset: '🔄 Zurücksetzen',
+    sim_history_lbl: 'Protokoll der generierten Zahlen',
+    sim_hist_mode_matched: 'Nur Treffer',
+    sim_hist_mode_all: 'Alle Zahlen anzeigen',
+    sim_history_placeholder: 'Die generierten Zahlen werden hier angezeigt...',
+    sim_stats_title: '<span>📊</span> Simulationsstatistik',
+    sim_stat_draws: 'Geprüfte Lose',
+    sim_stat_cost: 'Geschätzte Kosten',
+    sim_stat_speed: 'Tatsächliche Geschwindigkeit',
+    sim_stat_time: 'Verstrichene Zeit',
+    sim_prize_lbl: 'Gewonnene Preise während der Simulation',
+    sim_tbl_prize: 'Preis',
+    sim_tbl_req: 'Bedingung',
+    sim_tbl_count: 'Anzahl',
+    sim_tbl_rate: 'Quote',
+    sim_p_t1: 'Superpreis',
+    sim_p_t1_req: '{hi1} oder {lo1} Hauptzahlen richtig',
+    sim_p_t2: '2. Preis',
+    sim_p_t2_req: '{hi2} oder {lo2} Hauptzahlen richtig',
+    sim_p_t3: '3. Preis',
+    sim_p_t3_req: '{hi3} oder {lo3} Hauptzahlen richtig',
+    sim_p_t4: '4. Preis',
+    sim_p_t4_req: '{hi4} oder {lo4} Hauptzahlen richtig',
+    sim_placeholder: 'Das Gewinnlos wird hier angezeigt...',
+    sim_validate_range: 'Die Hauptzahlen müssen zwischen 1 und {max_main} liegen.',
+    sim_validate_empty: 'Bitte geben Sie alle {main_count} Hauptzahlen ein.',
+    sim_validate_dup: 'Hauptzahlen dürfen nicht doppelt vorkommen.',
+    sim_ticket_main_lbl: 'Hauptzahlen ({count}/{main_count} Treffer)',
+    sim_ticket_cost_lbl: 'Los Nr. {draws} | Gesamtkosten: {cost}',
+    sim_ticket_remaining_lbl: 'Verbleibende Zahlen',
+    sim_ticket_drawn7_title: '🎲 {draw_many} Lose Gezogen',
+    sim_ticket_drawing_live: '⚡ Zahlen werden gezogen...',
+    sim_btn_rand_inputs_title: 'Gewinnzahlen zufällig generieren',
+    sim_ticket_matched_suffix: 'GETROFFEN!',
+    sim_log_match: ' ({count} Zahlen Treffer)',
+    sim_h_title: 'Alles oder nichts Gewinnsimulator 🎰',
+    sim_h_sub: 'Simuliert fortlaufende Ziehungen, bis die Gewinnbedingung erfüllt ist',
+    sim_h_desc: 'Der Spieler wählt 12 Zahlen von 1 bis 24 und gewinnt den Superpreis, wenn alle 12 Zahlen oder keine einzige Zahl übereinstimmt.'
+  },
+  ru: {
+    sim_title: '<span>🎯</span> Реальные выигрышные номера',
+    sim_input_lbl: 'Введите {main_count} основных номеров (1 - {max_main})',
+    sim_stop_lbl: 'Выберите условие остановки',
+    sim_stop_opt_t4: 'Четвёртый приз или выше',
+    sim_stop_opt_t3: 'Третий приз или выше',
+    sim_stop_opt_t2: 'Второй приз или выше',
+    sim_stop_opt_t1: 'Суперприз (все {hi1} чисел или ни одного)',
+    sim_speed_lbl: 'Скорость симуляции',
+    sim_speed_normal: 'Обычная (60 билетов/сек)',
+    sim_speed_fast: 'Быстрая (6 000 билетов/сек)',
+    sim_speed_super: 'Супер скорость (30 000 билетов/сек)',
+    sim_speed_god: 'Режим бога (90 000 билетов/сек)',
+    sim_speed_max: 'Максимальная (300 000 билетов/сек)',
+    sim_btn_start: '▶ Старт',
+    sim_btn_stop: '⏸ Пауза',
+    sim_btn_rand: '🎲 Вытянуть 1 билет',
+    sim_btn_rand7: '🎲 Вытянуть {draw_many} билета',
+    sim_btn_reset: '🔄 Сброс',
+    sim_history_lbl: 'Журнал сгенерированных номеров',
+    sim_hist_mode_matched: 'Только совпавшие',
+    sim_hist_mode_all: 'Показать все номера',
+    sim_history_placeholder: 'Сгенерированные номера появятся здесь...',
+    sim_stats_title: '<span>📊</span> Статистика симуляции',
+    sim_stat_draws: 'Проверено билетов',
+    sim_stat_cost: 'Оценочная стоимость',
+    sim_stat_speed: 'Фактическая скорость',
+    sim_stat_time: 'Прошедшее время',
+    sim_prize_lbl: 'Призы, выигранные во время симуляции',
+    sim_tbl_prize: 'Приз',
+    sim_tbl_req: 'Условие',
+    sim_tbl_count: 'Количество',
+    sim_tbl_rate: 'Частота',
+    sim_p_t1: 'Суперприз',
+    sim_p_t1_req: 'Совпадение {hi1} или {lo1} основных чисел',
+    sim_p_t2: 'Второй приз',
+    sim_p_t2_req: 'Совпадение {hi2} или {lo2} основных чисел',
+    sim_p_t3: 'Третий приз',
+    sim_p_t3_req: 'Совпадение {hi3} или {lo3} основных чисел',
+    sim_p_t4: 'Четвёртый приз',
+    sim_p_t4_req: 'Совпадение {hi4} или {lo4} основных чисел',
+    sim_placeholder: 'Билет с совпадением появится здесь...',
+    sim_validate_range: 'Основные номера должны быть от 1 до {max_main}.',
+    sim_validate_empty: 'Пожалуйста, введите все {main_count} основных номеров.',
+    sim_validate_dup: 'Основные номера не должны повторяться.',
+    sim_ticket_main_lbl: 'Основные номера (Совпало {count}/{main_count})',
+    sim_ticket_cost_lbl: 'Билет #{draws} | Общие затраты: {cost}',
+    sim_ticket_remaining_lbl: 'Оставшиеся номера',
+    sim_ticket_drawn7_title: '🎲 Вытянуто {draw_many} билета',
+    sim_ticket_drawing_live: '⚡ Розыгрыш номеров...',
+    sim_btn_rand_inputs_title: 'Случайные выигрышные номера',
+    sim_ticket_matched_suffix: 'СОВПАЛО!',
+    sim_log_match: ' (Совпало номеров: {count})',
+    sim_h_title: 'Симулятор выигрыша «Всё или ничего» 🎰',
+    sim_h_sub: 'Непрерывная симуляция тиражей до выполнения условий выигрыша',
+    sim_h_desc: 'Игрок выбирает 12 чисел от 1 до 24 и выигрывает суперприз, если угадал все 12 чисел или не угадал ни одного.'
+  },
+  ja: {
+    sim_title: '<span>🎯</span> 実際の当選番号',
+    sim_input_lbl: '本数字{main_count}個（1～{max_main}）を入力してください',
+    sim_stop_lbl: '停止条件を選択',
+    sim_stop_opt_t4: '4等以上',
+    sim_stop_opt_t3: '3等以上',
+    sim_stop_opt_t2: '2等以上',
+    sim_stop_opt_t1: 'スーパープライズ（{hi1}個すべて一致または0個）',
+    sim_speed_lbl: 'シミュレーション速度',
+    sim_speed_normal: '通常（毎秒60枚）',
+    sim_speed_fast: '高速（毎秒6,000枚）',
+    sim_speed_super: '超高速（毎秒30,000枚）',
+    sim_speed_god: 'ゴッドモード（毎秒90,000枚）',
+    sim_speed_max: '最大（毎秒300,000枚）',
+    sim_btn_start: '▶ 開始',
+    sim_btn_stop: '⏸ 一時停止',
+    sim_btn_rand: '🎲 チケットを1枚生成',
+    sim_btn_rand7: '🎲 チケットを{draw_many}枚生成',
+    sim_btn_reset: '🔄 リセット',
+    sim_history_lbl: '生成された番号の履歴',
+    sim_hist_mode_matched: '一致したもののみ',
+    sim_hist_mode_all: 'すべての番号を表示',
+    sim_history_placeholder: '生成された番号がここに表示されます...',
+    sim_stats_title: '<span>📊</span> シミュレーション統計',
+    sim_stat_draws: '確認済みチケット数',
+    sim_stat_cost: '推定コスト',
+    sim_stat_speed: '実際の速度',
+    sim_stat_time: '経過時間',
+    sim_prize_lbl: 'シミュレーション中に獲得した賞',
+    sim_tbl_prize: '賞',
+    sim_tbl_req: '条件',
+    sim_tbl_count: '回数',
+    sim_tbl_rate: '確率',
+    sim_p_t1: 'スーパープライズ',
+    sim_p_t1_req: 'メイン数字が{hi1}個または{lo1}個一致',
+    sim_p_t2: '2等',
+    sim_p_t2_req: 'メイン数字が{hi2}個または{lo2}個一致',
+    sim_p_t3: '3等',
+    sim_p_t3_req: 'メイン数字が{hi3}個または{lo3}個一致',
+    sim_p_t4: '4等',
+    sim_p_t4_req: 'メイン数字が{hi4}個または{lo4}個一致',
+    sim_placeholder: '一致したチケットがここに表示されます...',
+    sim_validate_range: '本数字は1～{max_main}の範囲で入力してください。',
+    sim_validate_empty: '本数字{main_count}個を入力してください。',
+    sim_validate_dup: '本数字は重複できません。',
+    sim_ticket_main_lbl: '本数字（一致 {count}/{main_count}）',
+    sim_ticket_cost_lbl: 'チケット #{draws} | 合計コスト: {cost}',
+    sim_ticket_remaining_lbl: '残りの番号',
+    sim_ticket_drawn7_title: '🎲 {draw_many}枚のチケットを生成',
+    sim_ticket_drawing_live: '⚡ 抽選中...',
+    sim_btn_rand_inputs_title: '当選番号をランダム化',
+    sim_ticket_matched_suffix: '当選！',
+    sim_log_match: ' （{count}個一致）',
+    sim_h_title: 'オール・オア・ナッシング 当選シミュレーター 🎰',
+    sim_h_sub: '当選条件を満たすまで抽選を繰り返しシミュレーションします',
+    sim_h_desc: '1～24から12個の数字を選び、12個すべてが一致するか、1つも一致しない場合にスーパープライズが当選します。'
+  },
+  ko: {
+    sim_title: '<span>🎯</span> 실제 당첨 번호',
+    sim_input_lbl: '메인 번호 {main_count}개(1~{max_main})를 입력하세요',
+    sim_stop_lbl: '중지 조건 선택',
+    sim_stop_opt_t4: '4등 이상',
+    sim_stop_opt_t3: '3등 이상',
+    sim_stop_opt_t2: '2등 이상',
+    sim_stop_opt_t1: '슈퍼프라이즈 ({hi1}개 모두 일치 또는 0개)',
+    sim_speed_lbl: '시뮬레이션 속도',
+    sim_speed_normal: '보통 (초당 60장)',
+    sim_speed_fast: '빠름 (초당 6,000장)',
+    sim_speed_super: '매우 빠름 (초당 30,000장)',
+    sim_speed_god: '갓 모드 (초당 90,000장)',
+    sim_speed_max: '최대 (초당 300,000장)',
+    sim_btn_start: '▶ 시작',
+    sim_btn_stop: '⏸ 일시정지',
+    sim_btn_rand: '🎲 티켓 1장 생성',
+    sim_btn_rand7: '🎲 티켓 {draw_many}장 생성',
+    sim_btn_reset: '🔄 초기화',
+    sim_history_lbl: '생성된 번호 기록',
+    sim_hist_mode_matched: '일치한 번호만',
+    sim_hist_mode_all: '모든 번호 표시',
+    sim_history_placeholder: '생성된 번호가 여기에 표시됩니다...',
+    sim_stats_title: '<span>📊</span> 시뮬레이션 통계',
+    sim_stat_draws: '확인한 티켓 수',
+    sim_stat_cost: '예상 비용',
+    sim_stat_speed: '실제 속도',
+    sim_stat_time: '경과 시간',
+    sim_prize_lbl: '시뮬레이션 중 획득한 당첨',
+    sim_tbl_prize: '등수',
+    sim_tbl_req: '조건',
+    sim_tbl_count: '횟수',
+    sim_tbl_rate: '확률',
+    sim_p_t1: '슈퍼프라이즈',
+    sim_p_t1_req: '메인 번호 {hi1}개 또는 {lo1}개 일치',
+    sim_p_t2: '2등',
+    sim_p_t2_req: '메인 번호 {hi2}개 또는 {lo2}개 일치',
+    sim_p_t3: '3등',
+    sim_p_t3_req: '메인 번호 {hi3}개 또는 {lo3}개 일치',
+    sim_p_t4: '4등',
+    sim_p_t4_req: '메인 번호 {hi4}개 또는 {lo4}개 일치',
+    sim_placeholder: '일치하는 티켓이 여기에 표시됩니다...',
+    sim_validate_range: '메인 번호는 1~{max_main} 사이여야 합니다.',
+    sim_validate_empty: '메인 번호 {main_count}개를 모두 입력하세요.',
+    sim_validate_dup: '메인 번호는 중복될 수 없습니다.',
+    sim_ticket_main_lbl: '메인 번호 (일치 {count}/{main_count})',
+    sim_ticket_cost_lbl: '티켓 #{draws} | 총 비용: {cost}',
+    sim_ticket_remaining_lbl: '남은 번호',
+    sim_ticket_drawn7_title: '🎲 {draw_many}장 추첨 완료',
+    sim_ticket_drawing_live: '⚡ 추첨 중...',
+    sim_btn_rand_inputs_title: '당첨 번호 무작위 생성',
+    sim_ticket_matched_suffix: '당첨!',
+    sim_log_match: ' ({count}개 번호 일치)',
+    sim_h_title: '올 오어 낫싱 당첨 시뮬레이터 🎰',
+    sim_h_sub: '당첨 조건을 만족할 때까지 계속 추첨을 시뮬레이션합니다',
+    sim_h_desc: '1~24 중 12개 번호를 선택하며, 12개가 모두 일치하거나 하나도 일치하지 않으면 슈퍼프라이즈에 당첨됩니다.'
+  },
+  zh: {
+    sim_title: '<span>🎯</span> 真实开奖号码',
+    sim_input_lbl: '请输入{main_count}个主号码（1 - {max_main}）',
+    sim_stop_lbl: '选择停止条件',
+    sim_stop_opt_t4: '四等奖及以上',
+    sim_stop_opt_t3: '三等奖及以上',
+    sim_stop_opt_t2: '二等奖及以上',
+    sim_stop_opt_t1: '超级大奖（{hi1}个全中或全不中）',
+    sim_speed_lbl: '模拟速度',
+    sim_speed_normal: '普通（60张彩票/秒）',
+    sim_speed_fast: '快速（6,000张彩票/秒）',
+    sim_speed_super: '超快（30,000张彩票/秒）',
+    sim_speed_god: '上帝模式（90,000张彩票/秒）',
+    sim_speed_max: '最高（300,000张彩票/秒）',
+    sim_btn_start: '▶ 开始',
+    sim_btn_stop: '⏸ 暂停',
+    sim_btn_rand: '🎲 随机生成1张彩票',
+    sim_btn_rand7: '🎲 随机生成{draw_many}张彩票',
+    sim_btn_reset: '🔄 重置',
+    sim_history_lbl: '生成号码记录',
+    sim_hist_mode_matched: '仅显示匹配号码',
+    sim_hist_mode_all: '显示所有号码',
+    sim_history_placeholder: '生成的号码将显示在这里...',
+    sim_stats_title: '<span>📊</span> 模拟统计',
+    sim_stat_draws: '已检查彩票数',
+    sim_stat_cost: '预计成本',
+    sim_stat_speed: '实际速度',
+    sim_stat_time: '已用时间',
+    sim_prize_lbl: '模拟过程中获得的奖项',
+    sim_tbl_prize: '奖项',
+    sim_tbl_req: '条件',
+    sim_tbl_count: '次数',
+    sim_tbl_rate: '概率',
+    sim_p_t1: '超级大奖',
+    sim_p_t1_req: '匹配{hi1}个或{lo1}个主号码',
+    sim_p_t2: '二等奖',
+    sim_p_t2_req: '匹配{hi2}个或{lo2}个主号码',
+    sim_p_t3: '三等奖',
+    sim_p_t3_req: '匹配{hi3}个或{lo3}个主号码',
+    sim_p_t4: '四等奖',
+    sim_p_t4_req: '匹配{hi4}个或{lo4}个主号码',
+    sim_placeholder: '匹配的彩票将显示在这里...',
+    sim_validate_range: '主号码必须介于1到{max_main}之间。',
+    sim_validate_empty: '请输入所有{main_count}个主号码。',
+    sim_validate_dup: '主号码不能重复。',
+    sim_ticket_main_lbl: '主号码（匹配 {count}/{main_count}）',
+    sim_ticket_cost_lbl: '彩票 #{draws} | 总成本：{cost}',
+    sim_ticket_remaining_lbl: '剩余号码',
+    sim_ticket_drawn7_title: '🎲 已生成{draw_many}张彩票',
+    sim_ticket_drawing_live: '⚡ 开奖中...',
+    sim_btn_rand_inputs_title: '随机生成中奖号码',
+    sim_ticket_matched_suffix: '中奖！',
+    sim_log_match: ' （匹配{count}个号码）',
+    sim_h_title: '全中或全不中 中奖模拟器 🎰',
+    sim_h_sub: '持续模拟开奖，直到满足中奖条件',
+    sim_h_desc: '玩家从1至24中选择12个号码，若12个号码全部匹配或全部不匹配，即可赢得超级大奖。'
+  },
+  vi: {
+    sim_title: '<span>🎯</span> Kết quả trúng thưởng thật',
+    sim_input_lbl: 'Nhập {main_count} số chính (1 - {max_main})',
+    sim_stop_lbl: 'Chọn điều kiện dừng quay',
+    sim_stop_opt_t4: 'Từ Giải Tư trở lên',
+    sim_stop_opt_t3: 'Từ Giải Ba trở lên',
+    sim_stop_opt_t2: 'Từ Giải Nhì trở lên',
+    sim_stop_opt_t1: 'Superprize (trùng cả {hi1} số hoặc không trùng số nào)',
+    sim_speed_lbl: 'Tốc độ quay giả lập',
+    sim_speed_normal: 'Bình thường (60 vé / giây)',
+    sim_speed_fast: 'Nhanh (6,000 vé / giây)',
+    sim_speed_super: 'Siêu tốc (30,000 vé / giây)',
+    sim_speed_god: 'Thần tốc (90,000 vé / giây)',
+    sim_speed_max: 'Tối đa (300,000 vé / giây)',
+    sim_btn_start: '▶ Bắt đầu',
+    sim_btn_stop: '⏸ Tạm dừng',
+    sim_btn_rand: '🎲 Quay 1 lần',
+    sim_btn_rand7: '🎲 Quay {draw_many} cặp số',
+    sim_btn_reset: '🔄 Đặt lại',
+    sim_history_lbl: 'Danh sách các bộ số đã sinh',
+    sim_hist_mode_matched: 'Chỉ số có trùng lặp',
+    sim_hist_mode_all: 'Hiển thị tất cả số',
+    sim_history_placeholder: 'Các bộ số sinh ra sẽ xuất hiện ở đây...',
+    sim_stats_title: '<span>📊</span> Thống kê giả lập',
+    sim_stat_draws: 'Số vé đã thử',
+    sim_stat_cost: 'Ước tính chi phí',
+    sim_stat_speed: 'Tốc độ thực tế',
+    sim_stat_time: 'Thời gian chạy',
+    sim_prize_lbl: 'Danh sách giải thưởng đã trúng',
+    sim_tbl_prize: 'Giải thưởng',
+    sim_tbl_req: 'Yêu cầu',
+    sim_tbl_count: 'Số lượng trúng',
+    sim_tbl_rate: 'Tỷ lệ',
+    sim_p_t1: 'Superprize',
+    sim_p_t1_req: 'Trùng {hi1} hoặc {lo1} số chính',
+    sim_p_t2: 'Giải Nhì',
+    sim_p_t2_req: 'Trùng {hi2} hoặc {lo2} số chính',
+    sim_p_t3: 'Giải Ba',
+    sim_p_t3_req: 'Trùng {hi3} hoặc {lo3} số chính',
+    sim_p_t4: 'Giải Tư',
+    sim_p_t4_req: 'Trùng {hi4} hoặc {lo4} số chính',
+    sim_placeholder: 'Vé trùng khớp sẽ xuất hiện tại đây...',
+    sim_validate_range: 'Các số chính phải nằm trong khoảng 1 đến {max_main}.',
+    sim_validate_empty: 'Vui lòng nhập đầy đủ {main_count} số chính.',
+    sim_validate_dup: 'Các số chính không được trùng lặp nhau.',
+    sim_ticket_main_lbl: 'Số Chính (Trùng {count}/{main_count})',
+    sim_ticket_cost_lbl: 'Vé số #{draws} | Chi phí lũy kế: {cost}',
+    sim_ticket_remaining_lbl: 'Số còn lại',
+    sim_ticket_drawn7_title: '🎲 {draw_many} Cặp Số Đã Quay',
+    sim_ticket_drawing_live: '⚡ Đang quay ngẫu nhiên...',
+    sim_btn_rand_inputs_title: 'Tạo ngẫu nhiên kết quả trúng',
+    sim_ticket_matched_suffix: 'ĐÃ TRÚNG!',
+    sim_log_match: ' (Trùng {count} số)',
+    sim_h_title: 'All or Nothing Simulation 🎰',
+    sim_h_sub: 'Chạy giả lập quay số liên tục cho đến khi trúng giải theo cấu hình',
+    sim_h_desc: 'Người chơi chọn 12 số trong dãy từ 1 đến 24, và sẽ trúng giải độc đắc (Superprize) nếu trùng toàn bộ 12 số hoặc không trùng bất kỳ số nào.'
+  }
+};
+
+function simT(key, drawN) {
+  const text = (SIM_I18N[currentLang] && SIM_I18N[currentLang][key]) || SIM_I18N['en'][key] || key;
+  return String(text).replace(/\{draw_many\}/g, drawN !== undefined ? drawN : DRAW_MANY).replace(/\{max_main\}/g, MAX_MAIN).replace(/\{main_count\}/g, MAIN_COUNT)
+    .replace(/\{hi(\d)\}/g, (_, t) => MAIN_COUNT - (t - 1)).replace(/\{lo(\d)\}/g, (_, t) => t - 1);
+}
+
+// Inputs (MAIN_COUNT main numbers, no extra number)
+const inputs = [];
+for (let i = 1; i <= MAIN_COUNT; i++) inputs.push(document.getElementById('in-m' + i));
+const valMsg = document.getElementById('validation-msg');
+inputs.forEach(el => { el.max = MAX_MAIN; });
+
+// Buttons
+const btnStart = document.getElementById('btn-start');
+const btnStop = document.getElementById('btn-stop');
+const btnRand = document.getElementById('btn-rand');
+const btnRand2 = document.getElementById('btn-rand2');
+const btnRand4 = document.getElementById('btn-rand4');
+const btnReset = document.getElementById('btn-reset');
+const btnRandInputs = document.getElementById('btn-rand-inputs');
+const historyLogEl = document.getElementById('draw-history-log');
+const historyModeSelect = document.getElementById('history-log-mode');
+
+// Controls
+const selectStop = document.getElementById('stop-condition');
+const selectSpeed = document.getElementById('sim-speed');
+
+// Stats DOM
+const statDraws = document.getElementById('stat-draws');
+const statCost = document.getElementById('stat-cost');
+const statSpeed = document.getElementById('stat-speed');
+const statTime = document.getElementById('stat-time');
+
+// Prizes DOM
+const pT1 = document.getElementById('p-t1');
+const pT1Pct = document.getElementById('p-t1-pct');
+const pT2 = document.getElementById('p-t2');
+const pT2Pct = document.getElementById('p-t2-pct');
+const pT3 = document.getElementById('p-t3');
+const pT3Pct = document.getElementById('p-t3-pct');
+const pT4 = document.getElementById('p-t4');
+const pT4Pct = document.getElementById('p-t4-pct');
+
+const ticketArea = document.getElementById('ticket-area');
+
+// Simulation State
+let isRunning = false;
+let drawsCount = 0;
+let startTime = 0;
+let elapsedSeconds = 0;
+let lastSpeedUpdate = 0;
+let lastDrawsCount = 0;
+let timerId = null;
+let historyBuffer = [];
+
+let countT1 = 0;
+let countT2 = 0;
+let countT3 = 0;
+let countT4 = 0;
+
+let lastTicketRenderState = null;
+
+// Sound Effects
+const SFX = {
+  rand: 'audio/floraphonic-level-up-bonus-sequence-1-186890.mp3',
+  rand7: 'audio/floraphonic-level-up-bonus-sequence-2-186891.mp3',
+  reset: 'audio/chisper-stage-clear-638332.mp3',
+  spin: [
+    'audio/arcade-casino-gambling-gaming-machine-sound-effect-232000701.mp3',
+    'audio/casino-slot-machine-jackpot-3-sound-effect-197477333.mp3',
+    'audio/custom-slot-machine-spin-loop-sound-effect-241518953.mp3'
+  ],
+  winHighest: 'audio/floraphonic-you-win-sequence-3-183950.mp3',
+  winSecond: 'audio/floraphonic-you-win-sequence-2-183949.mp3',
+  winOther: 'audio/floraphonic-you-win-sequence-1-183948.mp3'
+};
+
+// Preload audio files
+[
+  SFX.rand,
+  SFX.rand7,
+  SFX.reset,
+  ...SFX.spin,
+  SFX.winHighest,
+  SFX.winSecond,
+  SFX.winOther
+].forEach(src => {
+  const a = new Audio();
+  a.src = src;
+  a.preload = 'auto';
+});
+
+let currentSpinAudio = null;
+let currentActionAudio = null;
+let isSpinAudioActive = false;
+
+function stopAudio(audioEl) {
+  if (!audioEl) return;
+  audioEl.onended = null;
+  try {
+    audioEl.pause();
+    audioEl.currentTime = 0;
+  } catch (e) {}
+}
+
+function stopSpinAudio() {
+  isSpinAudioActive = false;
+  if (currentSpinAudio) {
+    stopAudio(currentSpinAudio);
+    currentSpinAudio = null;
+  }
+}
+
+function stopActionAudio() {
+  if (currentActionAudio) {
+    stopAudio(currentActionAudio);
+    currentActionAudio = null;
+  }
+}
+
+function playActionSound(src) {
+  stopActionAudio();
+  const audio = new Audio(src);
+  currentActionAudio = audio;
+  const p = audio.play();
+  if (p !== undefined) {
+    p.catch(err => {
+      console.warn('Action audio play error:', err);
+    });
+  }
+  return audio;
+}
+
+function startSpinAudio() {
+  stopSpinAudio();
+  stopActionAudio();
+  isSpinAudioActive = true;
+
+  function playNext() {
+    if (!isSpinAudioActive) return;
+    const chosen = SFX.spin[Math.floor(Math.random() * SFX.spin.length)];
+    const audio = new Audio(chosen);
+    currentSpinAudio = audio;
+    audio.onended = () => {
+      if (isSpinAudioActive) {
+        playNext();
+      }
+    };
+    const p = audio.play();
+    if (p !== undefined) {
+      p.catch(err => {
+        console.warn('Spin audio play error:', err);
+      });
+    }
+  }
+
+  playNext();
+}
+
+// "All or Nothing": matching N (all) or 0 numbers wins the Superprize, and the prize tiers are symmetric:
+// N-1 or 1 -> tier 2, N-2 or 2 -> tier 3, N-3 or 3 -> tier 4, otherwise no prize (0).
+function prizeTier(matchCount) {
+  const d = Math.max(matchCount, MAIN_COUNT - matchCount);
+  const t = MAIN_COUNT - d + 1;
+  return (t >= 1 && t <= 4) ? t : 0;
+}
+
+function playWinSound(result) {
+  const tier = prizeTier(result.matchCount);
+  if (tier === 1) {
+    playActionSound(SFX.winHighest);
+  } else if (tier === 2) {
+    playActionSound(SFX.winSecond);
+  } else {
+    playActionSound(SFX.winOther);
+  }
+}
+
+// Winning number array
+let winMain = [];
+let winLookup = new Uint8Array(MAX_MAIN + 1); // boolean lookup array for fast matching (1-MAX_MAIN)
+
+// Fast draw pool
+const drawPool = new Uint8Array(MAX_MAIN);
+for (let i = 0; i < MAX_MAIN; i++) drawPool[i] = i + 1;
+
+// Auto focus next input helper
+inputs.forEach((input, index) => {
+  input.addEventListener('input', () => {
+    let val = parseInt(input.value);
+    if (val > MAX_MAIN) input.value = MAX_MAIN;
+    if (val < 1 && input.value !== '') input.value = 1;
+    
+    if (input.value.length >= 2 || (input.value.length === 1 && parseInt(input.value) >= 5)) {
+      if (index < inputs.length - 1) {
+        inputs[index + 1].focus();
+      }
+    }
+    validateInputs();
+    updateUrlFromNumbers();
+  });
+});
+
+// Format numbers with commas
+function formatNum(num) {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+// Ticket price & currency conversion (VND → USD)
+const TICKET_PRICE_VND = 10000;  // 10,000 VND per ticket
+const VND_PER_USD = 25000;       // Exchange rate: 1 USD = 25,000 VND
+
+// Format total cost in US Dollars
+function formatCostUSD() {
+  const usd = (drawsCount * TICKET_PRICE_VND) / VND_PER_USD;
+  return '$' + usd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function randomizeWinningNumbers() {
+  const pool = [];
+  for (let i = 1; i <= MAX_MAIN; i++) pool.push(i);
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  const pickedMain = pool.slice(0, MAIN_COUNT).sort((a, b) => a - b);
+  
+  inputs.forEach((input, idx) => {
+    input.value = pickedMain[idx];
+  });
+  
+  validateInputs();
+  updateUrlFromNumbers();
+}
+
+function getCurrentNumbersFromInputs() {
+  const mainVals = inputs.map(i => parseInt(i.value, 10));
+  
+  if (mainVals.some(isNaN)) return null;
+  if (mainVals.some(n => n < 1 || n > MAX_MAIN)) return null;
+  if (new Set(mainVals).size !== MAIN_COUNT) return null;
+  
+  return { main: mainVals.slice().sort((a, b) => a - b) };
+}
+
+function updateUrlFromNumbers() {
+  const nums = getCurrentNumbersFromInputs();
+  if (!nums) return;
+  
+  // Format: MAIN_COUNT two-digit main numbers concatenated (e.g. 01051224354249)
+  const numsStr = nums.main.map(n => String(n).padStart(2, '0')).join('');
+  const params = new URLSearchParams(window.location.search);
+  params.set('nums', numsStr);
+  
+  const newUrl = window.location.pathname + '?' + params.toString();
+  history.replaceState(null, '', newUrl);
+}
+
+function loadWinningNumbersFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const numsParam = params.get('nums');
+  const re = new RegExp('^(\\d{2}){' + MAIN_COUNT + '}$');
+  let digits = null;
+  
+  if (numsParam !== null && re.test(numsParam)) {
+    digits = numsParam;
+  } else {
+    const urlStr = decodeURIComponent(window.location.href);
+    const legacy = urlStr.match(new RegExp('(\\d{2}){' + MAIN_COUNT + '}'));
+    if (!legacy) return false;
+    digits = legacy[0];
+  }
+  
+  const vals = [];
+  for (let i = 0; i < MAIN_COUNT; i++) vals.push(parseInt(digits.substr(i * 2, 2), 10));
+  
+  if (vals.every(n => n >= 1 && n <= MAX_MAIN) && new Set(vals).size === MAIN_COUNT) {
+    const sorted = vals.slice().sort((a, b) => a - b);
+    inputs.forEach((input, idx) => { input.value = sorted[idx]; });
+    validateInputs();
+    updateUrlFromNumbers();
+    return true;
+  }
+  return false;
+}
+
+function validateInputs() {
+  valMsg.textContent = "";
+  
+  let vals = [];
+  let hasEmpty = false;
+  
+  for (let i = 0; i < MAIN_COUNT; i++) {
+    const val = parseInt(inputs[i].value);
+    if (isNaN(val)) {
+      hasEmpty = true;
+    } else if (val < 1 || val > MAX_MAIN) {
+      valMsg.textContent = simT('sim_validate_range');
+      return false;
+    } else {
+      vals.push(val);
+    }
+  }
+  
+  if (hasEmpty) {
+    valMsg.textContent = simT('sim_validate_empty');
+    return false;
+  }
+  
+  const uniqueVals = new Set(vals);
+  if (uniqueVals.size !== MAIN_COUNT) {
+    valMsg.textContent = simT('sim_validate_dup');
+    return false;
+  }
+  
+  winMain = vals.sort((a, b) => a - b);
+  
+  winLookup.fill(0);
+  winMain.forEach(v => winLookup[v] = 1);
+  
+  return true;
+}
+
+// Perform optimized draw (partial Fisher-Yates over the pool)
+function drawOneOptimized() {
+  for (let i = 0; i < MAIN_COUNT; i++) {
+    const j = i + Math.floor(Math.random() * (MAX_MAIN - i));
+    const temp = drawPool[i];
+    drawPool[i] = drawPool[j];
+    drawPool[j] = temp;
+  }
+  
+  const numbers = new Array(MAIN_COUNT);
+  let matchCount = 0;
+  for (let i = 0; i < MAIN_COUNT; i++) {
+    const n = drawPool[i];
+    numbers[i] = n;
+    if (winLookup[n]) matchCount++;
+  }
+  
+  return {
+    numbers: numbers.sort((a, b) => a - b),
+    matchCount: matchCount
+  };
+}
+
+function updateStatsUI() {
+  statDraws.textContent = formatNum(drawsCount);
+  statCost.textContent = formatCostUSD();
+  
+  const now = performance.now();
+  if (startTime > 0) {
+    elapsedSeconds = (now - startTime) / 1000;
+  }
+  statTime.textContent = elapsedSeconds.toFixed(1) + 's';
+  
+  const timeDiff = now - lastSpeedUpdate;
+  if (timeDiff >= 500 && isRunning) {
+    const speed = Math.round((drawsCount - lastDrawsCount) / (timeDiff / 1000));
+    statSpeed.textContent = formatNum(speed) + '/s';
+    lastSpeedUpdate = now;
+    lastDrawsCount = drawsCount;
+  } else if (!isRunning) {
+    statSpeed.textContent = '0/s';
+  }
+  
+  pT1.textContent = formatNum(countT1);
+  pT1Pct.textContent = drawsCount > 0 ? ((countT1 / drawsCount) * 100).toFixed(8) + '%' : '0%';
+
+  pT2.textContent = formatNum(countT2);
+  pT2Pct.textContent = drawsCount > 0 ? ((countT2 / drawsCount) * 100).toFixed(6) + '%' : '0%';
+
+  pT3.textContent = formatNum(countT3);
+  pT3Pct.textContent = drawsCount > 0 ? ((countT3 / drawsCount) * 100).toFixed(5) + '%' : '0%';
+
+  pT4.textContent = formatNum(countT4);
+  pT4Pct.textContent = drawsCount > 0 ? ((countT4 / drawsCount) * 100).toFixed(4) + '%' : '0%';
+}
+
+function addHistoryLog(drawIdx, result) {
+  const mode = historyModeSelect ? historyModeSelect.value : 'all';
+  const hasMatch = (prizeTier(result.matchCount) > 0);
+  
+  if (mode === 'matched' && !hasMatch) {
+    return;
+  }
+  
+  const mainStr = result.numbers.map(n => String(n).padStart(2, '0')).join(' ');
+  let matchBadge = '';
+  if (hasMatch) {
+    matchBadge = simT('sim_log_match').replace('{count}', result.matchCount);
+  }
+  const line = `#${drawIdx}: ${mainStr}${matchBadge}`;
+  historyBuffer.push(line);
+  if (historyBuffer.length > 1000) {
+    historyBuffer.shift();
+  }
+}
+
+function flushHistoryLogUI() {
+  if (historyLogEl) {
+    historyLogEl.value = historyBuffer.join('\n');
+    historyLogEl.scrollTop = historyLogEl.scrollHeight;
+  }
+}
+
+function renderMatchingTicket(result) {
+  lastTicketRenderState = { type: 'matching', result: result };
+  const mainPalette = PAL.blue;
+  
+  let mainBallsHtml = result.numbers.map(num => {
+    const isMatched = winLookup[num] === 1;
+    const extraClass = isMatched ? ' ball-match' : '';
+    const ballHtml = BaseLottery.renderBall(num, mainPalette);
+    return ballHtml.replace('class="ball-svg"', `class="ball-svg${extraClass}"`);
+  }).join('');
+  
+  const tier = prizeTier(result.matchCount);
+  const tierEmoji = { 1: "🏆 ", 2: "🔥 ", 3: "⭐ ", 4: "✔️ " };
+  let labelText = simT('sim_p_t4').toUpperCase();
+  if (tier === 1) {
+    labelText = tierEmoji[1] + simT('sim_p_t1').toUpperCase() + " " + simT('sim_ticket_matched_suffix') + " 🎉";
+  } else if (tier > 1) {
+    labelText = tierEmoji[tier] + simT('sim_p_t' + tier).toUpperCase() + " (" + result.matchCount + ")";
+  }
+  
+  const mainLabelText = simT('sim_ticket_main_lbl').replace('{count}', result.matchCount);
+  
+  const formattedCost = formatCostUSD();
+  const ticketCostText = simT('sim_ticket_cost_lbl')
+    .replace('{draws}', formatNum(drawsCount))
+    .replace('{cost}', formattedCost);
+
+  ticketArea.innerHTML = `
+    <div style="font-weight: 700; color: var(--accent-teal); margin-bottom: 12px; font-size: 1.1rem; text-transform: uppercase;">
+      ${labelText}
+    </div>
+    <div class="ball-group">
+      <div class="ball-group-label">${mainLabelText}</div>
+      <div class="ball-row">${mainBallsHtml}</div>
+    </div>
+    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 10px; font-weight: 600;">
+      ${ticketCostText}
+    </div>
+  `;
+}
+
+function renderLiveTicket(result) {
+  lastTicketRenderState = { type: 'live', result: result };
+  const mainPalette = PAL.blue;
+  
+  let mainBallsHtml = result.numbers.map(num => {
+    const isMatched = winLookup[num] === 1;
+    const extraClass = isMatched ? ' ball-match' : '';
+    const ballHtml = BaseLottery.renderBall(num, mainPalette);
+    return ballHtml.replace('class="ball-svg"', `class="ball-svg${extraClass}"`);
+  }).join('');
+  
+  const labelText = simT('sim_ticket_drawing_live').toUpperCase();
+  const mainLabelText = simT('sim_ticket_main_lbl').replace('{count}', result.matchCount);
+  
+  const formattedCost = formatCostUSD();
+  const ticketCostText = simT('sim_ticket_cost_lbl')
+    .replace('{draws}', formatNum(drawsCount))
+    .replace('{cost}', formattedCost);
+
+  ticketArea.innerHTML = `
+    <div style="font-weight: 700; color: var(--accent-gold); margin-bottom: 12px; font-size: 1.1rem; text-transform: uppercase;">
+      ${labelText}
+    </div>
+    <div class="ball-group">
+      <div class="ball-group-label">${mainLabelText}</div>
+      <div class="ball-row">${mainBallsHtml}</div>
+    </div>
+    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 10px; font-weight: 600;">
+      ${ticketCostText}
+    </div>
+  `;
+}
+
+function checkMatchesCondition(result, stopVal) {
+  const tier = prizeTier(result.matchCount);
+  if (tier === 0) return false;
+  const m = /^tier_(\d)$/.exec(stopVal);
+  return !!m && tier <= parseInt(m[1], 10);
+}
+
+function recordDrawStats(result) {
+  const tier = prizeTier(result.matchCount);
+  if (tier === 1) countT1++;
+  else if (tier === 2) countT2++;
+  else if (tier === 3) countT3++;
+  else if (tier === 4) countT4++;
+}
+
+function simulationLoop() {
+  if (!isRunning) return;
+  
+  const batchSize = parseInt(selectSpeed.value);
+  const stopVal = selectStop.value;
+  
+  let matchFound = false;
+  let winningTicket = null;
+  let lastResult = null;
+  
+  const step = batchSize > 20 ? Math.ceil(batchSize / 15) : 1;
+  
+  for (let i = 0; i < batchSize; i++) {
+    drawsCount++;
+    const result = drawOneOptimized();
+    lastResult = result;
+    
+    recordDrawStats(result);
+    
+    const isMatched = checkMatchesCondition(result, stopVal);
+    if (i % step === 0 || isMatched) {
+      addHistoryLog(drawsCount, result);
+    }
+    
+    if (isMatched) {
+      matchFound = true;
+      winningTicket = result;
+      break;
+    }
+  }
+  
+  updateStatsUI();
+  flushHistoryLogUI();
+  
+  if (matchFound && winningTicket) {
+    stopSimulation();
+    renderMatchingTicket(winningTicket);
+    ticketArea.style.borderColor = 'var(--accent-gold)';
+    setTimeout(() => {
+      ticketArea.style.borderColor = 'var(--accent-teal)';
+    }, 1000);
+    playWinSound(winningTicket);
+  } else {
+    if (lastResult) {
+      renderLiveTicket(lastResult);
+    }
+    timerId = requestAnimationFrame(simulationLoop);
+  }
+}
+
+// Single draw action ("Draw 1 Ticket")
+function drawOnce() {
+  if (isRunning) return;
+  if (!validateInputs()) return;
+  
+  playActionSound(SFX.rand);
+  
+  drawsCount++;
+  const result = drawOneOptimized();
+  recordDrawStats(result);
+  addHistoryLog(drawsCount, result);
+  updateStatsUI();
+  flushHistoryLogUI();
+  
+  const stopVal = selectStop.value;
+  if (checkMatchesCondition(result, stopVal)) {
+    renderMatchingTicket(result);
+    ticketArea.style.borderColor = 'var(--accent-gold)';
+    setTimeout(() => {
+      ticketArea.style.borderColor = 'var(--accent-teal)';
+    }, 1000);
+  } else {
+    renderLiveTicket(result);
+  }
+}
+
+// Draw DRAW_MANY tickets action ("Draw 2 Tickets" / "Draw 4 Tickets")
+function drawSeven() {
+  if (isRunning) return;
+  if (!validateInputs()) return;
+  
+  playActionSound(SFX.rand7);
+  
+  const stopVal = selectStop.value;
+  const results = [];
+  let matchFound = false;
+  let winningTicket = null;
+  
+  // Per group: shuffle the pool, deal numbers draw-by-draw like lotto.js
+  const shufflePool = (min, max) => {
+    const p = [];
+    for (let n = min; n <= max; n++) p.push(n);
+    for (let i = p.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [p[i], p[j]] = [p[j], p[i]];
+    }
+    return p;
+  };
+  
+  let mainPool = shufflePool(1, MAX_MAIN);
+  
+  for (let i = 0; i < DRAW_MANY; i++) {
+    drawsCount++;
+    
+    if (mainPool.length < MAIN_COUNT) mainPool = mainPool.concat(shufflePool(1, MAX_MAIN));
+    
+    const numbers = mainPool.splice(0, MAIN_COUNT).sort((a, b) => a - b);
+    
+    let matchCount = 0;
+    for (let k = 0; k < MAIN_COUNT; k++) {
+      if (winLookup[numbers[k]]) matchCount++;
+    }
+    
+    const result = {
+      numbers: numbers,
+      matchCount: matchCount
+    };
+    
+    results.push(result);
+    recordDrawStats(result);
+    addHistoryLog(drawsCount, result);
+    
+    if (checkMatchesCondition(result, stopVal)) {
+      matchFound = true;
+      winningTicket = result;
+      break;
+    }
+  }
+  
+  updateStatsUI();
+  flushHistoryLogUI();
+  
+  // Render all DRAW_MANY tickets, one per row, without labels
+  const mainPalette = PAL.blue;
+  const greyPalette = { bg: '#6c757d', text: '#ffffff', shine: '#adb5bd' };
+  
+  const rowsHtml = results.map((result, idx) => {
+    const mainBallsHtml = result.numbers.map(num => {
+      const isMatched = winLookup[num] === 1;
+      const extraClass = isMatched ? ' ball-match' : '';
+      const ballHtml = BaseLottery.renderBall(num, mainPalette);
+      return ballHtml.replace('class="ball-svg"', `class="ball-svg${extraClass}"`);
+    }).join('');
+    
+    const isWinning = (winningTicket && result === winningTicket);
+    const rowStyle = isWinning ? 'background: rgba(0, 229, 204, 0.08); border: 1px solid var(--accent-gold); border-radius: 6px; padding: 2px 6px;' : '';
+    
+    return `
+      <div class="draw-result" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 2px; ${rowStyle}">
+        <div class="ball-group" style="margin: 0;">
+          <div class="ball-row">${mainBallsHtml}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  // Render remaining balls in mainPool (sorted ascending)
+  const remainingNumbers = mainPool.slice().sort((a, b) => a - b);
+  let remainingRowHtml = '';
+  if (remainingNumbers.length > 0) {
+    const remBallsHtml = remainingNumbers.map(num => {
+      const isMatched = winLookup[num] === 1;
+      const extraClass = isMatched ? ' ball-match' : '';
+      const ballHtml = BaseLottery.renderBall(num, greyPalette);
+      return ballHtml.replace('class="ball-svg"', `class="ball-svg${extraClass}"`);
+    }).join('');
+
+    const remLabel = simT('sim_ticket_remaining_lbl').toUpperCase();
+
+    remainingRowHtml = `
+      <div class="draw-result" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--select-border); opacity: 0.85;">
+        <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); letter-spacing: 0.8px; text-transform: uppercase;">
+          ${remLabel} (${remainingNumbers.length})
+        </div>
+        <div class="ball-group" style="margin: 0;">
+          <div class="ball-row" style="flex-wrap: wrap; justify-content: center;">${remBallsHtml}</div>
+        </div>
+      </div>
+    `;
+  }
+  
+  const labelText = simT('sim_ticket_drawn7_title').toUpperCase();
+  
+  const formattedCost = formatCostUSD();
+  const ticketCostText = simT('sim_ticket_cost_lbl')
+    .replace('{draws}', formatNum(drawsCount))
+    .replace('{cost}', formattedCost);
+  
+  ticketArea.innerHTML = `
+    <div style="font-weight: 700; color: var(--accent-teal); margin-bottom: 12px; font-size: 1.1rem; text-transform: uppercase;">
+      ${labelText}
+    </div>
+    ${rowsHtml}
+    ${remainingRowHtml}
+    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 10px; font-weight: 600;">
+      ${ticketCostText}
+    </div>
+  `;
+  
+  lastTicketRenderState = { type: 'seven', results: results, winningTicket: winningTicket, remainingNumbers: remainingNumbers };
+  
+  if (matchFound && winningTicket) {
+    ticketArea.style.borderColor = 'var(--accent-gold)';
+    setTimeout(() => {
+      ticketArea.style.borderColor = 'var(--accent-teal)';
+    }, 1000);
+  }
+}
+
+function startSimulation() {
+  if (!validateInputs()) return;
+  
+  isRunning = true;
+  startSpinAudio();
+  ticketArea.classList.add('running');
+  btnStart.style.display = 'none';
+  btnStop.style.display = 'inline-flex';
+  btnRand.disabled = true;
+  btnRand2.disabled = true;
+  btnRand4.disabled = true;
+  btnReset.disabled = false;
+  btnRandInputs.disabled = true;
+  inputs.forEach(i => i.disabled = true);
+  selectStop.disabled = true;
+  
+  if (startTime === 0) {
+    startTime = performance.now();
+    lastSpeedUpdate = startTime;
+    lastDrawsCount = drawsCount;
+  } else {
+    lastSpeedUpdate = performance.now();
+    lastDrawsCount = drawsCount;
+  }
+  
+  timerId = requestAnimationFrame(simulationLoop);
+}
+
+function stopSimulation() {
+  stopSpinAudio();
+  isRunning = false;
+  ticketArea.classList.remove('running');
+  btnStart.style.display = 'inline-flex';
+  btnStop.style.display = 'none';
+  btnRand.disabled = false;
+  btnRand2.disabled = false;
+  btnRand4.disabled = false;
+  btnReset.disabled = false;
+  btnRandInputs.disabled = false;
+  inputs.forEach(i => i.disabled = false);
+  selectStop.disabled = false;
+  
+  if (timerId) {
+    cancelAnimationFrame(timerId);
+    timerId = null;
+  }
+  
+  startTime = 0;
+  statSpeed.textContent = '0/s';
+}
+
+function resetSimulation() {
+  stopSimulation();
+  playActionSound(SFX.reset);
+  drawsCount = 0;
+  startTime = 0;
+  elapsedSeconds = 0;
+  countT1 = 0;
+  countT2 = 0;
+  countT3 = 0;
+  countT4 = 0;
+  historyBuffer = [];
+  lastTicketRenderState = null;
+  
+  if (historyLogEl) {
+    historyLogEl.value = '';
+  }
+  
+  updateStatsUI();
+  statSpeed.textContent = '0/s';
+  statTime.textContent = '0.0s';
+  
+  ticketArea.innerHTML = `<div style="color: var(--text-secondary); font-size: 0.9rem; font-style: italic;">${simT('sim_placeholder')}</div>`;
+}
+
+function applySimLang() {
+  document.getElementById('h-title').textContent = simT('sim_h_title');
+  document.getElementById('h-sub').textContent = simT('sim_h_sub');
+  document.getElementById('h-desc').textContent = simT('sim_h_desc');
+  
+  document.getElementById('lbl-sim-title').innerHTML = simT('sim_title');
+  document.getElementById('lbl-sim-input').textContent = simT('sim_input_lbl');
+  document.getElementById('btn-rand-inputs').title = simT('sim_btn_rand_inputs_title');
+  document.getElementById('lbl-sim-stop').textContent = simT('sim_stop_lbl');
+  
+  selectStop.options[0].text = simT('sim_stop_opt_t4');
+  selectStop.options[1].text = simT('sim_stop_opt_t3');
+  selectStop.options[2].text = simT('sim_stop_opt_t2');
+  selectStop.options[3].text = simT('sim_stop_opt_t1');
+  
+  document.getElementById('lbl-sim-speed').textContent = simT('sim_speed_lbl');
+  
+  selectSpeed.options[0].text = simT('sim_speed_normal');
+  selectSpeed.options[1].text = simT('sim_speed_fast');
+  selectSpeed.options[2].text = simT('sim_speed_super');
+  selectSpeed.options[3].text = simT('sim_speed_god');
+  selectSpeed.options[4].text = simT('sim_speed_max');
+  
+  btnStart.innerHTML = simT('sim_btn_start');
+  btnStop.innerHTML = simT('sim_btn_stop');
+  btnRand.innerHTML = simT('sim_btn_rand');
+  btnRand2.innerHTML = simT('sim_btn_rand7', 2);
+  btnRand4.innerHTML = simT('sim_btn_rand7', 4);
+  btnReset.innerHTML = simT('sim_btn_reset');
+  
+  document.getElementById('lbl-sim-history').textContent = simT('sim_history_lbl');
+  if (historyModeSelect) {
+    historyModeSelect.options[0].text = simT('sim_hist_mode_matched');
+    historyModeSelect.options[1].text = simT('sim_hist_mode_all');
+  }
+  if (historyLogEl && historyBuffer.length === 0) {
+    historyLogEl.placeholder = simT('sim_history_placeholder');
+  }
+  
+  document.getElementById('lbl-sim-stats-title').innerHTML = simT('sim_stats_title');
+  document.getElementById('lbl-stat-draws').textContent = simT('sim_stat_draws');
+  document.getElementById('lbl-stat-cost').textContent = simT('sim_stat_cost');
+  document.getElementById('lbl-stat-speed').textContent = simT('sim_stat_speed');
+  document.getElementById('lbl-stat-time').textContent = simT('sim_stat_time');
+  
+  document.getElementById('lbl-sim-prize').textContent = simT('sim_prize_lbl');
+  
+  const table = document.querySelector('.prize-table');
+  table.rows[0].cells[0].textContent = simT('sim_tbl_prize');
+  table.rows[0].cells[1].textContent = simT('sim_tbl_req');
+  table.rows[0].cells[2].textContent = simT('sim_tbl_count');
+  table.rows[0].cells[3].textContent = simT('sim_tbl_rate');
+  
+table.rows[1].cells[0].textContent = simT('sim_p_t1');
+  table.rows[1].cells[1].textContent = simT('sim_p_t1_req');
+
+  table.rows[2].cells[0].textContent = simT('sim_p_t2');
+  table.rows[2].cells[1].textContent = simT('sim_p_t2_req');
+
+  table.rows[3].cells[0].textContent = simT('sim_p_t3');
+  table.rows[3].cells[1].textContent = simT('sim_p_t3_req');
+
+  table.rows[4].cells[0].textContent = simT('sim_p_t4');
+  table.rows[4].cells[1].textContent = simT('sim_p_t4_req');
+  
+  if (!isRunning && drawsCount === 0) {
+    ticketArea.innerHTML = `<div style="color: var(--text-secondary); font-size: 0.9rem; font-style: italic;">${simT('sim_placeholder')}</div>`;
+  } else if (lastTicketRenderState) {
+    if (lastTicketRenderState.type === 'matching') {
+      renderMatchingTicket(lastTicketRenderState.result);
+    } else if (lastTicketRenderState.type === 'live') {
+      renderLiveTicket(lastTicketRenderState.result);
+    } else if (lastTicketRenderState.type === 'seven') {
+      reRenderSeven(lastTicketRenderState);
+    }
+  }
+}
+
+function reRenderSeven(state) {
+  const mainPalette = PAL.blue;
+  const greyPalette = { bg: '#6c757d', text: '#ffffff', shine: '#adb5bd' };
+  
+  const rowsHtml = state.results.map((result) => {
+    const mainBallsHtml = result.numbers.map(num => {
+      const isMatched = winLookup[num] === 1;
+      const extraClass = isMatched ? ' ball-match' : '';
+      const ballHtml = BaseLottery.renderBall(num, mainPalette);
+      return ballHtml.replace('class="ball-svg"', `class="ball-svg${extraClass}"`);
+    }).join('');
+    
+    const isWinning = (state.winningTicket && result === state.winningTicket);
+    const rowStyle = isWinning ? 'background: rgba(0, 229, 204, 0.08); border: 1px solid var(--accent-gold); border-radius: 6px; padding: 2px 6px;' : '';
+    
+    return `
+      <div class="draw-result" style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 2px; ${rowStyle}">
+        <div class="ball-group" style="margin: 0;">
+          <div class="ball-row">${mainBallsHtml}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+  
+  let remainingRowHtml = '';
+  if (state.remainingNumbers && state.remainingNumbers.length > 0) {
+    const remBallsHtml = state.remainingNumbers.map(num => {
+      const isMatched = winLookup[num] === 1;
+      const extraClass = isMatched ? ' ball-match' : '';
+      const ballHtml = BaseLottery.renderBall(num, greyPalette);
+      return ballHtml.replace('class="ball-svg"', `class="ball-svg${extraClass}"`);
+    }).join('');
+
+    const remLabel = simT('sim_ticket_remaining_lbl').toUpperCase();
+
+    remainingRowHtml = `
+      <div class="draw-result" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--select-border); opacity: 0.85;">
+        <div style="font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); letter-spacing: 0.8px; text-transform: uppercase;">
+          ${remLabel} (${state.remainingNumbers.length})
+        </div>
+        <div class="ball-group" style="margin: 0;">
+          <div class="ball-row" style="flex-wrap: wrap; justify-content: center;">${remBallsHtml}</div>
+        </div>
+      </div>
+    `;
+  }
+  
+  const labelText = simT('sim_ticket_drawn7_title').toUpperCase();
+  const formattedCost = formatCostUSD();
+  const ticketCostText = simT('sim_ticket_cost_lbl')
+    .replace('{draws}', formatNum(drawsCount))
+    .replace('{cost}', formattedCost);
+  
+  ticketArea.innerHTML = `
+    <div style="font-weight: 700; color: var(--accent-teal); margin-bottom: 12px; font-size: 1.1rem; text-transform: uppercase;">
+      ${labelText}
+    </div>
+    ${rowsHtml}
+    ${remainingRowHtml}
+    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 10px; font-weight: 600;">
+      ${ticketCostText}
+    </div>
+  `;
+}
+
+// Hook into lotto.js applyLang
+const originalApplyLang = window.applyLang;
+if (typeof applyLang === 'function') {
+  window.applyLang = function() {
+    originalApplyLang();
+    applySimLang();
+  };
+}
+
+// Event listeners
+btnStart.addEventListener('click', startSimulation);
+btnStop.addEventListener('click', stopSimulation);
+btnRand.addEventListener('click', drawOnce);
+btnRand2.addEventListener('click', () => { DRAW_MANY = 2; drawSeven(); });
+btnRand4.addEventListener('click', () => { DRAW_MANY = 4; drawSeven(); });
+btnReset.addEventListener('click', resetSimulation);
+btnRandInputs.addEventListener('click', randomizeWinningNumbers);
+
+// Init: check URL first, fallback to random
+if (!loadWinningNumbersFromUrl()) {
+  randomizeWinningNumbers();
+}
+applySimLang();
+</script>
+</body>
+</html>

@@ -318,6 +318,18 @@ svg.ball-match-pb > text {
 [data-theme="dark"] .site-logo img {
   filter: invert(1);
 }
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.game-logo {
+  display: block;
+  height: clamp(36px, 6vw, 52px);
+  width: auto;
+}
 .h-desc {
   max-width: 820px;
   margin: 8px auto 0;
@@ -367,7 +379,10 @@ svg.ball-match-pb > text {
   
   <div class="main" style="width:100%;">
     <div class="content-header">
-      <h1 id="h-title">🎰 Gosloto 5/36 Win Simulator</h1>
+      <div class="title-row">
+        <img class="game-logo" src="images/sportloto5of36.svg" alt="Спортлото «5 из 36»"/>
+        <h1 id="h-title">Gosloto 5/36 Win Simulator 🎰</h1>
+      </div>
       <p id="h-sub">Simulate drawing numbers continuously until winning condition is met</p>
       <p id="h-desc" class="h-desc">Gosloto 5/36 is a popular lottery game in Russia where players select 5 numbers from a pool of 36, plus an additional 1 number from a separate pool of 4. To win the jackpot, a player must match all 5 main numbers as well as the extra number.</p>
     </div>
@@ -613,7 +628,7 @@ const SIM_I18N = {
     sim_ticket_matched_suffix: 'MATCHED!',
     sim_log_match: ' (Matched {count} numbers)',
     sim_log_match_pb: ' (Matched {count} numbers + Extra)',
-    sim_h_title: '🎰 Gosloto 5/36 Win Simulator',
+    sim_h_title: 'Gosloto 5/36 Win Simulator 🎰',
     sim_h_sub: 'Simulate drawing numbers continuously until winning condition is met',
     sim_h_desc: 'Gosloto 5/36 is a popular lottery game in Russia where players select 5 numbers from a pool of 36, plus an additional 1 number from a separate pool of 4. To win the jackpot, a player must match all 5 main numbers as well as the extra number.'
   },
@@ -684,7 +699,7 @@ const SIM_I18N = {
     sim_ticket_matched_suffix: 'GAGNÉ !',
     sim_log_match: ' (Correspond à {count} numéros)',
     sim_log_match_pb: ' (Correspond à {count} numéros + Supp.)',
-    sim_h_title: '🎰 Simulateur de gain Gosloto 5/36',
+    sim_h_title: 'Simulateur de gain Gosloto 5/36 🎰',
     sim_h_sub: 'Simule des tirages en continu jusqu\'à ce que la condition de victoire soit atteinte',
     sim_h_desc: 'Gosloto 5/36 est un jeu de loterie populaire en Russie où les joueurs choisissent 5 numéros parmi 36, plus 1 numéro supplémentaire parmi 4. Pour remporter le jackpot, il faut trouver les 5 numéros principaux ainsi que le numéro supplémentaire.'
   },
@@ -755,7 +770,7 @@ const SIM_I18N = {
     sim_ticket_matched_suffix: '¡ACERTADO!',
     sim_log_match: ' (Coincidencia {count} números)',
     sim_log_match_pb: ' (Coincidencia {count} números + Extra)',
-    sim_h_title: '🎰 Simulador de premios Gosloto 5/36',
+    sim_h_title: 'Simulador de premios Gosloto 5/36 🎰',
     sim_h_sub: 'Simula sorteos continuamente hasta cumplir la condición de victoria',
     sim_h_desc: 'Gosloto 5/36 es un popular juego de lotería en Rusia en el que los jugadores eligen 5 números de 36, más 1 número extra de otro grupo de 4. Para ganar el jackpot hay que acertar los 5 números principales y también el número extra.'
   },
@@ -826,7 +841,7 @@ const SIM_I18N = {
     sim_ticket_matched_suffix: 'GETROFFEN!',
     sim_log_match: ' ({count} Zahlen Treffer)',
     sim_log_match_pb: ' ({count} Zahlen + ZZ Treffer)',
-    sim_h_title: '🎰 Gosloto 5/36 Gewinnsimulator',
+    sim_h_title: 'Gosloto 5/36 Gewinnsimulator 🎰',
     sim_h_sub: 'Simuliert fortlaufende Ziehungen, bis die Gewinnbedingung erfüllt ist',
     sim_h_desc: 'Gosloto 5/36 ist ein beliebtes Lotteriespiel in Russland, bei dem 5 Zahlen aus 36 sowie 1 Zusatzzahl aus einem separaten Pool von 4 gewählt werden. Für den Jackpot müssen alle 5 Hauptzahlen und die Zusatzzahl richtig sein.'
   },
@@ -897,7 +912,7 @@ const SIM_I18N = {
     sim_ticket_matched_suffix: 'СОВПАЛО!',
     sim_log_match: ' (Совпало номеров: {count})',
     sim_log_match_pb: ' (Совпало номеров: {count} + Доп.)',
-    sim_h_title: '🎰 Симулятор выигрыша Спортлото «5 из 36»',
+    sim_h_title: 'Симулятор выигрыша Спортлото «5 из 36»',
     sim_h_sub: 'Непрерывная симуляция тиражей до выполнения условий выигрыша',
     sim_h_desc: 'Спортлото «5 из 36» — популярная лотерея в России: игрок выбирает 5 чисел из 36 и ещё 1 дополнительное число из отдельного поля из 4. Чтобы выиграть джекпот, нужно угадать все 5 основных чисел и дополнительное число.'
   },
@@ -968,7 +983,7 @@ const SIM_I18N = {
     sim_ticket_matched_suffix: '当選！',
     sim_log_match: ' （{count}個一致）',
     sim_log_match_pb: ' （{count}個+追加一致）',
-    sim_h_title: '🎰 Gosloto 5/36 当選シミュレーター',
+    sim_h_title: 'Gosloto 5/36 当選シミュレーター 🎰',
     sim_h_sub: '当選条件を満たすまで抽選を繰り返しシミュレーションします',
     sim_h_desc: 'Gosloto 5/36はロシアで人気のロトで、36個の中から5個の数字を選び、さらに別の4個の中から追加数字を1個選びます。ジャックポットを当てるには、本数字5個と追加数字のすべてを一致させる必要があります。'
   },
@@ -1039,7 +1054,7 @@ const SIM_I18N = {
     sim_ticket_matched_suffix: '당첨!',
     sim_log_match: ' ({count}개 번호 일치)',
     sim_log_match_pb: ' ({count}개+추가 번호 일치)',
-    sim_h_title: '🎰 Gosloto 5/36 당첨 시뮬레이터',
+    sim_h_title: 'Gosloto 5/36 당첨 시뮬레이터 🎰',
     sim_h_sub: '당첨 조건을 만족할 때까지 계속 추첨을 시뮬레이션합니다',
     sim_h_desc: 'Gosloto 5/36은 러시아의 인기 복권으로, 36개 번호 중 5개를 고르고 별도의 4개 번호 중 추가 번호 1개를 고릅니다. 잭팟에 당첨되려면 메인 번호 5개와 추가 번호를 모두 맞혀야 합니다.'
   },
@@ -1110,7 +1125,7 @@ const SIM_I18N = {
     sim_ticket_matched_suffix: '中奖！',
     sim_log_match: ' （匹配{count}个号码）',
     sim_log_match_pb: ' （匹配{count}个+附加）',
-    sim_h_title: '🎰 Gosloto 5/36 中奖模拟器',
+    sim_h_title: 'Gosloto 5/36 中奖模拟器 🎰',
     sim_h_sub: '持续模拟开奖，直到满足中奖条件',
     sim_h_desc: 'Gosloto 5/36 是俄罗斯一种很受欢迎的彩票：玩家从36个号码中选5个，再从另外4个号码中选1个附加号码。要赢得头奖，必须同时猜中全部5个主号码和附加号码。'
   },
@@ -1181,7 +1196,7 @@ const SIM_I18N = {
     sim_ticket_matched_suffix: 'ĐÃ TRÚNG!',
     sim_log_match: ' (Trùng {count} số)',
     sim_log_match_pb: ' (Trùng {count} số + Phụ)',
-    sim_h_title: '🎰 Gosloto 5/36 Simulation',
+    sim_h_title: 'Gosloto 5/36 Simulation 🎰',
     sim_h_sub: 'Chạy giả lập quay số liên tục cho đến khi trúng giải theo cấu hình',
     sim_h_desc: 'Gosloto 5/36 là trò chơi xổ số phổ biến ở Nga: người chơi chọn 5 số từ 36 số, cộng thêm 1 số phụ từ một nhóm riêng gồm 4 số. Để trúng Jackpot, người chơi phải trùng cả 5 số chính và số phụ.'
   }
